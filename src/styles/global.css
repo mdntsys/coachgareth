@@ -1,0 +1,122 @@
+@import 'tailwindcss';
+
+/*
+  Data-lab / instrument-panel design system.
+
+  The photography available from the two Squarespace sites is authentic but
+  mid-quality — several assets are video stills at 800px with text baked in.
+  A photo-led design would fight those assets on every screen. So the visual
+  weight here is carried by type, rules, numerals and drawn data instead, which
+  is also what a metabolic testing lab should look like. Photography is used as
+  supporting texture behind scrims, never as the thing holding a section up.
+*/
+
+@theme {
+  /* Ground. Near-black with a blue cast, not pure #000 — pure black crushes
+     the shadows on the lab photography and reads as cheap on OLED. */
+  --color-base: #0b0c0e;
+  --color-surface: #131519;
+  --color-surface-2: #1b1e24;
+  --color-line: #262a31;
+  --color-line-bright: #3a404a;
+
+  --color-ink: #f2f4f7;
+  --color-ink-muted: #9ba3ae;
+  --color-ink-dim: #6b727d;
+
+  /* One signal colour, used only for action and for the anaerobic zone.
+     Everything else earns attention through scale and spacing. */
+  --color-signal: #ff3b2f;
+  --color-signal-dim: #c42b21;
+
+  /* Training-zone ramp. These are semantic — they mean the same thing in the
+     chart, the zone table and the service cards, so they must not be reused
+     decoratively anywhere else. */
+  --color-zone-1: #4a9eff;
+  --color-zone-2: #35c77e;
+  --color-zone-3: #f5b62c;
+  --color-zone-4: #ff3b2f;
+
+  --font-sans:
+    ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica,
+    Arial, sans-serif;
+  --font-mono:
+    ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-base);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Every number on this site is data, so all numerals are tabular and lining.
+     Without this the stat strip and price rows visibly jitter between figures. */
+  .tnum {
+    font-variant-numeric: tabular-nums lining-nums;
+    font-feature-settings: 'tnum' 1;
+  }
+
+  ::selection {
+    background: var(--color-signal);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-signal);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* Display type. Tight negative tracking at large sizes is what separates
+     this from a default Tailwind page; it needs to loosen back toward 0 as the
+     size drops or small headings become unreadable. */
+  .display {
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 0.92;
+    text-transform: uppercase;
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-ink-dim);
+  }
+
+  .rule {
+    border-top: 1px solid var(--color-line);
+  }
+
+  /* Hairline grid used across the stat strip and spec tables. Rendering the
+     dividers as a background gradient rather than per-cell borders avoids the
+     doubled 2px seams you get when cells wrap onto a second row. */
+  .specgrid {
+    background-image: linear-gradient(var(--color-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-line) 1px, transparent 1px);
+    background-size: 100% 1px, 1px 100%;
+  }
+}

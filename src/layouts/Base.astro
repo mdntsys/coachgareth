@@ -1,0 +1,161 @@
+---
+import '../styles/global.css';
+import { NAP, HOURS, TESTS, COMBO, FAQS } from '../data/site';
+
+interface Props {
+  title: string;
+  description: string;
+  path?: string;
+  image?: string;
+}
+
+const { title, description, path = '', image = '/images/labken.jpg' } = Astro.props;
+
+const site = 'https://www.coachgareth.com';
+// Canonicals are written WITHOUT a trailing slash (except the root) to match
+// `trailingSlash: 'never'` + `build.format: 'file'`. See astro.config.mjs.
+const canonical = path ? `${site}/${path.replace(/^\/|\/$/g, '')}` : site;
+const ogImage = new URL(image, site).href;
+
+const openingHours = HOURS.filter((h) => h.open).map((h) => ({
+  '@type': 'OpeningHoursSpecification',
+  dayOfWeek: `https://schema.org/${h.day}`,
+  opens: h.open,
+  closes: h.close,
+}));
+
+/*
+  The audit found NO structured data on either domain beyond a bare `WebSite`
+  node (findings §4). Meanwhile the DR-8 Glendale competitor earns 40 AI
+  citations to this business's 0 (§0.6). Schema is the cheapest part of closing
+  that gap, because it hands the models the facts in a form they can quote.
+
+  Deliberately ABSENT: `aggregateRating`. He has 75 genuine five-star reviews,
+  but they live on Google, not on this site. Marking up review data the site
+  does not itself host is self-serving review markup under Google's guidelines
+  and is a manual-action risk. The audit's single best finding is that he has
+  no manual actions — introducing one for a star snippet would be a bad trade.
+  The reviews stay on the page as plain testimonials, which is safe.
+*/
+const businessSchema = {
+  '@context': 'https://schema.org',
+  '@type': ['LocalBusiness', 'SportsActivityLocation'],
+  '@id': `${site}/#business`,
+  name: NAP.legalName,
+  alternateName: ['ECLYPSE Lab', 'ECLYPSE Fitness Lab', 'Coach Gareth'],
+  description,
+  url: site,
+  telephone: NAP.phone,
+  email: NAP.email,
+  image: ogImage,
+  priceRange: `$${TESTS[2].price}–$${COMBO.price}`,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: NAP.street,
+    addressLocality: NAP.city,
+    addressRegion: NAP.region,
+    postalCode: NAP.postal,
+    addressCountry: NAP.country,
+  },
+  geo: { '@type': 'GeoCoordinates', latitude: 34.0106, longitude: -118.4703 },
+  openingHoursSpecification: openingHours,
+  areaServed: [
+    'Santa Monica',
+    'Los Angeles',
+    'Venice',
+    'Culver City',
+    'Marina del Rey',
+    'Pacific Palisades',
+    'Brentwood',
+    'El Segundo',
+  ].map((n) => ({ '@type': 'City', name: n })),
+  founder: {
+    '@type': 'Person',
+    '@id': `${site}/#gareth`,
+    name: NAP.personName,
+    jobTitle: 'Endurance Coach & Exercise Physiologist',
+    description:
+      'Endurance coach with 30+ years working with elite athletes. Former head coach of UCLA Triathlon and a Team Great Britain competitor.',
+  },
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Metabolic and performance testing',
+    itemListElement: [
+      ...TESTS.map((t) => ({
+        '@type': 'Offer',
+        priceCurrency: 'USD',
+        price: t.price,
+        itemOffered: {
+          '@type': 'Service',
+          name: t.name,
+          description: t.tagline,
+          serviceType: t.name,
+          areaServed: { '@type': 'City', name: 'Los Angeles' },
+          provider: { '@id': `${site}/#business` },
+        },
+      })),
+      {
+        '@type': 'Offer',
+        priceCurrency: 'USD',
+        price: COMBO.price,
+        itemOffered: {
+          '@type': 'Service',
+          name: COMBO.name,
+          description: COMBO.note,
+          provider: { '@id': `${site}/#business` },
+        },
+      },
+    ],
+  },
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: FAQS.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="theme-color" content="#0b0c0e" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Coach Gareth · ECLYPSE Lab" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(businessSchema)}
+    />
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  </head>
+  <body>
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:bg-signal focus:px-4 focus:py-2 focus:text-white"
+      >Skip to content</a
+    >
+    <slot />
+  </body>
+</html>

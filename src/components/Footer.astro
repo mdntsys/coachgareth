@@ -1,0 +1,94 @@
+---
+import { NAP, HOURS, TESTS } from '../data/site';
+
+const fmt = (t: string) => {
+  const [h, m] = t.split(':').map(Number);
+  const ampm = h >= 12 ? 'pm' : 'am';
+  const hh = h % 12 === 0 ? 12 : h % 12;
+  return m === 0 ? `${hh}${ampm}` : `${hh}:${String(m).padStart(2, '0')}${ampm}`;
+};
+---
+
+<footer class="border-t border-line bg-surface">
+  <div class="mx-auto max-w-7xl px-5 py-16 sm:px-8">
+    <div class="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr]">
+      <div>
+        <div class="display text-xl">Coach Gareth</div>
+        <div class="eyebrow mt-1.5">Eclypse Performance Lab</div>
+        <p class="mt-5 max-w-sm text-sm leading-relaxed text-ink-muted">
+          Blood lactate, VO2 max and RMR testing in Santa Monica. Every test run
+          and read personally by Gareth Thomas.
+        </p>
+
+        <address class="mt-7 space-y-2 text-sm not-italic text-ink-muted">
+          <div>
+            <a href={NAP.mapsUrl} class="transition-colors hover:text-ink">
+              {/* region and postal must stay on ONE source line — a newline
+                  between the two expressions collapses to nothing and renders
+                  "CA90405". NAP consistency is the point of this block. */}
+              {NAP.street}<br />{NAP.city}, {NAP.region} {NAP.postal}
+            </a>
+          </div>
+          <div>
+            <a
+              href={NAP.phoneHref}
+              class="tnum font-mono transition-colors hover:text-ink"
+              >{NAP.phone}</a
+            >
+          </div>
+          <div>
+            <a
+              href={`mailto:${NAP.email}`}
+              class="transition-colors hover:text-ink">{NAP.email}</a
+            >
+          </div>
+        </address>
+      </div>
+
+      <div>
+        <div class="eyebrow">Testing</div>
+        <ul class="mt-5 space-y-3 text-sm text-ink-muted">
+          {
+            TESTS.map((t) => (
+              <li>
+                <a href="#tests" class="transition-colors hover:text-ink">
+                  {t.name}
+                </a>
+              </li>
+            ))
+          }
+          <li>
+            <a href="#coaching" class="transition-colors hover:text-ink"
+              >Endurance coaching</a
+            >
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="eyebrow">Lab hours</div>
+        <ul class="tnum mt-5 space-y-2 font-mono text-xs text-ink-muted">
+          {
+            HOURS.map((h) => (
+              <li class="flex justify-between gap-4">
+                <span>{h.day.slice(0, 3)}</span>
+                <span class={h.open ? '' : 'text-ink-dim'}>
+                  {h.open ? `${fmt(h.open)} – ${fmt(h.close!)}` : 'Closed'}
+                </span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+
+    <div
+      class="mt-14 flex flex-col gap-3 border-t border-line pt-7 text-xs text-ink-dim sm:flex-row sm:items-center sm:justify-between"
+    >
+      <div>
+        &copy; {new Date().getFullYear()} Gareth Thomas. All rights reserved.
+      </div>
+      <div>Santa Monica · Los Angeles · The Westside</div>
+    </div>
+  </div>
+</footer>
