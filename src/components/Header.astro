@@ -1,5 +1,7 @@
 ---
 import { NAP, NAV } from '../data/site';
+// Lab name comes from NAP so the header, footer and schema cannot drift apart
+// — his sketch calls it "ECLYPSE Fitness Lab", not "ECLYPSE Lab".
 ---
 
 <header
@@ -9,7 +11,7 @@ import { NAP, NAV } from '../data/site';
     <a href="/" class="flex shrink-0 items-baseline gap-2.5">
       <span class="display text-lg tracking-tight">Coach Gareth</span>
       <span class="hidden h-3.5 w-px bg-line-bright sm:block"></span>
-      <span class="eyebrow hidden sm:block">Eclypse Lab</span>
+      <span class="eyebrow hidden sm:block">{NAP.labName}</span>
     </a>
 
     <nav class="ml-auto hidden items-center gap-7 lg:flex">

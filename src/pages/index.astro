@@ -5,6 +5,8 @@ import Footer from '../components/Footer.astro';
 import LactateCurve from '../components/LactateCurve.astro';
 import {
   NAP,
+  TAGLINE,
+  COACHING,
   TESTS,
   COMBO,
   PROTOCOL,
@@ -29,9 +31,9 @@ import {
   address and it is what feeds the Maps pack — his one channel that already works.
 */
 const title =
-  'VO2 Max & Blood Lactate Testing in Santa Monica, CA | Coach Gareth · ECLYPSE Lab';
+  'VO2 Max & Lactate Testing in Santa Monica | Coach Gareth · ECLYPSE';
 const description =
-  'Blood lactate, VO2 max and RMR testing in Santa Monica. Every test is run and read in person by Gareth Thomas — 30 years coaching endurance athletes. Lactate $350, VO2 max $275, RMR $175.';
+  'Blood lactate, VO2 max and RMR testing in Santa Monica, plus endurance coaching for triathlon, running and cycling. Every test run and read in person by Gareth Thomas. Lactate $350, VO2 max $275, RMR $175.';
 ---
 
 <Base title={title} description={description}>
@@ -40,66 +42,110 @@ const description =
   <main id="main">
     <!-- ══════════════════════════════ HERO ══════════════════════════════ -->
     <section class="relative overflow-hidden border-b border-line">
-      <div
-        class="mx-auto grid max-w-7xl gap-12 px-5 pb-16 pt-16 sm:px-8 lg:grid-cols-[1.15fr_1fr] lg:items-center lg:gap-16 lg:pb-20 lg:pt-24"
-      >
-        <div>
+      <div class="mx-auto max-w-7xl px-5 pb-14 pt-14 sm:px-8 lg:pb-16 lg:pt-20">
+        <div class="max-w-4xl">
           <div class="eyebrow flex items-center gap-3">
             <span class="h-px w-8 bg-signal"></span>
-            Santa Monica, California
+            {TAGLINE}
           </div>
 
-          <h1 class="display mt-6 text-[clamp(2.5rem,7vw,4.75rem)]">
-            Blood lactate<br />
-            &amp; VO<span class="align-baseline text-[0.62em]">2</span> max<br />
-            <span class="text-signal">testing</span>
+          {/*
+            ONE H1 above the two doors, not one per door. Gareth's sketch puts
+            coaching and the lab side by side as equals, which is the structure
+            below — but two competing <h1>s would split the page's strongest
+            on-page signal exactly when the whole point of the rebuild is to
+            stop him competing against himself. The halves carry <h2>s, which
+            Google reads perfectly well.
+
+            "Los Angeles" is his wording and it is the market people recognise.
+            Santa Monica carries the local signal instead — in the address, the
+            schema, the FAQ and the footer — because the audit found the LA geo
+            terms worth only 30–40 searches a month while Maps is the one
+            channel already working for him.
+          */}
+          <h1 class="display mt-6 text-[clamp(2.25rem,6vw,4.25rem)]">
+            Endurance coaching<br />
+            &amp; metabolic testing<br />
+            <span class="text-signal">in Los Angeles</span>
           </h1>
 
-          <p class="mt-8 max-w-xl text-lg leading-relaxed text-ink-muted">
-            Most people train at the wrong intensity for years and never see the
-            results they should. One test replaces the guesswork with your own
-            numbers.
+          <p class="mt-8 max-w-2xl text-lg leading-relaxed text-ink-muted">
+            Thirty years of coaching and a working sports-science lab, run by
+            the same person. Come for a test, come for a season, or come for
+            both.
           </p>
-
-          <p class="mt-5 max-w-xl leading-relaxed text-ink-muted">
-            Every test here is run and read in person by <strong
-              class="font-semibold text-ink">Gareth Thomas</strong
-            > — “The Lactate Guru.” 30 years coaching endurance athletes, former
-            head coach of UCLA Triathlon, and a Team Great Britain competitor.
-          </p>
-
-          <div class="mt-10 flex flex-wrap items-center gap-3">
-            <a
-              href="#book"
-              class="bg-signal px-7 py-4 text-sm font-bold uppercase tracking-widest text-white transition-colors hover:bg-signal-dim"
-              >Book a test</a
-            >
-            <a
-              href="#tests"
-              class="border border-line-bright px-7 py-4 text-sm font-bold uppercase tracking-widest transition-colors hover:border-ink hover:bg-surface"
-              >Which test do I need?</a
-            >
-          </div>
         </div>
 
-        <div class="relative">
-          <img
-            src="/images/labken.jpg"
-            alt="Gareth Thomas running a treadmill-based lactate threshold test on an athlete at the ECLYPSE lab in Santa Monica"
-            width="983"
-            height="686"
-            class="w-full border border-line object-cover grayscale"
-            loading="eager"
-            fetchpriority="high"
-          />
-          <div
-            class="absolute -bottom-5 -left-3 border border-line bg-base px-5 py-4 sm:-left-5"
-          >
-            <div class="eyebrow">Next available</div>
-            <div class="tnum mt-1 font-mono text-sm">
-              Tue–Fri 10–7 · Sat–Sun 12–5
+        <!-- The two doors, in his order: coaching left, the lab right. -->
+        <div class="mt-14 grid gap-px border border-line bg-line md:grid-cols-2">
+          <section class="flex flex-col bg-base p-8 lg:p-11">
+            <div class="eyebrow">Coaching</div>
+            <h2 class="display mt-4 text-[clamp(1.75rem,3vw,2.5rem)]">
+              Work with<br />Gareth directly
+            </h2>
+            <p class="mt-5 leading-relaxed text-ink-muted">
+              {COACHING.headline}. {COACHING.positioning}.
+            </p>
+            <div class="mt-5 font-mono text-xs tracking-wider text-signal">
+              {COACHING.credential}
             </div>
-          </div>
+
+            <ul class="mt-8 grid gap-3 sm:grid-cols-2">
+              {
+                COACHING.disciplines.map((d) => (
+                  <li class="border-t border-line pt-3">
+                    <div class="text-sm font-bold">{d.name}</div>
+                    <div class="mt-0.5 text-xs text-ink-dim">{d.detail}</div>
+                  </li>
+                ))
+              }
+            </ul>
+
+            <div class="mt-auto pt-9">
+              <a
+                href="#coaching"
+                class="inline-block border border-line-bright px-7 py-4 text-sm font-bold uppercase tracking-widest transition-colors hover:border-ink hover:bg-surface"
+                >See coaching plans</a
+              >
+            </div>
+          </section>
+
+          <section class="flex flex-col bg-base p-8 lg:p-11">
+            <div class="eyebrow">The Lab</div>
+            <h2 class="display mt-4 text-[clamp(1.75rem,3vw,2.5rem)]">
+              Lactate threshold<br />&amp; VO<span
+                class="align-baseline text-[0.62em]">2</span
+              > max testing
+            </h2>
+            <p class="mt-5 leading-relaxed text-ink-muted">
+              {NAP.labName}, created by Coach Gareth. Know exactly how your body
+              produces energy — measured, not estimated.
+            </p>
+
+            <ul class="mt-8 space-y-3">
+              {
+                TESTS.map((t) => (
+                  <li class="flex items-baseline justify-between gap-4 border-t border-line pt-3">
+                    <span class="text-sm text-ink-muted">{t.goal}</span>
+                    <span
+                      class="shrink-0 font-mono text-xs font-bold tracking-wider"
+                      style={`color: var(--color-${t.zone})`}
+                    >
+                      {t.name.replace(/ Test$/, '').replace('Blood ', '')}
+                    </span>
+                  </li>
+                ))
+              }
+            </ul>
+
+            <div class="mt-auto pt-9">
+              <a
+                href="#tests"
+                class="inline-block bg-signal px-7 py-4 text-sm font-bold uppercase tracking-widest text-white transition-colors hover:bg-signal-dim"
+                >Book a test</a
+              >
+            </div>
+          </section>
         </div>
       </div>
 
@@ -126,7 +172,13 @@ const description =
               >
                 <div class="tnum font-mono text-3xl font-bold sm:text-4xl">
                   {s.v}
-                  <span class="ml-1 text-base font-normal text-ink-dim">
+                  {/* Unit drops to its own line below `sm`. Inline, the cells
+                      are ~190px in the 2-column mobile grid and "4–8 stages"
+                      wraps between the value and the unit, which reads as a
+                      broken number rather than a deliberate line break. */}
+                  <span
+                    class="block text-base font-normal text-ink-dim sm:ml-1 sm:inline"
+                  >
                     {s.u}
                   </span>
                 </div>
@@ -463,9 +515,10 @@ const description =
             <div class="mt-7 space-y-5 leading-relaxed text-ink-muted">
               <p>
                 Gareth Thomas has spent more than 30 years coaching endurance
-                athletes — from complete beginners to Kona qualifiers, Leadville
-                finishers and sub-2:50 marathoners. He raced professionally as a
-                triathlete and competed for Team Great Britain.
+                athletes — from complete beginners to world champions, Kona
+                qualifiers, Leadville finishers and sub-2:50 marathoners. He
+                raced professionally as a triathlete and competed for Team
+                Great Britain.
               </p>
               <p>
                 He spent six years as head coach of UCLA Triathlon, has written
@@ -490,26 +543,21 @@ const description =
           class="grid gap-12 lg:grid-cols-[1.15fr_1fr] lg:items-center lg:gap-20"
         >
           <div>
-            <div class="eyebrow">After the test</div>
+            <div class="eyebrow">Coaching</div>
             <h2 class="display mt-5 text-[clamp(2rem,4.5vw,3rem)]">
-              Or let him hold<br />the whole plan
+              {COACHING.headline}
             </h2>
             <p class="mt-6 text-lg leading-relaxed text-ink-muted">
-              A test tells you where your zones are. Coaching is what happens
-              next — a plan built around your race, your schedule and your data,
-              adjusted as you go and retested every 9 to 12 weeks.
+              {COACHING.positioning}. A plan built around your race, your
+              schedule and your own data, adjusted as you go and retested every
+              9 to 12 weeks.
             </p>
             <p class="mt-5 leading-relaxed text-ink-muted">
-              Running, cycling and triathlon, for athletes of every level. Some
-              people come for one test and take it from there. Others have been
-              with Gareth for over a decade.
+              Some people come for one test and take it from there. Others have
+              been with Gareth for over a decade.
             </p>
-            <div class="mt-10 flex flex-wrap gap-3">
-              <a
-                href="#book"
-                class="border border-line-bright px-7 py-4 text-sm font-bold uppercase tracking-widest transition-colors hover:border-ink hover:bg-base"
-                >Talk about coaching</a
-              >
+            <div class="tnum mt-8 font-mono text-sm text-ink-dim">
+              {COACHING.credential}
             </div>
           </div>
 
@@ -530,6 +578,72 @@ const description =
               loading="lazy"
             />
           </div>
+        </div>
+
+        <!-- Coaching tiers, from Gareth's sketch. -->
+        <div class="mt-16 grid gap-6 lg:grid-cols-3">
+          {
+            COACHING.tiers.map((tier, i) => (
+              <article
+                class:list={[
+                  'flex flex-col border p-8',
+                  i === 1
+                    ? 'border-line-bright bg-base'
+                    : 'border-line bg-base',
+                ]}
+              >
+                <div class="flex items-baseline justify-between gap-4">
+                  <h3 class="display text-2xl">{tier.name}</h3>
+                  <div class="text-right">
+                    <div class="tnum font-mono text-3xl font-bold">
+                      ${tier.price}
+                    </div>
+                    <div class="eyebrow mt-0.5">per month</div>
+                  </div>
+                </div>
+
+                {tier.unconfirmed && (
+                  <div class="mt-4 border-l-2 border-signal bg-surface px-3 py-2 text-xs leading-relaxed text-ink-muted">
+                    Price read from the sketch — confirm before publish.
+                  </div>
+                )}
+
+                {/*
+                  Inclusions are intentionally blank. Gareth gave tier names and
+                  prices but not what each one contains, and these are monthly
+                  commitments he would have to deliver. A placeholder that
+                  reads honestly is safer than plausible invented bullets that
+                  he might not notice before this goes live.
+                */}
+                <ul class="mt-7 flex-1 space-y-2.5 border-t border-line pt-6">
+                  {tier.includes.length > 0 ? (
+                    tier.includes.map((inc) => (
+                      <li class="flex gap-3 text-sm text-ink-muted">
+                        <span class="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-signal" />
+                        {inc}
+                      </li>
+                    ))
+                  ) : (
+                    <li class="text-sm italic leading-relaxed text-ink-dim">
+                      What's included — to be confirmed with Gareth.
+                    </li>
+                  )}
+                </ul>
+
+                <a
+                  href="#book"
+                  class:list={[
+                    'mt-8 block px-6 py-3.5 text-center text-xs font-bold uppercase tracking-widest transition-colors',
+                    i === 1
+                      ? 'bg-signal text-white hover:bg-signal-dim'
+                      : 'border border-line-bright hover:border-ink hover:bg-surface',
+                  ]}
+                >
+                  Enquire
+                </a>
+              </article>
+            ))
+          }
         </div>
       </div>
     </section>

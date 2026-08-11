@@ -10,9 +10,19 @@
  * than on a normal site.
  */
 
+/**
+ * Structure and wording below follow Gareth's own hand-drawn layout (sent
+ * 2026-08-11): one site at coachgareth.com, split into two halves — COACHING
+ * on the left, THE LAB on the right — with "Putting you first" as the line
+ * tying them together. Where his sketch and the harvested site copy disagree,
+ * the sketch wins: it is the more recent statement of what he wants to sell.
+ */
+export const TAGLINE = 'Putting you first';
+
 export const NAP = {
-  legalName: 'Coach Gareth — ECLYPSE Performance Lab',
-  labName: 'ECLYPSE Lab',
+  legalName: 'Coach Gareth — ECLYPSE Fitness Lab',
+  // His sketch names it "ECLYPSE FITNESS LAB created by Coach Gareth".
+  labName: 'ECLYPSE Fitness Lab',
   personName: 'Gareth Thomas',
   street: '1736 Ashland Avenue',
   city: 'Santa Monica',
@@ -62,7 +72,9 @@ export const TESTS = [
     slug: 'lactate-threshold-testing',
     name: 'Blood Lactate Test',
     price: 350,
-    goal: 'Get faster',
+    // Goal wording is Gareth's own, verbatim from his sketch:
+    // "get faster + improve performance — Lactate".
+    goal: 'Get faster + improve performance',
     goalLine: 'Race performance & training zones',
     tagline:
       'The most precise picture of how your body clears lactate — and the intensity you can actually hold.',
@@ -79,7 +91,7 @@ export const TESTS = [
     slug: 'vo2-max-testing',
     name: 'VO2 Max Test',
     price: 275,
-    goal: 'Know your ceiling',
+    goal: 'Improve health + longevity',
     goalLine: 'Cardiovascular fitness & longevity',
     tagline:
       'The maximum amount of oxygen your body can use under load — the single best-studied marker of cardiovascular fitness.',
@@ -96,7 +108,7 @@ export const TESTS = [
     slug: 'rmr-testing',
     name: 'RMR Test',
     price: 175,
-    goal: 'Change body composition',
+    goal: 'Drop fat + optimise body comp',
     goalLine: 'Metabolism & fuelling',
     tagline:
       'What your body burns at rest, measured rather than estimated from a calculator that has never met you.',
@@ -180,10 +192,45 @@ export const ZONES = [
   { n: 4, name: 'Anaerobic Capacity', zone: 'zone-4', pct: 20 },
 ] as const;
 
+/**
+ * COACHING — the left half of Gareth's sketch. None of this existed in the
+ * first build; it comes entirely from the layout he drew.
+ *
+ * Tier prices confirmed by Nicolas 2026-08-11: Gold $300, Platinum $600,
+ * VIP $900.
+ *
+ * `includes` is deliberately EMPTY on every tier. He wrote tier names and
+ * prices but not what is in them, and coaching inclusions are real
+ * commitments he would have to honour every month. Inventing them would be
+ * the single most damaging thing on this page. The cards render an explicit
+ * "to be confirmed" state instead.
+ */
+export const COACHING = {
+  headline: 'World-class coaching for endurance athletes of all abilities',
+  positioning: 'Coach and sports scientist — the “Lactate Guru”',
+  // Confirmed 2026-08-11: he has COACHED world champions. Not that he won a
+  // world title himself — a claim worth getting exactly right.
+  credential: '30+ years coaching · Has trained world champions',
+  disciplines: [
+    { name: 'Triathlon', detail: 'including Ironman' },
+    { name: 'Running', detail: 'marathon and ultra' },
+    { name: 'Cycling', detail: 'road, gravel and track' },
+    { name: 'Longevity', detail: 'training to stay strong for decades' },
+  ],
+  tiers: [
+    { name: 'Gold', price: 300, unconfirmed: false, includes: [] },
+    { name: 'Platinum', price: 600, unconfirmed: false, includes: [] },
+    { name: 'VIP', price: 900, unconfirmed: false, includes: [] },
+  ],
+} as const;
+
 export const CREDENTIALS = [
   { value: '30+', label: 'Years coaching endurance athletes' },
   { value: '6', label: 'Years head coach, UCLA Triathlon' },
-  { value: 'GB', label: 'Raced for Team Great Britain' },
+  // Four items exactly — the strip is a 4-column grid and a fifth orphans.
+  // Team GB stays in the bio paragraph, where a personal racing history reads
+  // better than it does in a row of credentials about his coaching.
+  { value: 'WORLD', label: 'Champions he has trained' },
   { value: '75', label: 'Five-star reviews across both listings' },
 ] as const;
 
