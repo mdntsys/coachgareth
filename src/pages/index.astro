@@ -36,18 +36,74 @@ const description =
   'Blood lactate, VO2 max and RMR testing in Santa Monica, plus endurance coaching for triathlon, running and cycling. Every test run and read in person by Gareth Thomas. Lactate $350, VO2 max $275, RMR $175.';
 ---
 
-<Base title={title} description={description}>
+<Base
+  title={title}
+  description={description}
+  preload="/images/imbackground.jpg"
+>
   <Header />
 
   <main id="main">
     <!-- ══════════════════════════════ HERO ══════════════════════════════ -->
-    <section class="relative overflow-hidden border-b border-line">
-      <div class="mx-auto max-w-7xl px-5 pb-14 pt-14 sm:px-8 lg:pb-16 lg:pt-20">
-        <div class="max-w-4xl">
-          <div class="eyebrow flex items-center gap-3">
-            <span class="h-px w-8 bg-signal"></span>
-            {TAGLINE}
-          </div>
+    <section class="border-b border-line">
+      {/*
+        FULL-BLEED PHOTOGRAPH behind the headline, then Gareth's two doors on
+        solid ground below.
+
+        The all-type version of this hero opened flat — one weight, no contrast,
+        and a large dead zone top-right. What made the earlier draft land was a
+        huge headline set against a single strong image, so that contrast is
+        back, but carrying his split rather than replacing it.
+
+        imbackground.jpg is the right frame for it: a triathlete folded over at
+        the finish arch. It is the only asset that is emotionally about
+        endurance rather than about equipment, it is dark enough to hold white
+        type, and at 1500px / 79 KB it is both the largest and one of the
+        lightest images available — so it can be the LCP element without
+        costing anything.
+
+        The subject sits high-centre, so the type is anchored bottom-left over
+        the road, where the frame is already dark and the scrim does the rest.
+      */}
+      <div class="relative isolate overflow-hidden">
+        <img
+          src="/images/imbackground.jpg"
+          alt="An endurance athlete doubled over at a race finish line"
+          width="1500"
+          height="1143"
+          {/* object-top, not a percentage. The athlete's head sits at the very
+              top of the source frame, so any inset at all crops it — and the
+              sticky header already overlays the first 64px. */}
+          class="absolute inset-0 -z-10 h-full w-full object-cover object-top opacity-90 grayscale"
+          loading="eager"
+          fetchpriority="high"
+          decoding="sync"
+        />
+        {/*
+          Two scrims, both kept deliberately light. An earlier pass ran the
+          image at 55% behind heavier gradients and the athlete dissolved into
+          grey texture — which defeats the entire reason for having a
+          photograph here. The frame is already dark B&W, so the vertical scrim
+          only needs to be opaque at the very bottom, where the headline sits
+          on the road. Everything above stays legible as a picture.
+        */}
+        <div
+          class="absolute inset-0 -z-10 bg-gradient-to-t from-base via-base/55 to-transparent"
+        >
+        </div>
+        <div
+          class="absolute inset-0 -z-10 bg-gradient-to-r from-base/70 via-base/10 to-transparent"
+        >
+        </div>
+
+        <div
+          class="mx-auto flex min-h-[62vh] max-w-7xl flex-col justify-end px-5 pb-14 pt-24 sm:px-8 lg:min-h-[74vh] lg:pb-20 lg:pt-40"
+        >
+          <div class="max-w-4xl">
+            <div class="eyebrow flex items-center gap-3">
+              <span class="h-px w-8 bg-signal"></span>
+              {TAGLINE}
+            </div>
 
           {/*
             ONE H1 above the two doors, not one per door. Gareth's sketch puts
@@ -63,87 +119,124 @@ const description =
             terms worth only 30–40 searches a month while Maps is the one
             channel already working for him.
           */}
-          <h1 class="display mt-6 text-[clamp(2.25rem,6vw,4.25rem)]">
-            Endurance coaching<br />
-            &amp; metabolic testing<br />
-            <span class="text-signal">in Los Angeles</span>
-          </h1>
+            <h1 class="display mt-6 text-[clamp(2.25rem,6vw,4.5rem)]">
+              Endurance coaching<br />
+              &amp; metabolic testing<br />
+              <span class="text-signal">in Los Angeles</span>
+            </h1>
 
-          <p class="mt-8 max-w-2xl text-lg leading-relaxed text-ink-muted">
-            Thirty years of coaching and a working sports-science lab, run by
-            the same person. Come for a test, come for a season, or come for
-            both.
-          </p>
-        </div>
-
-        <!-- The two doors, in his order: coaching left, the lab right. -->
-        <div class="mt-14 grid gap-px border border-line bg-line md:grid-cols-2">
-          <section class="flex flex-col bg-base p-8 lg:p-11">
-            <div class="eyebrow">Coaching</div>
-            <h2 class="display mt-4 text-[clamp(1.75rem,3vw,2.5rem)]">
-              Work with<br />Gareth directly
-            </h2>
-            <p class="mt-5 leading-relaxed text-ink-muted">
-              {COACHING.headline}. {COACHING.positioning}.
+            <p class="mt-8 max-w-2xl text-lg leading-relaxed text-ink">
+              Thirty years of coaching and a working sports-science lab, run by
+              the same person. Come for a test, come for a season, or come for
+              both.
             </p>
-            <div class="mt-5 font-mono text-xs tracking-wider text-signal">
-              {COACHING.credential}
+          </div>
+        </div>
+      </div>
+
+      <!-- The two doors, in his order: coaching left, the lab right. They sit
+           on solid ground below the photograph rather than floating over it —
+           over the image the panel borders disappear and the split stops
+           reading as a split. -->
+      <div class="mx-auto max-w-7xl px-5 pb-14 sm:px-8 lg:pb-16">
+        <div class="grid gap-px border border-line bg-line md:grid-cols-2">
+          <section class="group flex flex-col bg-base">
+            {/* The photographs are what actually separate the two audiences —
+                a coach on a pool deck versus an athlete wired up on a
+                treadmill is legible before either heading is read. This is the
+                "delineate the two customer paths" problem Gareth described,
+                solved with pictures instead of labels. */}
+            <div class="relative aspect-[16/9] overflow-hidden">
+              <img
+                src="/images/gtatswim.jpg"
+                alt="Gareth Thomas coaching two swimmers on the pool deck"
+                width="1500"
+                height="850"
+                class="h-full w-full object-cover opacity-75 grayscale transition-opacity duration-500 group-hover:opacity-95"
+                loading="eager"
+              />
             </div>
 
-            <ul class="mt-8 grid gap-3 sm:grid-cols-2">
-              {
-                COACHING.disciplines.map((d) => (
-                  <li class="border-t border-line pt-3">
-                    <div class="text-sm font-bold">{d.name}</div>
-                    <div class="mt-0.5 text-xs text-ink-dim">{d.detail}</div>
-                  </li>
-                ))
-              }
-            </ul>
+            <div class="flex flex-1 flex-col p-8 lg:p-11">
+              <div class="eyebrow">Coaching</div>
+              <h2 class="display mt-4 text-[clamp(1.75rem,3vw,2.5rem)]">
+                Work with<br />Gareth directly
+              </h2>
+              <p class="mt-5 leading-relaxed text-ink-muted">
+                {COACHING.headline}. {COACHING.positioning}.
+              </p>
+              <div class="mt-5 font-mono text-xs tracking-wider text-signal">
+                {COACHING.credential}
+              </div>
 
-            <div class="mt-auto pt-9">
-              <a
-                href="#coaching"
-                class="inline-block border border-line-bright px-7 py-4 text-sm font-bold uppercase tracking-widest transition-colors hover:border-ink hover:bg-surface"
-                >See coaching plans</a
-              >
+              <ul class="mt-8 grid gap-3 sm:grid-cols-2">
+                {
+                  COACHING.disciplines.map((d) => (
+                    <li class="border-t border-line pt-3">
+                      <div class="text-sm font-bold">{d.name}</div>
+                      <div class="mt-0.5 text-xs text-ink-dim">{d.detail}</div>
+                    </li>
+                  ))
+                }
+              </ul>
+
+              <div class="mt-auto pt-9">
+                <a
+                  href="#coaching"
+                  class="inline-block border border-line-bright px-7 py-4 text-sm font-bold uppercase tracking-widest transition-colors hover:border-ink hover:bg-surface"
+                  >See coaching plans</a
+                >
+              </div>
             </div>
           </section>
 
-          <section class="flex flex-col bg-base p-8 lg:p-11">
-            <div class="eyebrow">The Lab</div>
-            <h2 class="display mt-4 text-[clamp(1.75rem,3vw,2.5rem)]">
-              Lactate threshold<br />&amp; VO<span
-                class="align-baseline text-[0.62em]">2</span
-              > max testing
-            </h2>
-            <p class="mt-5 leading-relaxed text-ink-muted">
-              {NAP.labName}, created by Coach Gareth. Know exactly how your body
-              produces energy — measured, not estimated.
-            </p>
+          <section class="group flex flex-col bg-base">
+            <div class="relative aspect-[16/9] overflow-hidden">
+              <img
+                src="/images/labken.jpg"
+                alt="Gareth Thomas running a treadmill-based lactate threshold test on an athlete at the lab in Santa Monica"
+                width="983"
+                height="686"
+                class="h-full w-full object-cover opacity-75 grayscale transition-opacity duration-500 group-hover:opacity-95"
+                loading="eager"
+              />
+            </div>
 
-            <ul class="mt-8 space-y-3">
-              {
-                TESTS.map((t) => (
-                  <li class="flex items-baseline justify-between gap-4 border-t border-line pt-3">
-                    <span class="text-sm text-ink-muted">{t.goal}</span>
-                    <span
-                      class="shrink-0 font-mono text-xs font-bold tracking-wider"
-                      style={`color: var(--color-${t.zone})`}
-                    >
-                      {t.name.replace(/ Test$/, '').replace('Blood ', '')}
-                    </span>
-                  </li>
-                ))
-              }
-            </ul>
+            <div class="flex flex-1 flex-col p-8 lg:p-11">
+              <div class="eyebrow">The Lab</div>
+              <h2 class="display mt-4 text-[clamp(1.75rem,3vw,2.5rem)]">
+                Lactate threshold<br />&amp; VO<span
+                  class="align-baseline text-[0.62em]">2</span
+                > max testing
+              </h2>
+              <p class="mt-5 leading-relaxed text-ink-muted">
+                {NAP.labName}, created by Coach Gareth. Know exactly how your
+                body produces energy — measured, not estimated.
+              </p>
 
-            <div class="mt-auto pt-9">
-              <a
-                href="#tests"
-                class="inline-block bg-signal px-7 py-4 text-sm font-bold uppercase tracking-widest text-white transition-colors hover:bg-signal-dim"
-                >Book a test</a
-              >
+              <ul class="mt-8 space-y-3">
+                {
+                  TESTS.map((t) => (
+                    <li class="flex items-baseline justify-between gap-4 border-t border-line pt-3">
+                      <span class="text-sm text-ink-muted">{t.goal}</span>
+                      <span
+                        class="shrink-0 font-mono text-xs font-bold tracking-wider"
+                        style={`color: var(--color-${t.zone})`}
+                      >
+                        {t.name.replace(/ Test$/, '').replace('Blood ', '')}
+                      </span>
+                    </li>
+                  ))
+                }
+              </ul>
+
+              <div class="mt-auto pt-9">
+                <a
+                  href="#tests"
+                  class="inline-block bg-signal px-7 py-4 text-sm font-bold uppercase tracking-widest text-white transition-colors hover:bg-signal-dim"
+                  >Book a test</a
+                >
+              </div>
             </div>
           </section>
         </div>

@@ -7,9 +7,17 @@ interface Props {
   description: string;
   path?: string;
   image?: string;
+  /** Hero image to preload. Set on any page whose LCP is a photograph. */
+  preload?: string;
 }
 
-const { title, description, path = '', image = '/images/labken.jpg' } = Astro.props;
+const {
+  title,
+  description,
+  path = '',
+  image = '/images/imbackground.jpg',
+  preload,
+} = Astro.props;
 
 const site = 'https://www.coachgareth.com';
 // Canonicals are written WITHOUT a trailing slash (except the root) to match
@@ -141,6 +149,12 @@ const faqSchema = {
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
+
+    {/* The hero photograph is the LCP element. Preloading it at high priority
+        starts the fetch alongside the CSS instead of after layout, which is
+        the difference between the headline landing on an image and landing on
+        an empty box. */}
+    {preload && <link rel="preload" as="image" href={preload} fetchpriority="high" />}
 
     <link rel="sitemap" href="/sitemap-index.xml" />
 
