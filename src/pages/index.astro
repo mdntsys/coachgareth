@@ -126,24 +126,18 @@ const description =
             </h1>
 
             {/*
-              Two lines, doing two different jobs.
+              ONE subheading, not a stack of two. An earlier pass ran an
+              emotional line above this one at a larger size; two paragraphs at
+              different weights under a headline read as a layout mistake
+              rather than a hierarchy.
 
-              The first is the emotional claim, and it is the one the
-              photograph pays for: the athlete in that frame has visibly
-              emptied himself. Telling him to try harder is useless. Telling
-              him he has been spending that effort at the wrong intensity for
-              years is the whole business in a sentence.
-
-              The second is built to mirror the two doors directly beneath it —
-              lab clause, then coaching clause, in that order. The copy sets up
-              the split before the reader reaches it, so the panels land as an
-              answer rather than a menu.
+              This is the line that survives, because it is doing structural
+              work as well as carrying the voice: lab clause, then coaching
+              clause, in the same order as the two doors directly beneath it.
+              The copy sets the split up before the reader reaches it, so the
+              panels land as an answer instead of a menu.
             */}
             <p class="mt-8 max-w-2xl text-xl leading-snug text-ink sm:text-2xl">
-              Effort was never your problem. Almost nobody is training at the
-              intensity they think they are.
-            </p>
-            <p class="mt-5 max-w-2xl text-lg leading-relaxed text-ink-muted">
               One hour in the lab tells you exactly where your limits sit.
               Thirty years of coaching tells you what to do with them.
             </p>
@@ -483,68 +477,82 @@ const description =
           </p>
         </div>
 
-        <!-- items-start, or the chart's bordered figure stretches to match the
-             taller right column and trails several hundred px of empty box. -->
+        {/*
+          Chart LEFT, the four definitions RIGHT, and the zone legend as a
+          full-width band underneath both.
+
+          It was previously chart | (definitions + zone box), which left a
+          ~500px hole under the chart: the chart is short and the stacked right
+          column was nearly twice its height. Splitting the zone legend out
+          leaves two columns of near-identical height, and the legend reads
+          better as a wide strip anyway — it is a scale, and a scale wants to
+          be horizontal.
+        */}
         <div
           class="mt-14 grid gap-10 lg:grid-cols-[1.25fr_1fr] lg:items-start lg:gap-14"
         >
           <LactateCurve />
 
-          <div>
-            <div class="space-y-px">
-              {
-                THRESHOLDS.map((t) => (
-                  <div class="border-t border-line py-6">
-                    <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
-                      <span
-                        class="font-mono text-sm font-bold tracking-wider"
-                        style={`color: var(--color-${t.zone})`}
-                      >
-                        {t.abbr}
-                      </span>
-                      <span class="font-bold">{t.name}</span>
-                    </div>
-                    <p class="mt-2 text-sm leading-relaxed text-ink-muted">
-                      {t.body}
-                    </p>
+          <div class="space-y-px">
+            {
+              THRESHOLDS.map((t) => (
+                <div class="border-t border-line py-6">
+                  <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+                    <span
+                      class="font-mono text-sm font-bold tracking-wider"
+                      style={`color: var(--color-${t.zone})`}
+                    >
+                      {t.abbr}
+                    </span>
+                    <span class="font-bold">{t.name}</span>
                   </div>
-                ))
-              }
-            </div>
-
-            <div class="mt-10 border border-line bg-surface p-6">
-              <div class="eyebrow">Your training zones</div>
-              <div class="mt-4 flex h-3 w-full overflow-hidden">
-                {
-                  ZONES.map((z) => (
-                    <div
-                      style={`width:${z.pct}%; background: var(--color-${z.zone})`}
-                    />
-                  ))
-                }
-              </div>
-              <ul class="mt-5 space-y-2.5">
-                {
-                  ZONES.map((z) => (
-                    <li class="flex items-center gap-3 text-sm">
-                      <span
-                        class="h-2.5 w-2.5 shrink-0"
-                        style={`background: var(--color-${z.zone})`}
-                      />
-                      <span class="tnum font-mono text-xs text-ink-dim">
-                        Z{z.n}
-                      </span>
-                      <span class="text-ink-muted">{z.name}</span>
-                    </li>
-                  ))
-                }
-              </ul>
-              <p class="mt-5 text-xs leading-relaxed text-ink-dim">
-                Delivered as heart-rate and pace or power ranges you can load
-                straight into your watch or head unit.
-              </p>
-            </div>
+                  <p class="mt-2 text-sm leading-relaxed text-ink-muted">
+                    {t.body}
+                  </p>
+                </div>
+              ))
+            }
           </div>
+        </div>
+
+        <div class="mt-12 border border-line bg-surface p-7 lg:p-9">
+          <div
+            class="flex flex-col gap-4 sm:flex-row sm:items-baseline sm:justify-between"
+          >
+            <div class="eyebrow">Your training zones</div>
+            <p class="max-w-md text-xs leading-relaxed text-ink-dim">
+              Delivered as heart-rate and pace or power ranges you can load
+              straight into your watch or head unit.
+            </p>
+          </div>
+
+          {/* The bar is proportional — each zone's width is the share of the
+              range it actually occupies, so the strip doubles as the legend's
+              own scale rather than being four equal decorative blocks. */}
+          <div class="mt-6 flex h-3 w-full overflow-hidden">
+            {
+              ZONES.map((z) => (
+                <div
+                  style={`width:${z.pct}%; background: var(--color-${z.zone})`}
+                />
+              ))
+            }
+          </div>
+
+          <ul class="mt-6 grid gap-x-8 gap-y-4 sm:grid-cols-2 lg:grid-cols-4">
+            {
+              ZONES.map((z) => (
+                <li class="flex items-center gap-3 border-t border-line pt-4 text-sm">
+                  <span
+                    class="h-2.5 w-2.5 shrink-0"
+                    style={`background: var(--color-${z.zone})`}
+                  />
+                  <span class="tnum font-mono text-xs text-ink-dim">Z{z.n}</span>
+                  <span class="text-ink-muted">{z.name}</span>
+                </li>
+              ))
+            }
+          </ul>
         </div>
       </div>
     </section>
@@ -603,19 +611,43 @@ const description =
     <section class="border-b border-line">
       <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
         <div class="grid gap-12 lg:grid-cols-[1fr_1.15fr] lg:items-center lg:gap-20">
-          <div class="relative">
-            {/* NOT meetthelactategurucopy.jpg — that asset is a YouTube
-                thumbnail with a play button and the words "MEET THE LACTATE
-                GURU" burned into it. Beside a heading that says the same
-                thing, it read as a broken video embed. If Gareth wants that
-                video here, it should be a real embed with the actual URL. */}
+          {/*
+            The portrait was reading as a bright white card punched into a
+            near-black page, which is the opposite of dramatic. Three changes:
+
+            1. endurancecoach.jpg instead of the 800px crop of the same shot —
+               same photograph, 1279x742, so it survives a tighter crop.
+            2. A 4:5 portrait frame with the crop pulled onto his face, rather
+               than the full wide shot with a metre of empty seamless beside
+               him.
+            3. Filters plus a floor gradient. The seamless is intrinsically
+               brighter than he is, so no uniform filter can separate them —
+               instead the whole frame is pulled down to a dark studio grey and
+               contrast is pushed, so he reads as lit rather than as pasted on
+               white.
+
+            NOT meetthelactategurucopy.jpg: that asset is a YouTube thumbnail
+            with a play button and "MEET THE LACTATE GURU" burned in. Next to a
+            heading saying the same words it read as a broken video embed.
+          */}
+          <figure class="relative overflow-hidden border border-line">
             <img
-              src="/images/coachgareththomaslactatetestingspecialist.jpg"
-              alt="Gareth Thomas, endurance coach and founder of the ECLYPSE performance lab in Santa Monica"
-              class="w-full border border-line object-cover"
+              src="/images/endurancecoach.jpg"
+              alt="Gareth Thomas, endurance coach and founder of ECLYPSE Fitness Lab in Santa Monica"
+              width="1279"
+              height="742"
+              class="aspect-[4/5] w-full scale-[1.15] object-cover object-[64%_28%] grayscale contrast-[1.18] brightness-[0.62]"
               loading="lazy"
             />
-          </div>
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-base via-base/25 to-transparent"
+            >
+            </div>
+            <div
+              class="absolute inset-0 bg-[radial-gradient(ellipse_at_60%_35%,transparent_35%,rgba(11,12,14,0.55)_100%)]"
+            >
+            </div>
+          </figure>
 
           <div>
             <div class="eyebrow">The person reading your results</div>
