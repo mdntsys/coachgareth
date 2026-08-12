@@ -8,7 +8,8 @@ import {
   TAGLINE,
   COACHING,
   TESTS,
-  COMBO,
+  PACKAGES,
+  COACHING_FAQS,
   PROTOCOL,
   THRESHOLDS,
   ZONES,
@@ -66,14 +67,14 @@ const description =
         the road, where the frame is already dark and the scrim does the rest.
       */}
       <div class="relative isolate overflow-hidden">
+        {/* object-top, not a percentage: the athlete's head sits at the very
+            top of the source frame, so any inset at all crops it — and the
+            sticky header already overlays the first 64px. */}
         <img
           src="/images/imbackground.jpg"
           alt="An endurance athlete doubled over at a race finish line"
           width="1500"
           height="1143"
-          {/* object-top, not a percentage. The athlete's head sits at the very
-              top of the source frame, so any inset at all crops it — and the
-              sticky header already overlays the first 64px. */}
           class="absolute inset-0 -z-10 h-full w-full object-cover object-top opacity-90 grayscale"
           loading="eager"
           fetchpriority="high"
@@ -253,47 +254,27 @@ const description =
         </div>
       </div>
 
-      <!-- stat strip -->
-      <div class="border-t border-line">
-        <div
-          class="mx-auto grid max-w-7xl grid-cols-2 sm:grid-cols-4"
-        >
-          {
-            [
-              { v: PROTOCOL.durationMin, u: 'min', l: 'A full test session' },
-              { v: PROTOCOL.stages, u: 'stages', l: 'Of progressive load' },
-              { v: '1', u: 'to 1', l: 'Read back in person' },
-              { v: PROTOCOL.retestWeeks, u: 'wks', l: 'Between retests' },
-            ].map((s, i) => (
-              <div
-                class:list={[
-                  'border-line px-5 py-7 sm:px-8',
-                  i % 2 === 1 && 'border-l',
-                  i < 2 && 'border-b sm:border-b-0',
-                  i === 2 && 'sm:border-l',
-                  i === 3 && 'sm:border-l',
-                ]}
-              >
-                <div class="tnum font-mono text-3xl font-bold sm:text-4xl">
-                  {s.v}
-                  {/* Unit drops to its own line below `sm`. Inline, the cells
-                      are ~190px in the 2-column mobile grid and "4–8 stages"
-                      wraps between the value and the unit, which reads as a
-                      broken number rather than a deliberate line break. */}
-                  <span
-                    class="block text-base font-normal text-ink-dim sm:ml-1 sm:inline"
-                  >
-                    {s.u}
-                  </span>
-                </div>
-                <div class="mt-2 text-xs uppercase tracking-wider text-ink-dim">
-                  {s.l}
-                </div>
-              </div>
-            ))
-          }
-        </div>
-      </div>
+      {/*
+        STAT STRIP REMOVED 2026-08-12, answering Gareth's question (#4) rather
+        than just deferring to taste. His condition was "unless it's good for
+        SEO & GEO" — it is not, on either count:
+
+        SEO: nobody searches "4-8 stages". The strip carried no keyword and no
+        geography, so it ranked for nothing.
+
+        GEO: the facts themselves (session length, retest interval) DO get
+        asked of AI models — but models quote FAQPage schema, not decorative
+        numbers, and every one of these numbers is already in the FAQ and in
+        the structured data. The strip was duplicating citable content in a
+        non-citable form.
+
+        It was also saying the same thing as the protocol section further down,
+        which explains all four with context instead of as bare figures. The
+        credentials row below now sits directly under the two doors, which is
+        the stronger row anyway — it sells the person, not the procedure.
+
+        To restore: git show 582bee7 -- src/pages/index.astro
+      */}
     </section>
 
     <!-- ═══════════════════════════ CREDENTIALS ═══════════════════════════ -->
@@ -392,20 +373,53 @@ const description =
           }
         </div>
 
-        <div
-          class="mt-6 flex flex-col items-start gap-5 border border-line bg-surface p-7 sm:flex-row sm:items-center sm:justify-between"
-        >
-          <div>
-            <h3 class="display text-xl">{COMBO.name}</h3>
-            <p class="mt-2 text-sm text-ink-muted">{COMBO.note}</p>
-          </div>
-          <div class="flex items-center gap-7">
-            <div class="tnum font-mono text-3xl font-bold">${COMBO.price}</div>
-            <a
-              href="#book"
-              class="bg-signal px-6 py-3.5 text-xs font-bold uppercase tracking-widest text-white transition-colors hover:bg-signal-dim"
-              >Book</a
-            >
+        {/*
+          Sport-specific packages, per Gareth (#6), replacing the lone VO2+RMR
+          combo row that used to sit here. Transcribed from the pricing table
+          on eclypse.fit — which, like his coaching tiers, is currently only a
+          flat image, so none of it can be read by a search engine or quoted by
+          an AI model. Rebuilt as text it becomes both editable and citable.
+        */}
+        <div class="mt-16">
+          <div class="eyebrow">Or a sport-specific package</div>
+          <h3 class="display mt-4 text-[clamp(1.5rem,2.6vw,2rem)]">
+            Test the way you race
+          </h3>
+          <p class="mt-4 max-w-2xl leading-relaxed text-ink-muted">
+            Most people want more than one number. These bundle the tests that
+            actually go together for your sport, at less than booking them
+            separately.
+          </p>
+
+          <div class="mt-9 grid gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:items-start">
+            {
+              PACKAGES.map((p) => (
+                <article class="border border-line bg-surface">
+                  <div class="border-b border-line px-6 py-4">
+                    <h4 class="display text-lg">{p.sport}</h4>
+                  </div>
+                  <ul>
+                    {p.tiers.map((t) => (
+                      <li class="border-b border-line px-6 py-4 last:border-b-0">
+                        <div class="flex items-baseline justify-between gap-3">
+                          <span class="text-sm font-bold">{t.name}</span>
+                          <span class="tnum font-mono text-lg font-bold">
+                            ${t.price}
+                          </span>
+                        </div>
+                        <div class="mt-1.5 space-y-0.5">
+                          {t.tests.map((test) => (
+                            <div class="text-xs leading-relaxed text-ink-dim">
+                              {test}
+                            </div>
+                          ))}
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </article>
+              ))
+            }
           </div>
         </div>
 
@@ -657,10 +671,10 @@ const description =
             <div class="mt-7 space-y-5 leading-relaxed text-ink-muted">
               <p>
                 Gareth Thomas has spent more than 30 years coaching endurance
-                athletes — from complete beginners to world champions, Kona
-                qualifiers, Leadville finishers and sub-2:50 marathoners. He
-                raced professionally as a triathlete and competed for Team
-                Great Britain.
+                athletes — from complete beginners to world and national
+                champions, Kona qualifiers, Leadville finishers and sub-2:50
+                marathoners. He raced professionally as a triathlete and
+                competed for Team Great Britain.
               </p>
               <p>
                 He spent six years as head coach of UCLA Triathlon, has written
@@ -722,8 +736,10 @@ const description =
           </div>
         </div>
 
-        <!-- Coaching tiers, from Gareth's sketch. -->
-        <div class="mt-16 grid gap-6 lg:grid-cols-3">
+        <div class="mt-16">
+          <div class="eyebrow">{COACHING.tiersKicker}</div>
+        </div>
+        <div class="mt-6 grid gap-6 lg:grid-cols-3 lg:items-start">
           {
             COACHING.tiers.map((tier, i) => (
               <article
@@ -744,32 +760,15 @@ const description =
                   </div>
                 </div>
 
-                {tier.unconfirmed && (
-                  <div class="mt-4 border-l-2 border-signal bg-surface px-3 py-2 text-xs leading-relaxed text-ink-muted">
-                    Price read from the sketch — confirm before publish.
-                  </div>
-                )}
-
-                {/*
-                  Inclusions are intentionally blank. Gareth gave tier names and
-                  prices but not what each one contains, and these are monthly
-                  commitments he would have to deliver. A placeholder that
-                  reads honestly is safer than plausible invented bullets that
-                  he might not notice before this goes live.
-                */}
+                {/* Inclusions are Gareth's own, transcribed from the coaching
+                    levels table on his sport pages. */}
                 <ul class="mt-7 flex-1 space-y-2.5 border-t border-line pt-6">
-                  {tier.includes.length > 0 ? (
-                    tier.includes.map((inc) => (
-                      <li class="flex gap-3 text-sm text-ink-muted">
-                        <span class="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-signal" />
-                        {inc}
-                      </li>
-                    ))
-                  ) : (
-                    <li class="text-sm italic leading-relaxed text-ink-dim">
-                      What's included — to be confirmed with Gareth.
+                  {tier.includes.map((inc) => (
+                    <li class="flex gap-3 text-sm text-ink-muted">
+                      <span class="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-signal" />
+                      {inc}
                     </li>
-                  )}
+                  ))}
                 </ul>
 
                 <a
@@ -809,29 +808,47 @@ const description =
             </p>
           </div>
 
-          <div>
+          {/*
+            Split into TESTING and COACHING, per Gareth (#9). The coaching
+            answers are his own, lifted from the FAQ blocks on his sport pages
+            — where the same six questions currently repeat across /running,
+            /triathlon and /cycling with one word swapped. Asked once here in
+            sport-neutral form, they stop being the near-duplicate content this
+            rebuild exists to clear up.
+          */}
+          <div class="space-y-14">
             {
-              FAQS.map((f) => (
-                <details class="group border-t border-line">
-                  <summary class="flex cursor-pointer list-none items-start justify-between gap-6 py-6 text-lg font-bold [&::-webkit-details-marker]:hidden">
-                    {f.q}
-                    <span
-                      class="mt-1.5 shrink-0 text-signal transition-transform duration-200 group-open:rotate-45"
-                      aria-hidden="true"
-                    >
-                      <svg width="16" height="16" viewBox="0 0 16 16">
-                        <path
-                          d="M8 1v14M1 8h14"
-                          stroke="currentColor"
-                          stroke-width="1.75"
-                        />
-                      </svg>
-                    </span>
-                  </summary>
-                  <p class="max-w-2xl pb-7 leading-relaxed text-ink-muted">
-                    {f.a}
-                  </p>
-                </details>
+              [
+                { label: 'Testing', items: FAQS },
+                { label: 'Coaching', items: COACHING_FAQS },
+              ].map((group) => (
+                <div>
+                  <div class="eyebrow border-b border-line-bright pb-3">
+                    {group.label}
+                  </div>
+                  {group.items.map((f) => (
+                    <details class="group border-b border-line">
+                      <summary class="flex cursor-pointer list-none items-start justify-between gap-6 py-6 text-lg font-bold [&::-webkit-details-marker]:hidden">
+                        {f.q}
+                        <span
+                          class="mt-1.5 shrink-0 text-signal transition-transform duration-200 group-open:rotate-45"
+                          aria-hidden="true"
+                        >
+                          <svg width="16" height="16" viewBox="0 0 16 16">
+                            <path
+                              d="M8 1v14M1 8h14"
+                              stroke="currentColor"
+                              stroke-width="1.75"
+                            />
+                          </svg>
+                        </span>
+                      </summary>
+                      <p class="max-w-2xl pb-7 leading-relaxed text-ink-muted">
+                        {f.a}
+                      </p>
+                    </details>
+                  ))}
+                </div>
               ))
             }
           </div>

@@ -1,6 +1,14 @@
 ---
 import '../styles/global.css';
-import { NAP, HOURS, TESTS, COMBO, FAQS } from '../data/site';
+import {
+  NAP,
+  HOURS,
+  TESTS,
+  PACKAGES,
+  COACHING,
+  FAQS,
+  COACHING_FAQS,
+} from '../data/site';
 
 interface Props {
   title: string;
@@ -56,7 +64,7 @@ const businessSchema = {
   telephone: NAP.phone,
   email: NAP.email,
   image: ogImage,
-  priceRange: `$${TESTS[2].price}–$${COMBO.price}`,
+  priceRange: `$${TESTS[2].price}–$1250`,
   address: {
     '@type': 'PostalAddress',
     streetAddress: NAP.street,
@@ -102,17 +110,45 @@ const businessSchema = {
           provider: { '@id': `${site}/#business` },
         },
       })),
-      {
+      // Sport-specific testing packages and the monthly coaching tiers. Both
+      // exist on his current sites only as flat images, so nothing in them is
+      // machine-readable today — no engine can read the prices and no AI model
+      // can quote what is included. Emitting them as real offers is the
+      // cheapest GEO gain available on this page.
+      ...PACKAGES.flatMap((p) =>
+        p.tiers.map((t) => ({
+          '@type': 'Offer',
+          priceCurrency: 'USD',
+          price: t.price,
+          itemOffered: {
+            '@type': 'Service',
+            name: `${p.sport} — ${t.name} testing package`,
+            description: t.tests.join(', '),
+            provider: { '@id': `${site}/#business` },
+          },
+        }))
+      ),
+      ...COACHING.tiers.map((t) => ({
         '@type': 'Offer',
         priceCurrency: 'USD',
-        price: COMBO.price,
+        price: t.price,
+        // Coaching is billed monthly; without this an agent reads $300 as a
+        // one-off fee and materially understates the cost.
+        priceSpecification: {
+          '@type': 'UnitPriceSpecification',
+          price: t.price,
+          priceCurrency: 'USD',
+          unitCode: 'MON',
+          billingDuration: 1,
+        },
         itemOffered: {
           '@type': 'Service',
-          name: COMBO.name,
-          description: COMBO.note,
+          name: `${t.name} coaching`,
+          description: t.includes.join(', '),
+          serviceType: 'Endurance coaching',
           provider: { '@id': `${site}/#business` },
         },
-      },
+      })),
     ],
   },
 };
@@ -120,7 +156,9 @@ const businessSchema = {
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
-  mainEntity: FAQS.map((f) => ({
+  // Testing AND coaching questions in one FAQPage — Google expects a single
+  // node per page, not one per on-page group.
+  mainEntity: [...FAQS, ...COACHING_FAQS].map((f) => ({
     '@type': 'Question',
     name: f.q,
     acceptedAnswer: { '@type': 'Answer', text: f.a },

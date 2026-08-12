@@ -196,33 +196,133 @@ export const ZONES = [
  * COACHING — the left half of Gareth's sketch. None of this existed in the
  * first build; it comes entirely from the layout he drew.
  *
- * Tier prices confirmed by Nicolas 2026-08-11: Gold $300, Platinum $600,
- * VIP $900.
+ * RESOLVED 2026-08-12. Gareth pointed us at the source: the tiers are published
+ * on coachgareth.com's sport pages (/triathlon, /running, /cycling) as a PNG
+ * titled "Coach Gareth Coaching Levels June 2026", headed "Sport specific
+ * monthly coaching & consulting". Everything below is transcribed from it, so
+ * `includes` is now his own wording rather than the placeholder it was.
  *
- * `includes` is deliberately EMPTY on every tier. He wrote tier names and
- * prices but not what is in them, and coaching inclusions are real
- * commitments he would have to honour every month. Inventing them would be
- * the single most damaging thing on this page. The cards render an explicit
- * "to be confirmed" state instead.
+ * That it lives only inside an image is itself a finding: nothing in that table
+ * is machine-readable today, so no search engine or AI model can quote his
+ * coaching prices or what they include. Rebuilding it as real text is a
+ * straight GEO win on top of being editable.
  */
 export const COACHING = {
   headline: 'World-class coaching for endurance athletes of all abilities',
   positioning: 'Coach and sports scientist — the “Lactate Guru”',
-  // Confirmed 2026-08-11: he has COACHED world champions. Not that he won a
-  // world title himself — a claim worth getting exactly right.
-  credential: '30+ years coaching · Has trained world champions',
+  // Gareth's own preferred wording (2026-08-12), replacing "has trained world
+  // champions". His phrasing is both stronger and broader — national titles are
+  // a bigger pool than world titles, so the claim covers more of his actual
+  // record while reading as a bigger statement, not a smaller one.
+  credential: 'Coach to world & national champions · 30+ years',
   disciplines: [
     { name: 'Triathlon', detail: 'including Ironman' },
     { name: 'Running', detail: 'marathon and ultra' },
     { name: 'Cycling', detail: 'road, gravel and track' },
     { name: 'Longevity', detail: 'training to stay strong for decades' },
   ],
+  tiersKicker: 'Sport-specific monthly coaching & consulting',
   tiers: [
-    { name: 'Gold', price: 300, unconfirmed: false, includes: [] },
-    { name: 'Platinum', price: 600, unconfirmed: false, includes: [] },
-    { name: 'VIP', price: 900, unconfirmed: false, includes: [] },
+    {
+      name: 'Gold',
+      price: 300,
+      unconfirmed: false,
+      includes: [
+        '360° custom program',
+        'Strength, mobility & core',
+        'Bi-weekly data review',
+        'Text & email support',
+        'Monthly call review',
+      ],
+    },
+    {
+      name: 'Platinum',
+      price: 600,
+      unconfirmed: false,
+      includes: [
+        '360° custom program',
+        'Strength, mobility & core',
+        'Weekly data review',
+        'Text, email & phone support',
+        'Bi-weekly call review',
+      ],
+    },
+    {
+      name: 'VIP',
+      price: 900,
+      unconfirmed: false,
+      includes: [
+        '360° custom program',
+        'Strength, mobility & core',
+        'Twice-weekly data review',
+        'Text, email & phone support',
+        'Weekly call review',
+        'One-to-one workout sessions',
+        'Custom food & fuel planning',
+      ],
+    },
   ],
 } as const;
+
+/**
+ * SPORT-SPECIFIC TESTING PACKAGES — Gareth's request (#6): show these instead
+ * of the bare VO2+RMR combo. Transcribed from the pricing table published on
+ * eclypse.fit/pricing, which is also only an image today.
+ *
+ * This table incidentally SETTLES the price conflict flagged on 2026-08-11.
+ * Longevity Basic (VO2 alone) is $275 and Longevity Pro (VO2 + RMR) is $450,
+ * which matches eclypse.fit's individual prices exactly and implies RMR at
+ * $175. So the eclypse.fit figures are current and the older
+ * coachgareth.com/the-lab page ($350 VO2, $150 RMR) is stale.
+ */
+export const PACKAGES = [
+  {
+    sport: 'Running',
+    tiers: [
+      { name: 'Basic', tests: ['Lactate'], price: 350 },
+      { name: 'Pro', tests: ['Lactate', 'VO2 max'], price: 575 },
+      { name: 'Ultimate', tests: ['Lactate', 'VO2 max', 'RMR'], price: 675 },
+    ],
+  },
+  {
+    sport: 'Cycling',
+    tiers: [
+      { name: 'Basic', tests: ['Lactate'], price: 350 },
+      { name: 'Pro', tests: ['Lactate', 'VO2 max'], price: 575 },
+      { name: 'Ultimate', tests: ['Lactate', 'VO2 max', 'RMR'], price: 675 },
+    ],
+  },
+  {
+    sport: 'Longevity',
+    tiers: [
+      { name: 'Basic', tests: ['VO2 max'], price: 275 },
+      { name: 'Pro', tests: ['VO2 max', 'RMR'], price: 450 },
+      { name: 'Ultimate', tests: ['Lactate', 'VO2 max', 'RMR'], price: 675 },
+    ],
+  },
+  {
+    sport: 'Triathlon',
+    tiers: [
+      { name: 'Basic', tests: ['Lactate — bike & run'], price: 575 },
+      { name: 'Basic +', tests: ['Lactate — swim, bike & run'], price: 775 },
+      {
+        name: 'Pro',
+        tests: ['Lactate — swim, bike & run', 'VO2 max — bike'],
+        price: 950,
+      },
+      {
+        name: 'Ultimate',
+        tests: ['Lactate — swim, bike & run', 'VO2 max — bike', 'RMR'],
+        price: 1050,
+      },
+      {
+        name: 'Ultimate +',
+        tests: ['Lactate — swim, bike & run', 'VO2 max — bike & run', 'RMR'],
+        price: 1250,
+      },
+    ],
+  },
+] as const;
 
 export const CREDENTIALS = [
   { value: '30+', label: 'Years coaching endurance athletes' },
@@ -230,7 +330,7 @@ export const CREDENTIALS = [
   // Four items exactly — the strip is a 4-column grid and a fifth orphans.
   // Team GB stays in the bio paragraph, where a personal racing history reads
   // better than it does in a row of credentials about his coaching.
-  { value: 'WORLD', label: 'Champions he has trained' },
+  { value: 'WORLD', label: 'And national champions coached' },
   { value: '75', label: 'Five-star reviews across both listings' },
 ] as const;
 
@@ -310,6 +410,43 @@ export const FAQS = [
   {
     q: 'Where is the lab?',
     a: `The lab is at ${NAP.street}, ${NAP.city}, ${NAP.region} ${NAP.postal}, and serves athletes across Los Angeles, the Westside, Venice, Culver City and the South Bay. Call ${NAP.phone} to book.`,
+  },
+] as const;
+
+/**
+ * COACHING FAQs — Gareth's request (#9): the site had testing questions only,
+ * and coachgareth.com already carries a good set about coaching.
+ *
+ * Transcribed from the FAQ blocks on /running and /triathlon, which run the
+ * same six questions with the sport name swapped. Rewritten once here in
+ * sport-neutral form, because on a consolidated site the same question should
+ * not appear four times with one word different — that is precisely the
+ * duplicate-content pattern the rebuild exists to remove.
+ */
+export const COACHING_FAQS = [
+  {
+    q: 'How does coaching work day to day?',
+    a: 'Every workout is uploaded to TrainingPeaks and can be pushed straight to your watch for in-workout guidance. Your data uploads back automatically after each session, along with sleep and health data from your wearable, and Gareth reviews it at the frequency your tier sets. You can leave notes on energy, stress or travel as you go. Contact happens by call, video, text and email, again depending on tier. Every athlete trains with a heart-rate monitor and keeps a daily training journal.',
+  },
+  {
+    q: 'Do I need to live in Los Angeles, or even the USA, to be coached?',
+    a: 'No. Gareth coaches athletes all over the world, many of whom travel constantly. Most come to the lab in Santa Monica for their initial testing, and where that is not possible he arranges testing with a provider local to you so the programme still starts from real data.',
+  },
+  {
+    q: 'What equipment do I need?',
+    a: 'The essentials are the basic kit for your sport plus a heart-rate monitor with a chest strap. Ideally you would also have a sleep tracker such as an OURA ring or WHOOP, a power meter if you ride, an indoor trainer, and access to a gym, a track or treadmill, and regular massage or chiropractic care. A budget for fuel and supplements matters too.',
+  },
+  {
+    q: 'I am never going to win anything, but I want to be my best. Can I still apply?',
+    a: 'Yes. Gareth works with driven people who want to reach their true potential, whatever level that starts from. Wanting to be excellent matters more than what you can currently do.',
+  },
+  {
+    q: 'I hate racing but I want to train properly. Is that OK?',
+    a: 'Yes. Training seriously without racing is a superb way to stay fit and in prime condition, and it is how Gareth lives himself. Plenty of the athletes he coaches never pin on a number.',
+  },
+  {
+    q: 'My time is limited. Can I still get somewhere on an hour a day?',
+    a: 'Yes. You will struggle with the longest races on that budget, and Gareth will tell you so honestly. But an hour a day, programmed properly around your actual life, goes a very long way — and building the plan around the time you genuinely have is the whole point.',
   },
 ] as const;
 
