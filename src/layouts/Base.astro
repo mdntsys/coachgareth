@@ -17,6 +17,12 @@ interface Props {
   image?: string;
   /** Hero image to preload. Set on any page whose LCP is a photograph. */
   preload?: string;
+  /**
+   * Which token set to render against. Dark is the design; light exists so the
+   * same page can be reviewed on a white ground. See the light-theme block in
+   * global.css — nothing there applies unless this is 'light'.
+   */
+  theme?: 'dark' | 'light';
 }
 
 const {
@@ -25,6 +31,7 @@ const {
   path = '',
   image = '/images/imbackground.jpg',
   preload,
+  theme = 'dark',
 } = Astro.props;
 
 const site = 'https://www.coachgareth.com';
@@ -167,14 +174,17 @@ const faqSchema = {
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme={theme}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <meta name="theme-color" content="#0b0c0e" />
+    <meta
+      name="theme-color"
+      content={theme === 'light' ? '#ffffff' : '#0b0c0e'}
+    />
     <meta name="robots" content="index, follow, max-image-preview:large" />
 
     <meta property="og:type" content="website" />

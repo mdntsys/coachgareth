@@ -44,6 +44,143 @@
     ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace;
 }
 
+/*
+  ── LIGHT THEME ──────────────────────────────────────────────────────────────
+
+  An alternate token set so the same page can be seen on a white ground before
+  the dark one is committed to. Everything here is scoped to
+  [data-theme='light'], so with no attribute set the page renders exactly as it
+  did before this block existed. Switch it on with <Base theme="light">.
+
+  Two things do not survive a naive inversion, which is why this is longer than
+  a list of colours:
+
+  1. The signal red and the zone ramp were picked to sit on near-black. On
+     white the same values fall to 1.7:1–3.2:1 as text — the amber Z3 label
+     effectively vanishes. They are darkened until they clear 4.5:1 while
+     holding their hues apart, because the ramp is semantic: Z3 has to still
+     read as amber beside Z2's green or the legend stops meaning anything.
+  2. The photography is graded for a dark page. The hero and the portrait are
+     both pulled DOWN in luminance so that white type can sit on them. On a
+     white page that logic reverses and they land as dark slabs, so both are
+     regraded below.
+*/
+:root[data-theme='light'] {
+  /* Pure white here, with the cool cast moved into the surfaces. The dark
+     theme avoids #000 because it crushes the lab photography; #fff has no
+     equivalent problem, and the crispness suits an instrument panel. The
+     figure/ground relationship inverts intact — surfaces still separate from
+     the ground, they just do it by getting darker instead of lighter. */
+  --color-base: #ffffff;
+  --color-surface: #f2f3f5;
+  --color-surface-2: #e6e8ec;
+  --color-line: #dcdfe4;
+  /* "bright" means "more contrast against the ground", so on white it darkens. */
+  --color-line-bright: #a8aeb8;
+
+  --color-ink: #0f1319;
+  --color-ink-muted: #4b525c;
+  --color-ink-dim: #6f7681;
+
+  /* #ff3b2f on white is 3.2:1 — fine as a button fill, fails as the 12px mono
+     credential line and the "in Los Angeles" headline. One darker red serves
+     both: 4.6:1 as text, and still 4.6:1 under the white button labels. */
+  --color-signal: #e0271b;
+  --color-signal-dim: #b41f15;
+
+  --color-zone-1: #1f6fd0;
+  --color-zone-2: #12855a;
+  --color-zone-3: #b0730b;
+  --color-zone-4: #e0271b;
+}
+
+/*
+  The photographic corrections are deliberately UNLAYERED. Tailwind's utilities
+  live in a cascade layer, and layer order beats specificity — anything written
+  inside @layer base here would lose to the .opacity-70 and .grayscale utilities
+  on the elements themselves no matter how it was selected. Unlayered rules win
+  over every layer, which is the only reliable way to regrade an image that is
+  styled by utility classes.
+
+  It also means `filter` is replaced wholesale rather than composed, so each
+  rule below has to restate grayscale() or the photograph comes back in colour.
+*/
+
+/* The hero frame is a dark B&W finish-line shot, chosen precisely because it
+   holds white type. Under the light theme the headline is near-black, so the
+   image has to go the other way — high-key and low-contrast, so the photo reads
+   as photo and the type reads as type. The existing white scrim, which is built
+   from --color-base and so follows the remap for free, does the rest at the
+   bottom where the headline actually sits. */
+:root[data-theme='light'] img[src$='imbackground.jpg'] {
+  filter: grayscale(1) brightness(1.35) contrast(0.78);
+  opacity: 0.88;
+}
+
+/* The studio portrait is crushed to 0.62 brightness on the dark page so the
+   bright seamless behind Gareth stops competing with him. On white that
+   seamless IS the page, so the grade only has to lift him clear of it. */
+:root[data-theme='light'] img[src$='endurancecoach.jpg'] {
+  filter: grayscale(1) brightness(1.04) contrast(1.06);
+}
+
+/*
+  endurancecoach.jpg has promotional graphics burned into its lower third — a
+  couch, a TV, a phone and a bike captioned OFF / OFF / OFF / ON. The dark theme
+  never had to deal with them because brightness(0.62) plus a fade to near-black
+  buries that whole band in shadow. Lift the grade for a white page and they
+  come straight back as ghosts across his chest.
+
+  So the light theme fades the same band the same way, just toward white instead
+  of black: opaque across the bottom fifth, releasing to nothing by two thirds
+  up. It hides exactly what the dark version hides, and a high-key portrait
+  dissolving into the page reads as deliberate rather than as an image that
+  failed to finish loading — which is what the untouched from-base fade looked
+  like, because it only reached ~60% white where the icons sit.
+
+  Cropping them out was the other option and is the better long-term fix, but it
+  cannot be done from CSS alone: the icons sit low enough that any scale which
+  clears them also cuts off the top of his head. A replacement frame from the
+  new shoot retires this rule entirely.
+*/
+:root[data-theme='light'] img[src$='endurancecoach.jpg'] ~ div:first-of-type {
+  background-image: linear-gradient(
+    to top,
+    rgb(255 255 255) 0%,
+    rgb(255 255 255) 20%,
+    rgb(255 255 255 / 0.62) 40%,
+    rgb(255 255 255 / 0) 68%
+  );
+}
+
+/* Its vignette is the one colour on the site that was hard-coded rather than
+   tokenised, so it cannot follow the remap. Re-aimed at white. */
+:root[data-theme='light'] img[src$='endurancecoach.jpg'] ~ div:last-child {
+  background-image: radial-gradient(
+    ellipse at 60% 35%,
+    transparent 40%,
+    rgb(255 255 255 / 0.45) 100%
+  );
+}
+
+/* Photographs held at 70–75% opacity darken toward a near-black ground and
+   lighten toward a white one, so the same number that reads as "sunk into the
+   page" in dark reads as "failed to load" in light. */
+:root[data-theme='light'] img.opacity-70,
+:root[data-theme='light'] img.opacity-75 {
+  opacity: 0.93;
+}
+:root[data-theme='light'] .group:hover img.opacity-70,
+:root[data-theme='light'] .group:hover img.opacity-75 {
+  opacity: 1;
+}
+
+/* Zone bands in the lactate chart are 9% tints weighted for a dark ground. The
+   same 9% over white is close to invisible. */
+:root[data-theme='light'] svg rect[opacity] {
+  opacity: 0.15;
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
