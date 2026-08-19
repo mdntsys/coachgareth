@@ -160,11 +160,11 @@ const description =
                 solved with pictures instead of labels. */}
             <div class="relative aspect-[16/9] overflow-hidden">
               <img
-                src="/images/gtatswim.jpg"
-                alt="Gareth Thomas coaching two swimmers on the pool deck"
-                width="1500"
-                height="850"
-                class="h-full w-full object-cover opacity-75 grayscale transition-opacity duration-500 group-hover:opacity-95"
+                src="/images/enduranceathletestrainingrun.jpg"
+                alt="Two endurance athletes on a training run"
+                width="1650"
+                height="953"
+                class="h-full w-full object-cover object-[50%_40%] transition-opacity duration-500 group-hover:opacity-100"
                 loading="eager"
               />
             </div>
@@ -540,28 +540,54 @@ const description =
             </p>
           </div>
 
-          {/* The bar is proportional — each zone's width is the share of the
-              range it actually occupies, so the strip doubles as the legend's
-              own scale rather than being four equal decorative blocks. */}
-          <div class="mt-6 flex h-3 w-full overflow-hidden">
+          {/* Widths match the curve: Z2 is the big aerobic block, Z4 is the
+              narrow band around 4 mmol. Labels sit under their own segment
+              the way Gareth's graphic does. */}
+          <div class="mt-6 flex h-3.5 w-full overflow-hidden">
             {
               ZONES.map((z) => (
                 <div
-                  style={`width:${z.pct}%; background: var(--color-${z.zone})`}
+                  style={`flex: ${z.pct} 1 0%; background: var(--color-${z.zone})`}
                 />
               ))
             }
           </div>
 
-          <ul class="mt-6 grid gap-x-8 gap-y-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div class="mt-3 hidden sm:flex">
             {
               ZONES.map((z) => (
-                <li class="flex items-center gap-3 border-t border-line pt-4 text-sm">
+                <div
+                  class="min-w-0 pr-2"
+                  style={`flex: ${z.pct} 1 0%`}
+                >
+                  <div
+                    class="font-mono text-xs font-bold tracking-wider"
+                    style={`color: var(--color-${z.zone})`}
+                  >
+                    Z{z.n}
+                  </div>
+                  <div class="mt-0.5 truncate text-xs text-ink-muted">
+                    {z.name}
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+          {/* Z4 is only ~9% of the bar — too tight for "Threshold" on a phone. */}
+          <ul class="mt-5 grid grid-cols-2 gap-x-4 gap-y-3 sm:hidden">
+            {
+              ZONES.map((z) => (
+                <li class="flex items-center gap-2.5 text-sm">
                   <span
                     class="h-2.5 w-2.5 shrink-0"
                     style={`background: var(--color-${z.zone})`}
                   />
-                  <span class="tnum font-mono text-xs text-ink-dim">Z{z.n}</span>
+                  <span
+                    class="tnum font-mono text-xs font-bold"
+                    style={`color: var(--color-${z.zone})`}
+                  >
+                    Z{z.n}
+                  </span>
                   <span class="text-ink-muted">{z.name}</span>
                 </li>
               ))
@@ -719,18 +745,15 @@ const description =
 
           <div class="grid grid-cols-2 gap-4">
             <img
-              src="/images/runteam.jpg"
-              alt="Athletes training with Coach Gareth in Los Angeles"
-              class="aspect-[3/4] w-full border border-line object-cover grayscale"
+              src="/images/gtatswim.jpg"
+              alt="Gareth Thomas coaching two swimmers on the pool deck"
+              class="aspect-[3/4] w-full border border-line object-cover object-center grayscale"
               loading="lazy"
             />
-            {/* endurancecoach.jpg is the same studio portrait now used in the
-                bio section above; repeating it here read as a mistake. This is
-                Gareth pacing an athlete on the beach — actual coaching. */}
             <img
-              src="/images/racecoachbw788x1030.jpg"
-              alt="Gareth Thomas running alongside an athlete he coaches"
-              class="mt-8 aspect-[3/4] w-full border border-line object-cover grayscale"
+              src="/images/triathletefinishline.jpg"
+              alt="An endurance athlete at the finish of a triathlon"
+              class="mt-8 aspect-[3/4] w-full border border-line object-cover object-[50%_20%]"
               loading="lazy"
             />
           </div>

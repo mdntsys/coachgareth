@@ -85,7 +85,8 @@ export const TESTS = [
       'Improve race performance',
     ],
     image: '/images/lactatethresholdtestinglosangeles.jpg',
-    zone: 'zone-3',
+    // The key test. Gareth: buttons and this card use the live 100% red.
+    zone: 'signal',
   },
   {
     slug: 'vo2-max-testing',
@@ -169,7 +170,7 @@ export const THRESHOLDS = [
     abbr: 'SST / LT2',
     name: 'Steady State Threshold',
     body: 'The hardest intensity you can hold at a stable lactate. This is the number that sets realistic race pace.',
-    zone: 'zone-3',
+    zone: 'zone-4',
   },
   {
     abbr: 'Fat-Max',
@@ -181,15 +182,21 @@ export const THRESHOLDS = [
     abbr: 'VO2 peak',
     name: 'Maximum Aerobic Capacity',
     body: 'The top of your aerobic range. It sets the upper bound on everything below it and is the marker most tied to long-term health.',
-    zone: 'zone-4',
+    zone: 'zone-5',
   },
 ] as const;
 
+/**
+ * Zone names, colours and relative widths from Gareth's 2026-08-19 graphic.
+ * Widths match the curve (Z4 is the narrow band around 4 mmol). Do not go
+ * back to a 4-zone legend — his model is five.
+ */
 export const ZONES = [
-  { n: 1, name: 'Recovery', zone: 'zone-1', pct: 16 },
-  { n: 2, name: 'Aerobic', zone: 'zone-2', pct: 34 },
-  { n: 3, name: 'Lactate Threshold', zone: 'zone-3', pct: 30 },
-  { n: 4, name: 'Anaerobic Capacity', zone: 'zone-4', pct: 20 },
+  { n: 1, name: 'Recovery', zone: 'zone-1', pct: 14 },
+  { n: 2, name: 'Aerobic', zone: 'zone-2', pct: 32 },
+  { n: 3, name: 'Tempo', zone: 'zone-3', pct: 22 },
+  { n: 4, name: 'Threshold', zone: 'zone-4', pct: 9 },
+  { n: 5, name: 'VO2 max', zone: 'zone-5', pct: 23 },
 ] as const;
 
 /**
@@ -257,7 +264,7 @@ export const COACHING = {
         'Twice-weekly data review',
         'Text, email & phone support',
         'Weekly call review',
-        'One-to-one workout sessions',
+        'A one-to-one workout session',
         'Custom food & fuel planning',
       ],
     },

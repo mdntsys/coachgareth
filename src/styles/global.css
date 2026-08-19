@@ -24,18 +24,21 @@
   --color-ink-muted: #9ba3ae;
   --color-ink-dim: #6b727d;
 
-  /* One signal colour, used only for action and for the anaerobic zone.
-     Everything else earns attention through scale and spacing. */
-  --color-signal: #ff3b2f;
-  --color-signal-dim: #c42b21;
+  /* Brand red. Live coachgareth.com is --accent-hsl: 0, 100%, 50% — i.e.
+     #ff0000. Live eclypse.fit is a hair off that (#fc221c). Gareth asked for
+     the real 100% red on buttons and the lactate test, so this is that value,
+     not the orange-red we had been using. */
+  --color-signal: #ff0000;
+  --color-signal-dim: #c40000;
 
-  /* Training-zone ramp. These are semantic — they mean the same thing in the
-     chart, the zone table and the service cards, so they must not be reused
-     decoratively anywhere else. */
-  --color-zone-1: #4a9eff;
-  --color-zone-2: #35c77e;
-  --color-zone-3: #f5b62c;
-  --color-zone-4: #ff3b2f;
+  /* Training-zone ramp, sampled from Gareth's YOUR TRAINING ZONES graphic
+     (2026-08-19). Semantic: same colours on the curve, the zone strip and
+     the service cards. Do not reuse decoratively. */
+  --color-zone-1: #2b9bf1;
+  --color-zone-2: #62cf40;
+  --color-zone-3: #ecb22c;
+  --color-zone-4: #e1261d;
+  --color-zone-5: #e559a0;
 
   --font-sans:
     ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica,
@@ -82,16 +85,16 @@
   --color-ink-muted: #4b525c;
   --color-ink-dim: #6f7681;
 
-  /* #ff3b2f on white is 3.2:1 — fine as a button fill, fails as the 12px mono
-     credential line and the "in Los Angeles" headline. One darker red serves
-     both: 4.6:1 as text, and still 4.6:1 under the white button labels. */
-  --color-signal: #e0271b;
-  --color-signal-dim: #b41f15;
+  /* Buttons stay 100% red on white — that is what the live CG site already
+     does. Small red text on white is the same compromise they ship. */
+  --color-signal: #ff0000;
+  --color-signal-dim: #c40000;
 
-  --color-zone-1: #1f6fd0;
-  --color-zone-2: #12855a;
+  --color-zone-1: #1a78c8;
+  --color-zone-2: #2a9a28;
   --color-zone-3: #b0730b;
-  --color-zone-4: #e0271b;
+  --color-zone-4: #c41b14;
+  --color-zone-5: #c2186a;
 }
 
 /*
@@ -175,10 +178,11 @@
   opacity: 1;
 }
 
-/* Zone bands in the lactate chart are 9% tints weighted for a dark ground. The
-   same 9% over white is close to invisible. */
+/* Zone bands need to read as the same hues as the YOUR TRAINING ZONES strip.
+   32% on near-black is about right; on white it would glare, so light theme
+   eases off. */
 :root[data-theme='light'] svg rect[opacity] {
-  opacity: 0.15;
+  opacity: 0.2;
 }
 
 @layer base {
