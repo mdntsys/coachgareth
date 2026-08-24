@@ -33,8 +33,123 @@
   ],
   "redirects": [
     {
+      "source": "/the-lab",
+      "destination": "/#tests",
+      "permanent": true
+    },
+    {
+      "source": "/lactate-testing",
+      "destination": "/#tests",
+      "permanent": true
+    },
+    {
+      "source": "/vo2-max",
+      "destination": "/#tests",
+      "permanent": true
+    },
+    {
       "source": "/new-page",
-      "destination": "/rmr-testing",
+      "destination": "/#tests",
+      "permanent": true
+    },
+    {
+      "source": "/pricing",
+      "destination": "/#tests",
+      "permanent": true
+    },
+    {
+      "source": "/home",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/contact",
+      "destination": "/#book",
+      "permanent": true
+    },
+    {
+      "source": "/about",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/coaching",
+      "destination": "/#coaching",
+      "permanent": true
+    },
+    {
+      "source": "/running",
+      "destination": "/#coaching",
+      "permanent": true
+    },
+    {
+      "source": "/cycling",
+      "destination": "/#coaching",
+      "permanent": true
+    },
+    {
+      "source": "/triathlon",
+      "destination": "/#coaching",
+      "permanent": true
+    },
+    {
+      "source": "/ironman",
+      "destination": "/#coaching",
+      "permanent": true
+    },
+    {
+      "source": "/marathon",
+      "destination": "/#coaching",
+      "permanent": true
+    },
+    {
+      "source": "/half-marathon",
+      "destination": "/#coaching",
+      "permanent": true
+    },
+    {
+      "source": "/swimming",
+      "destination": "/#coaching",
+      "permanent": true
+    },
+    {
+      "source": "/mountain-biking",
+      "destination": "/#coaching",
+      "permanent": true
+    },
+    {
+      "source": "/blog",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/:slug",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/lifestyle",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/store",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/privacy",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/terms",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/cookies",
+      "destination": "/",
       "permanent": true
     }
   ]
