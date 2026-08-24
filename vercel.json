@@ -33,6 +33,30 @@
   ],
   "redirects": [
     {
+      "source": "/",
+      "has": [{ "type": "host", "value": "eclypse.fit" }],
+      "destination": "https://www.coachgareth.com/",
+      "permanent": true
+    },
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "www.eclypse.fit" }],
+      "destination": "https://www.coachgareth.com/",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "eclypse.fit" }],
+      "destination": "https://www.coachgareth.com/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.eclypse.fit" }],
+      "destination": "https://www.coachgareth.com/:path*",
+      "permanent": true
+    },
+    {
       "source": "/the-lab",
       "destination": "/#tests",
       "permanent": true
