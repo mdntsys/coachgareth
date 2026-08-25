@@ -1,0 +1,150 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import PageHero from '../components/PageHero.astro';
+import { NAP, HOURS, TESTS, COACHING } from '../data/site';
+
+const title = 'Book a Test or Enquire | ECLYPSE Fitness Lab · Santa Monica';
+const description = `Call ${NAP.phone} or email ${NAP.email}. Lab at ${NAP.street}, ${NAP.city} ${NAP.region} ${NAP.postal}. Hours Tue–Fri 10–7, Sat–Sun 12–5, Mon closed.`;
+const heroImage = '/images/labken.jpg';
+
+const fmt = (t: string) => {
+  const [h, m] = t.split(':').map(Number);
+  const ampm = h >= 12 ? 'pm' : 'am';
+  const hh = h % 12 === 0 ? 12 : h % 12;
+  return m === 0 ? `${hh}${ampm}` : `${hh}:${String(m).padStart(2, '0')}${ampm}`;
+};
+
+const tue = HOURS.find((h) => h.day === 'Tuesday')!;
+const sat = HOURS.find((h) => h.day === 'Saturday')!;
+---
+
+<Base
+  title={title}
+  description={description}
+  path="book"
+  image={heroImage}
+  preload={heroImage}
+  includeFaq={false}
+>
+  <Header />
+
+  <main id="main">
+    <PageHero
+      eyebrow="Book"
+      title="Start with a conversation"
+      lede="There's no sales pitch — if a test isn't worth it for you, he'll say so."
+      image={heroImage}
+      imageAlt="Gareth Thomas running a treadmill-based lactate threshold test on an athlete at the lab in Santa Monica"
+    />
+
+    <section class="border-b border-line">
+      <div class="mx-auto max-w-7xl px-5 py-16 sm:px-8 lg:py-24">
+        <div class="grid gap-px border border-line bg-line lg:grid-cols-2">
+          <div class="flex flex-col bg-base p-8 lg:p-11">
+            <h2 class="display text-2xl">Call the lab</h2>
+            <p class="mt-5 leading-relaxed text-ink-muted">
+              Tests and coaching are easier to pick once you've talked to him.
+              There is no online checkout. You talk to Gareth, then you come in.
+            </p>
+
+            <div class="mt-9 flex flex-col gap-3">
+              <a
+                href={NAP.phoneHref}
+                class="tnum bg-signal px-8 py-4 text-center font-mono text-sm font-bold tracking-wider text-white transition-colors hover:bg-signal-dim"
+                >Call {NAP.phone}</a
+              >
+              <a
+                href={`mailto:${NAP.email}`}
+                class="border border-line-bright px-8 py-4 text-center text-sm font-bold uppercase tracking-widest transition-colors hover:border-ink hover:bg-surface"
+                >{NAP.email}</a
+              >
+            </div>
+
+            <address class="mt-10 not-italic">
+              <div class="eyebrow">The lab</div>
+              <a
+                href={NAP.mapsUrl}
+                class="mt-3 block text-sm leading-relaxed text-ink-muted transition-colors hover:text-ink"
+              >
+                {NAP.street}<br />{NAP.city}, {NAP.region} {NAP.postal}
+              </a>
+            </address>
+
+            <div class="mt-10">
+              <div class="eyebrow">Lab hours</div>
+              <ul class="tnum mt-5 space-y-2 font-mono text-xs text-ink-muted">
+                <li class="flex justify-between gap-4">
+                  <span>Tue–Fri</span>
+                  <span>{fmt(tue.open!)} – {fmt(tue.close!)}</span>
+                </li>
+                <li class="flex justify-between gap-4">
+                  <span>Sat–Sun</span>
+                  <span>{fmt(sat.open!)} – {fmt(sat.close!)}</span>
+                </li>
+                <li class="flex justify-between gap-4">
+                  <span>Mon</span>
+                  <span class="text-ink-dim">Closed</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="flex flex-col bg-base p-8 lg:p-11">
+            <h2 class="display text-2xl">What to book</h2>
+            <p class="mt-5 leading-relaxed text-ink-muted">
+              A test or a monthly coaching tier — Gareth will tell you which
+              one is actually worth it.
+            </p>
+
+            <div class="eyebrow mt-10">Testing</div>
+            <ul class="mt-5">
+              {
+                TESTS.map((t) => (
+                  <li class="flex items-baseline justify-between gap-4 border-t border-line py-4">
+                    <a
+                      href={`/${t.slug}`}
+                      class="text-sm text-ink-muted transition-colors hover:text-ink"
+                    >
+                      {t.name}
+                    </a>
+                    <span class="tnum shrink-0 font-mono text-sm font-bold">
+                      ${t.price}
+                    </span>
+                  </li>
+                ))
+              }
+            </ul>
+
+            <div class="eyebrow mt-8 border-t border-line pt-8">Coaching</div>
+            <p class="mt-5 text-sm leading-relaxed text-ink-muted">
+              <a href="/coaching" class="text-ink underline underline-offset-4 hover:text-signal"
+                >{COACHING.tiersKicker}</a
+              >
+            </p>
+            <ul class="mt-5">
+              {
+                COACHING.tiers.map((tier) => (
+                  <li class="flex items-baseline justify-between gap-4 border-t border-line py-4">
+                    <a
+                      href="/coaching"
+                      class="text-sm text-ink-muted transition-colors hover:text-ink"
+                    >
+                      {tier.name}
+                    </a>
+                    <span class="tnum shrink-0 font-mono text-sm font-bold">
+                      ${tier.price}<span class="ml-1 text-xs font-normal text-ink-dim">/mo</span>
+                    </span>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>

@@ -1,0 +1,351 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import {
+  NAP,
+  TESTS,
+  PACKAGES,
+  PROTOCOL,
+  THRESHOLDS,
+  COMBO,
+  FAQS,
+  COACHING,
+} from '../data/site';
+
+const test = TESTS.find((t) => t.slug === 'vo2-max-testing')!;
+const others = TESTS.filter((t) => t.slug !== test.slug);
+const vo2Thresholds = THRESHOLDS.filter(
+  (t) => t.abbr === 'Fat-Max' || t.abbr === 'VO2 peak',
+);
+const longevity = PACKAGES.find((p) => p.sport === 'Longevity')!;
+const vo2LongevityTiers = longevity.tiers.filter((tier) =>
+  tier.tests[0].includes('VO2'),
+);
+const faqQs = new Set([
+  'What is the difference between a lactate test and a VO2 max test?',
+  'How long does a test take?',
+  'Do I need to be a serious athlete to get tested?',
+  'How often should I retest?',
+]);
+const faqs = FAQS.filter((f) => faqQs.has(f.q));
+
+const title = 'VO2 Max Testing in Santa Monica | Coach Gareth · ECLYPSE';
+const description = `VO2 max testing in Santa Monica for $${test.price}. ${test.tagline} Call ${NAP.phone}.`;
+const heroImage = test.image;
+---
+
+<Base
+  title={title}
+  description={description}
+  path="vo2-max-testing"
+  image={heroImage}
+  preload={heroImage}
+  includeFaq={false}
+>
+  <Header />
+  <main id="main">
+    <PageHero
+      eyebrow="The Lab"
+      title="VO2 max testing in Santa Monica"
+      lede={test.tagline}
+      image={heroImage}
+      imageAlt="VO2 max testing on a treadmill at the ECLYPSE lab in Santa Monica"
+    >
+      <div slot="after" class="mt-8 flex flex-wrap items-end gap-5">
+        <div>
+          <div class="eyebrow">Price</div>
+          <div class="tnum font-mono text-4xl font-bold">${test.price}</div>
+        </div>
+        <a
+          href="/book"
+          class="bg-signal px-7 py-4 text-sm font-bold uppercase tracking-widest text-white transition-colors hover:bg-signal-dim"
+          >Book this test</a
+        >
+      </div>
+    </PageHero>
+
+    <section class="border-b border-line">
+      <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
+        <div class="grid gap-14 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20">
+          <div>
+            <div
+              class="text-xs font-bold uppercase tracking-widest"
+              style={`color: var(--color-${test.zone})`}
+            >
+              {test.goal}
+            </div>
+            <h2 class="display mt-5 text-[clamp(2rem,4.5vw,3.25rem)]">
+              Cardiovascular fitness<br />&amp; longevity
+            </h2>
+            <p class="mt-6 text-lg leading-relaxed text-ink-muted">
+              A VO<span class="align-baseline text-[0.62em]">2</span> max test
+              is the better choice if you want a single objective marker of
+              cardiovascular fitness. Lactate testing is the better choice if
+              you are training for a race.
+            </p>
+            <p class="mt-5 leading-relaxed text-ink-muted">
+              A test session takes {PROTOCOL.durationMin} minutes of actual
+              testing, progressing through {PROTOCOL.stages} stages. Allow around
+              an hour in total, which includes the setup and the consultation
+              where Gareth reads your results back to you.
+            </p>
+            <p class="mt-5 leading-relaxed text-ink-muted">
+              Every test is run and read by Gareth Thomas — {COACHING.credential}.
+              You do not get emailed a PDF and left to interpret it.
+            </p>
+          </div>
+
+          <ul class="space-y-2.5 border border-line bg-surface p-7">
+            {
+              test.bullets.map((b) => (
+                <li class="flex gap-3 text-sm text-ink-muted">
+                  <span
+                    class="mt-1.5 h-1 w-1 shrink-0 rounded-full"
+                    style={`background: var(--color-${test.zone})`}
+                  />
+                  {b}
+                </li>
+              ))
+            }
+            <li
+              class="flex items-end justify-between gap-4 border-t border-line pt-6"
+            >
+              <div>
+                <div class="eyebrow">Includes consultation</div>
+                <div class="tnum font-mono text-3xl font-bold">
+                  ${test.price}
+                </div>
+              </div>
+              <a
+                href="/book"
+                class="border border-line-bright px-5 py-3 text-xs font-bold uppercase tracking-widest transition-colors hover:border-ink hover:bg-base"
+                >Book</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="results" class="border-b border-line bg-surface">
+      <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
+        <div class="max-w-3xl">
+          <div class="eyebrow">What you leave with</div>
+          <h2 class="display mt-5 text-[clamp(2rem,4.5vw,3.25rem)]">
+            Fat-Max and VO<span class="align-baseline text-[0.62em]">2</span> peak
+          </h2>
+          <p class="mt-6 text-lg leading-relaxed text-ink-muted">
+            Two numbers from the same session: the intensity at which you burn
+            the most fat per minute, and the top of your aerobic range.
+          </p>
+        </div>
+
+        <div class="mt-12 grid gap-px border border-line bg-line md:grid-cols-2">
+          {
+            vo2Thresholds.map((t) => (
+              <div class="bg-base p-7 lg:p-9">
+                <div
+                  class="font-mono text-sm font-bold tracking-wider"
+                  style={`color: var(--color-${t.zone})`}
+                >
+                  {t.abbr}
+                </div>
+                <h3 class="display mt-3 text-2xl">{t.name}</h3>
+                <p class="mt-4 leading-relaxed text-ink-muted">{t.body}</p>
+              </div>
+            ))
+          }
+        </div>
+
+        <figure class="mt-12 border border-line bg-base">
+          <img
+            src="/images/vo2maxtestreport.jpg"
+            alt="Example VO2 max test report from the ECLYPSE lab in Santa Monica"
+            class="w-full object-cover opacity-80 grayscale"
+            loading="lazy"
+          />
+          <figcaption class="px-6 py-4 text-xs leading-relaxed text-ink-dim">
+            An example VO<span class="align-baseline text-[0.62em]">2</span> max
+            test report. Your own numbers are read back to you in person — you
+            do not get emailed a PDF and left to interpret it.
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="packages" class="border-b border-line">
+      <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
+        <div class="max-w-3xl">
+          <div class="eyebrow">Longevity packages</div>
+          <h2 class="display mt-5 text-[clamp(2rem,4.5vw,3.25rem)]">
+            Start with VO<span class="align-baseline text-[0.62em]">2</span>
+          </h2>
+          <p class="mt-6 text-lg leading-relaxed text-ink-muted">
+            Longevity Basic is the VO<span class="align-baseline text-[0.62em]"
+              >2</span
+            > max test on its own. Longevity Pro is {COMBO.name} — {COMBO.note}
+          </p>
+        </div>
+
+        <div class="mt-12 grid gap-6 lg:grid-cols-2 lg:items-start">
+          <article class="border border-line bg-surface">
+            <div class="border-b border-line px-6 py-4">
+              <h3 class="display text-lg">{longevity.sport}</h3>
+            </div>
+            <ul>
+              {
+                vo2LongevityTiers.map((t) => (
+                  <li class="border-b border-line px-6 py-4 last:border-b-0">
+                    <div class="flex items-baseline justify-between gap-3">
+                      <span class="text-sm font-bold">{t.name}</span>
+                      <span class="tnum font-mono text-lg font-bold">
+                        ${t.price}
+                      </span>
+                    </div>
+                    <div class="mt-1.5 space-y-0.5">
+                      {t.tests.map((name) => (
+                        <div class="text-xs leading-relaxed text-ink-dim">
+                          {name}
+                        </div>
+                      ))}
+                    </div>
+                  </li>
+                ))
+              }
+            </ul>
+          </article>
+
+          <article class="flex flex-col border border-line-bright bg-surface p-7">
+            <div class="eyebrow">Both in one visit</div>
+            <h3 class="display mt-3 text-2xl">{COMBO.name}</h3>
+            <p class="mt-4 flex-1 leading-relaxed text-ink-muted">
+              {COMBO.note}
+            </p>
+            <div class="mt-8 flex items-end justify-between gap-4 border-t border-line pt-6">
+              <div class="tnum font-mono text-3xl font-bold">${COMBO.price}</div>
+              <a
+                href="/book"
+                class="bg-signal px-7 py-4 text-sm font-bold uppercase tracking-widest text-white transition-colors hover:bg-signal-dim"
+                >Book</a
+              >
+            </div>
+          </article>
+        </div>
+
+        <p class="mt-6 text-sm text-ink-dim">
+          Every price includes the consultation and a full explanation of your
+          results. Call <a
+            href={NAP.phoneHref}
+            class="tnum font-mono text-ink-muted underline underline-offset-4 hover:text-ink"
+            >{NAP.phone}</a
+          > if you are not sure which to book.
+        </p>
+      </div>
+    </section>
+
+    <section id="faq" class="border-b border-line bg-surface">
+      <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
+        <div class="grid gap-12 lg:grid-cols-[0.7fr_1.3fr] lg:gap-20">
+          <div>
+            <div class="eyebrow">Questions</div>
+            <h2 class="display mt-5 text-[clamp(2rem,4vw,2.75rem)]">
+              Before you<br />book
+            </h2>
+            <p class="mt-6 leading-relaxed text-ink-muted">
+              Still not sure? Call <a
+                href={NAP.phoneHref}
+                class="tnum font-mono underline underline-offset-4 hover:text-ink"
+                >{NAP.phone}</a
+              >. There's no sales pitch — if a test isn't worth it for you,
+              he'll say so.
+            </p>
+          </div>
+
+          <div>
+            {
+              faqs.map((f) => (
+                <details class="group border-b border-line">
+                  <summary class="flex cursor-pointer list-none items-start justify-between gap-6 py-6 text-lg font-bold [&::-webkit-details-marker]:hidden">
+                    {f.q}
+                    <span
+                      class="mt-1.5 shrink-0 text-signal transition-transform duration-200 group-open:rotate-45"
+                      aria-hidden="true"
+                    >
+                      <svg width="16" height="16" viewBox="0 0 16 16">
+                        <path
+                          d="M8 1v14M1 8h14"
+                          stroke="currentColor"
+                          stroke-width="1.75"
+                        />
+                      </svg>
+                    </span>
+                  </summary>
+                  <p class="max-w-2xl pb-7 leading-relaxed text-ink-muted">
+                    {f.a}
+                  </p>
+                </details>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="border-b border-line">
+      <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
+        <div class="eyebrow">Also in the lab</div>
+        <h2 class="display mt-5 text-[clamp(2rem,4.5vw,3.25rem)]">
+          The other tests
+        </h2>
+        <div class="mt-12 grid gap-6 md:grid-cols-2">
+          {
+            others.map((t) => (
+              <a
+                href={`/${t.slug}`}
+                class="group flex flex-col border border-line bg-surface transition-colors hover:border-line-bright"
+              >
+                <div class="relative aspect-[16/10] overflow-hidden">
+                  <img
+                    src={t.image}
+                    alt={`${t.name} at the ECLYPSE lab in Santa Monica`}
+                    class="h-full w-full object-cover opacity-70 grayscale transition-all duration-500 group-hover:opacity-90"
+                    loading="lazy"
+                  />
+                  <div
+                    class="absolute left-0 top-0 h-full w-1"
+                    style={`background: var(--color-${t.zone})`}
+                  />
+                </div>
+                <div class="flex flex-1 flex-col p-7">
+                  <div
+                    class="text-xs font-bold uppercase tracking-widest"
+                    style={`color: var(--color-${t.zone})`}
+                  >
+                    {t.goal}
+                  </div>
+                  <h3 class="display mt-3 text-2xl">{t.name}</h3>
+                  <p class="mt-4 flex-1 text-sm leading-relaxed text-ink-muted">
+                    {t.tagline}
+                  </p>
+                  <div class="tnum mt-6 font-mono text-2xl font-bold">
+                    ${t.price}
+                  </div>
+                </div>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <CtaBand
+      eyebrow="Book a VO2 max test"
+      title="Know your aerobic ceiling"
+      lede="The maximum amount of oxygen your body can use under load — measured in Santa Monica and read back to you in person."
+    />
+  </main>
+  <Footer />
+</Base>

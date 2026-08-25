@@ -1,0 +1,69 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { NAP } from '../data/site';
+
+const title = 'Page not found | Coach Gareth · ECLYPSE';
+const description =
+  'That page is not on the new Coach Gareth site. Testing, coaching and the blog all live here — or call the Santa Monica lab.';
+---
+
+<Base
+  title={title}
+  description={description}
+  includeFaq={false}
+  robots="noindex, nofollow"
+>
+  <Header />
+  <main id="main">
+    <section class="border-b border-line">
+      <div class="mx-auto max-w-7xl px-5 py-24 sm:px-8 lg:py-32">
+        <div class="max-w-2xl">
+          <div class="eyebrow flex items-center gap-3">
+            <span class="h-px w-8 bg-signal"></span>
+            404
+          </div>
+          <h1 class="display mt-6 text-[clamp(2.25rem,5.5vw,4rem)]">
+            This page did not make the move
+          </h1>
+          <p class="mt-7 max-w-xl text-xl leading-snug text-ink-muted">
+            The new site is at coachgareth.com. If you followed an old
+            Squarespace link, start from testing, coaching, or the blog — or
+            call the lab.
+          </p>
+          <div class="mt-11 flex flex-wrap gap-3">
+            <a
+              href="/testing"
+              class="bg-signal px-7 py-4 text-sm font-bold uppercase tracking-widest text-white transition-colors hover:bg-signal-dim"
+              >Testing</a
+            >
+            <a
+              href="/coaching"
+              class="border border-line-bright px-7 py-4 text-sm font-bold uppercase tracking-widest transition-colors hover:border-ink hover:bg-surface"
+              >Coaching</a
+            >
+            <a
+              href="/blog"
+              class="border border-line-bright px-7 py-4 text-sm font-bold uppercase tracking-widest transition-colors hover:border-ink hover:bg-surface"
+              >Blog</a
+            >
+          </div>
+          <p class="mt-10 text-sm text-ink-dim">
+            <a
+              href={NAP.phoneHref}
+              class="tnum font-mono underline underline-offset-4 hover:text-ink-muted"
+              >{NAP.phone}</a
+            >
+            <span class="mx-2">·</span>
+            <a
+              href={`mailto:${NAP.email}`}
+              class="underline underline-offset-4 hover:text-ink-muted">{NAP.email}</a
+            >
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Base>

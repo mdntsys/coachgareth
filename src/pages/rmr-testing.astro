@@ -1,0 +1,300 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import {
+  NAP,
+  TESTS,
+  PACKAGES,
+  COMBO,
+  FAQS,
+  COACHING,
+} from '../data/site';
+
+const test = TESTS.find((t) => t.slug === 'rmr-testing')!;
+const others = TESTS.filter((t) => t.slug !== test.slug);
+const longevity = PACKAGES.find((p) => p.sport === 'Longevity')!;
+const longevityPro = longevity.tiers.find((t) => t.name === 'Pro')!;
+const faqQs = new Set([
+  'Do I need to be a serious athlete to get tested?',
+  'How much does testing cost in Santa Monica?',
+  'Where is the lab?',
+]);
+const faqs = FAQS.filter((f) => faqQs.has(f.q));
+
+const title = 'RMR Testing in Santa Monica | Coach Gareth · ECLYPSE';
+const description = `RMR testing in Santa Monica for $${test.price}. ${test.tagline} Call ${NAP.phone}.`;
+const heroImage = test.image;
+---
+
+<Base
+  title={title}
+  description={description}
+  path="rmr-testing"
+  image={heroImage}
+  preload={heroImage}
+  includeFaq={false}
+>
+  <Header />
+  <main id="main">
+    <PageHero
+      eyebrow="The Lab"
+      title="RMR testing in Santa Monica"
+      lede={test.tagline}
+      image={heroImage}
+      imageAlt="Resting metabolic rate testing at the ECLYPSE lab in Santa Monica"
+    >
+      <div slot="after" class="mt-8 flex flex-wrap items-end gap-5">
+        <div>
+          <div class="eyebrow">Price</div>
+          <div class="tnum font-mono text-4xl font-bold">${test.price}</div>
+        </div>
+        <a
+          href="/book"
+          class="bg-signal px-7 py-4 text-sm font-bold uppercase tracking-widest text-white transition-colors hover:bg-signal-dim"
+          >Book this test</a
+        >
+      </div>
+    </PageHero>
+
+    <section class="border-b border-line">
+      <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
+        <div class="grid gap-14 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20">
+          <div>
+            <div
+              class="text-xs font-bold uppercase tracking-widest"
+              style={`color: var(--color-${test.zone})`}
+            >
+              {test.goal}
+            </div>
+            <h2 class="display mt-5 text-[clamp(2rem,4.5vw,3.25rem)]">
+              Measured resting burn,<br />not a calculator
+            </h2>
+            <p class="mt-6 text-lg leading-relaxed text-ink-muted">
+              Resting metabolic rate is what your body burns at rest —
+              measured, rather than estimated from a calculator that has never
+              met you. The ${test.price} test includes the consultation.
+            </p>
+            <p class="mt-5 leading-relaxed text-ink-muted">
+              This is rest, not a staged effort. Gareth Thomas reads the result
+              with you in person and sets up a calorie and meal plan from your
+              own numbers. {COACHING.credential}.
+            </p>
+            <p class="mt-5 leading-relaxed text-ink-muted">
+              Roughly half the people tested at the lab are not racing anything.
+              RMR is used just as often for body composition, longevity and
+              general health as it is for performance.
+            </p>
+          </div>
+
+          <ul class="space-y-2.5 border border-line bg-surface p-7">
+            {
+              test.bullets.map((b) => (
+                <li class="flex gap-3 text-sm text-ink-muted">
+                  <span
+                    class="mt-1.5 h-1 w-1 shrink-0 rounded-full"
+                    style={`background: var(--color-${test.zone})`}
+                  />
+                  {b}
+                </li>
+              ))
+            }
+            <li
+              class="flex items-end justify-between gap-4 border-t border-line pt-6"
+            >
+              <div>
+                <div class="eyebrow">Includes consultation</div>
+                <div class="tnum font-mono text-3xl font-bold">
+                  ${test.price}
+                </div>
+              </div>
+              <a
+                href="/book"
+                class="border border-line-bright px-5 py-3 text-xs font-bold uppercase tracking-widest transition-colors hover:border-ink hover:bg-base"
+                >Book</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="combo" class="border-b border-line bg-surface">
+      <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
+        <div class="max-w-3xl">
+          <div class="eyebrow">Add VO2 max in the same visit</div>
+          <h2 class="display mt-5 text-[clamp(2rem,4.5vw,3.25rem)]">
+            {COMBO.name}
+          </h2>
+          <p class="mt-6 text-lg leading-relaxed text-ink-muted">
+            {COMBO.note} That pairing is Longevity Pro.
+          </p>
+        </div>
+
+        <div class="mt-12 grid gap-6 lg:grid-cols-2 lg:items-start">
+          <article class="flex flex-col border border-line-bright bg-base p-7">
+            <div class="eyebrow">Both in one visit</div>
+            <h3 class="display mt-3 text-2xl">{COMBO.name}</h3>
+            <p class="mt-4 flex-1 leading-relaxed text-ink-muted">
+              {COMBO.note}
+            </p>
+            <div
+              class="mt-8 flex items-end justify-between gap-4 border-t border-line pt-6"
+            >
+              <div class="tnum font-mono text-3xl font-bold">${COMBO.price}</div>
+              <a
+                href="/book"
+                class="bg-signal px-7 py-4 text-sm font-bold uppercase tracking-widest text-white transition-colors hover:bg-signal-dim"
+                >Book</a
+              >
+            </div>
+          </article>
+
+          <article class="border border-line bg-base">
+            <div class="border-b border-line px-6 py-4">
+              <h3 class="display text-lg">{longevity.sport} Pro</h3>
+            </div>
+            <div class="px-6 py-6">
+              <div class="flex items-baseline justify-between gap-3">
+                <span class="text-sm font-bold">{longevityPro.name}</span>
+                <span class="tnum font-mono text-lg font-bold">
+                  ${longevityPro.price}
+                </span>
+              </div>
+              <div class="mt-3 space-y-0.5">
+                {
+                  longevityPro.tests.map((name) => (
+                    <div class="text-xs leading-relaxed text-ink-dim">
+                      {name}
+                    </div>
+                  ))
+                }
+              </div>
+              <p class="mt-6 text-sm leading-relaxed text-ink-muted">
+                {COMBO.note}
+              </p>
+              <a
+                href="/book"
+                class="mt-8 inline-block border border-line-bright px-7 py-4 text-sm font-bold uppercase tracking-widest transition-colors hover:border-ink hover:bg-surface"
+                >Book</a
+              >
+            </div>
+          </article>
+        </div>
+
+        <p class="mt-6 text-sm text-ink-dim">
+          Every price includes the consultation and a full explanation of your
+          results. Call <a
+            href={NAP.phoneHref}
+            class="tnum font-mono text-ink-muted underline underline-offset-4 hover:text-ink"
+            >{NAP.phone}</a
+          > if you are not sure which to book.
+        </p>
+      </div>
+    </section>
+
+    <section id="faq" class="border-b border-line">
+      <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
+        <div class="grid gap-12 lg:grid-cols-[0.7fr_1.3fr] lg:gap-20">
+          <div>
+            <div class="eyebrow">Questions</div>
+            <h2 class="display mt-5 text-[clamp(2rem,4vw,2.75rem)]">
+              Before you<br />book
+            </h2>
+            <p class="mt-6 leading-relaxed text-ink-muted">
+              Still not sure? Call <a
+                href={NAP.phoneHref}
+                class="tnum font-mono underline underline-offset-4 hover:text-ink"
+                >{NAP.phone}</a
+              >. There's no sales pitch — if a test isn't worth it for you,
+              he'll say so.
+            </p>
+          </div>
+
+          <div>
+            {
+              faqs.map((f) => (
+                <details class="group border-b border-line">
+                  <summary class="flex cursor-pointer list-none items-start justify-between gap-6 py-6 text-lg font-bold [&::-webkit-details-marker]:hidden">
+                    {f.q}
+                    <span
+                      class="mt-1.5 shrink-0 text-signal transition-transform duration-200 group-open:rotate-45"
+                      aria-hidden="true"
+                    >
+                      <svg width="16" height="16" viewBox="0 0 16 16">
+                        <path
+                          d="M8 1v14M1 8h14"
+                          stroke="currentColor"
+                          stroke-width="1.75"
+                        />
+                      </svg>
+                    </span>
+                  </summary>
+                  <p class="max-w-2xl pb-7 leading-relaxed text-ink-muted">
+                    {f.a}
+                  </p>
+                </details>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="border-b border-line bg-surface">
+      <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
+        <div class="eyebrow">Also in the lab</div>
+        <h2 class="display mt-5 text-[clamp(2rem,4.5vw,3.25rem)]">
+          The other tests
+        </h2>
+        <div class="mt-12 grid gap-6 md:grid-cols-2">
+          {
+            others.map((t) => (
+              <a
+                href={`/${t.slug}`}
+                class="group flex flex-col border border-line bg-base transition-colors hover:border-line-bright"
+              >
+                <div class="relative aspect-[16/10] overflow-hidden">
+                  <img
+                    src={t.image}
+                    alt={`${t.name} at the ECLYPSE lab in Santa Monica`}
+                    class="h-full w-full object-cover opacity-70 grayscale transition-all duration-500 group-hover:opacity-90"
+                    loading="lazy"
+                  />
+                  <div
+                    class="absolute left-0 top-0 h-full w-1"
+                    style={`background: var(--color-${t.zone})`}
+                  />
+                </div>
+                <div class="flex flex-1 flex-col p-7">
+                  <div
+                    class="text-xs font-bold uppercase tracking-widest"
+                    style={`color: var(--color-${t.zone})`}
+                  >
+                    {t.goal}
+                  </div>
+                  <h3 class="display mt-3 text-2xl">{t.name}</h3>
+                  <p class="mt-4 flex-1 text-sm leading-relaxed text-ink-muted">
+                    {t.tagline}
+                  </p>
+                  <div class="tnum mt-6 font-mono text-2xl font-bold">
+                    ${t.price}
+                  </div>
+                </div>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <CtaBand
+      eyebrow="Book an RMR test"
+      title="Measured, not estimated"
+      lede={`What your body burns at rest, with a calorie and meal plan from your own numbers. $${test.price} includes the consultation.`}
+    />
+  </main>
+  <Footer />
+</Base>

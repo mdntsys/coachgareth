@@ -1,0 +1,324 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import {
+  NAP,
+  TESTS,
+  PACKAGES,
+  PROTOCOL,
+  COACHING,
+  FAQS,
+} from '../data/site';
+
+const title =
+  'Metabolic Testing in Santa Monica | Blood Lactate, VO2 Max & RMR';
+const description = `Blood lactate $${TESTS[0].price}, VO2 max $${TESTS[1].price} and RMR $${TESTS[2].price} in Santa Monica. Measured, not estimated — every test run and read by Gareth Thomas. Call ${NAP.phone}.`;
+
+const heroImage = '/images/labken.jpg';
+
+const whichFaq = FAQS.find(
+  (f) => f.q === 'What is the difference between a lactate test and a VO2 max test?',
+);
+---
+
+<Base
+  title={title}
+  description={description}
+  path="testing"
+  image={heroImage}
+  preload={heroImage}
+  includeFaq={false}
+>
+  <Header />
+  <main id="main">
+    <PageHero
+      eyebrow="The Lab"
+      title="Lactate, VO2 max and RMR in Santa Monica"
+      lede="Measured, not estimated. Gareth reads it with you."
+      image={heroImage}
+      imageAlt="Gareth Thomas running a treadmill-based lactate threshold test on an athlete at the lab in Santa Monica"
+    >
+      <div slot="after" class="mt-8 flex flex-wrap items-center gap-3">
+        <a
+          href="/book"
+          class="bg-signal px-7 py-4 text-sm font-bold uppercase tracking-widest text-white transition-colors hover:bg-signal-dim"
+          >Book a test</a
+        >
+        <a
+          href="/coaching"
+          class="border border-line-bright px-7 py-4 text-sm font-bold uppercase tracking-widest transition-colors hover:border-ink hover:bg-surface"
+          >See coaching</a
+        >
+      </div>
+    </PageHero>
+
+    <!-- ══════════════════════════ CHOOSE A TEST ══════════════════════════ -->
+    <section id="tests" class="border-b border-line">
+      <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
+        <div class="max-w-3xl">
+          <div class="eyebrow">Start here</div>
+          <h2 class="display mt-5 text-[clamp(2rem,4.5vw,3.25rem)]">
+            Start with the goal,<br />not the machine
+          </h2>
+          <p class="mt-6 text-lg leading-relaxed text-ink-muted">
+            Most people arrive unsure which test they need — and the names don't
+            help. So pick the outcome you're after and the right test is the one
+            underneath it.
+          </p>
+        </div>
+
+        <div class="mt-14 grid gap-6 lg:grid-cols-3">
+          {
+            TESTS.map((t) => (
+              <article class="group flex flex-col border border-line bg-surface transition-colors hover:border-line-bright">
+                <div class="relative aspect-[16/10] overflow-hidden">
+                  <img
+                    src={t.image}
+                    alt={`${t.name} at the ECLYPSE lab in Santa Monica`}
+                    class="h-full w-full object-cover opacity-70 grayscale transition-all duration-500 group-hover:opacity-90"
+                    loading="lazy"
+                  />
+                  <div
+                    class="absolute left-0 top-0 h-full w-1"
+                    style={`background: var(--color-${t.zone})`}
+                  />
+                </div>
+
+                <div class="flex flex-1 flex-col p-7">
+                  <div
+                    class="text-xs font-bold uppercase tracking-widest"
+                    style={`color: var(--color-${t.zone})`}
+                  >
+                    {t.goal}
+                  </div>
+                  <h3 class="display mt-3 text-2xl">
+                    <a href={`/${t.slug}`} class="hover:text-signal">
+                      {t.name}
+                    </a>
+                  </h3>
+                  <div class="eyebrow mt-1.5">{t.goalLine}</div>
+
+                  <p class="mt-5 text-sm leading-relaxed text-ink-muted">
+                    {t.tagline}
+                  </p>
+
+                  <ul class="mt-6 space-y-2.5 border-t border-line pt-6">
+                    {t.bullets.map((b) => (
+                      <li class="flex gap-3 text-sm text-ink-muted">
+                        <span
+                          class="mt-1.5 h-1 w-1 shrink-0 rounded-full"
+                          style={`background: var(--color-${t.zone})`}
+                        />
+                        {b}
+                      </li>
+                    ))}
+                  </ul>
+
+                  <div class="mt-7 flex items-end justify-between border-t border-line pt-6">
+                    <div>
+                      <div class="eyebrow">From</div>
+                      <div class="tnum font-mono text-3xl font-bold">
+                        ${t.price}
+                      </div>
+                    </div>
+                    <a
+                      href="/book"
+                      class="border border-line-bright px-5 py-3 text-xs font-bold uppercase tracking-widest transition-colors hover:border-ink hover:bg-base"
+                    >
+                      Book
+                    </a>
+                  </div>
+                </div>
+              </article>
+            ))
+          }
+        </div>
+
+        <div class="mt-16">
+          <div class="eyebrow">Or a sport-specific package</div>
+          <h3 class="display mt-4 text-[clamp(1.5rem,2.6vw,2rem)]">
+            Test the way you race
+          </h3>
+          <p class="mt-4 max-w-2xl leading-relaxed text-ink-muted">
+            Most people want more than one number. These bundle the tests that
+            actually go together for your sport, at less than booking them
+            separately.
+          </p>
+
+          <div class="mt-9 grid gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:items-start">
+            {
+              PACKAGES.map((p) => (
+                <article class="border border-line bg-surface">
+                  <div class="border-b border-line px-6 py-4">
+                    <h4 class="display text-lg">{p.sport}</h4>
+                  </div>
+                  <ul>
+                    {p.tiers.map((t) => (
+                      <li class="border-b border-line px-6 py-4 last:border-b-0">
+                        <div class="flex items-baseline justify-between gap-3">
+                          <span class="text-sm font-bold">{t.name}</span>
+                          <span class="tnum font-mono text-lg font-bold">
+                            ${t.price}
+                          </span>
+                        </div>
+                        <div class="mt-1.5 space-y-0.5">
+                          {t.tests.map((test) => (
+                            <div class="text-xs leading-relaxed text-ink-dim">
+                              {test}
+                            </div>
+                          ))}
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </article>
+              ))
+            }
+          </div>
+        </div>
+
+        <p class="mt-6 text-sm text-ink-dim">
+          Every price includes the consultation and a full explanation of your
+          results. Not sure? Call <a
+            href={NAP.phoneHref}
+            class="tnum font-mono text-ink-muted underline underline-offset-4 hover:text-ink"
+            >{NAP.phone}</a
+          > and Gareth will tell you which one is worth your money.
+        </p>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════ PROTOCOL ════════════════════════════ -->
+    <section id="protocol" class="border-b border-line bg-surface">
+      <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
+        <div class="grid gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
+          <div>
+            <div class="eyebrow">What actually happens</div>
+            <h2 class="display mt-5 text-[clamp(2rem,4.5vw,3.25rem)]">
+              The blood lactate<br />protocol
+            </h2>
+            <p class="mt-6 leading-relaxed text-ink-muted">
+              A test session takes {PROTOCOL.durationMin} minutes of actual
+              testing, progressing through {PROTOCOL.stages} stages. Allow around
+              an hour in total, which includes the setup and the consultation
+              where Gareth reads your results back to you.
+            </p>
+            <p class="mt-4 leading-relaxed text-ink-muted">
+              You do not need to be a serious athlete to get tested. The protocol
+              is scaled to whatever you can currently do.
+            </p>
+
+            <img
+              src="/images/bloodsamplecyclist.jpg"
+              alt="A small blood sample being taken from a cyclist between stages of a lactate test in Santa Monica"
+              class="mt-10 hidden w-full border border-line object-cover grayscale lg:block"
+              loading="lazy"
+            />
+          </div>
+
+          <ol class="space-y-px">
+            {
+              PROTOCOL.steps.map((s) => (
+                <li class="grid gap-5 border-t border-line py-8 sm:grid-cols-[auto_1fr] sm:gap-8">
+                  <div class="tnum font-mono text-3xl font-bold text-signal">
+                    {s.n}
+                  </div>
+                  <div>
+                    <h3 class="text-lg font-bold">{s.title}</h3>
+                    <p class="mt-2.5 leading-relaxed text-ink-muted">{s.body}</p>
+                  </div>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════ WHICH TEST ═══════════════════════════ -->
+    <section id="which" class="border-b border-line">
+      <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
+        <div class="max-w-3xl">
+          <div class="eyebrow">Which test</div>
+          <h2 class="display mt-5 text-[clamp(2rem,4.5vw,3.25rem)]">
+            Pick the outcome
+          </h2>
+          <p class="mt-6 text-lg leading-relaxed text-ink-muted">
+            Three tests, three jobs. If you are still deciding, start from the
+            goal rather than the name.
+          </p>
+        </div>
+
+        <div class="mt-12 grid gap-px border border-line bg-line sm:grid-cols-3">
+          {
+            TESTS.map((t) => (
+              <a
+                href={`/${t.slug}`}
+                class="flex flex-col bg-base p-7 transition-colors hover:bg-surface"
+              >
+                <div
+                  class="text-xs font-bold uppercase tracking-widest"
+                  style={`color: var(--color-${t.zone})`}
+                >
+                  {t.goal}
+                </div>
+                <h3 class="display mt-4 text-xl">{t.name}</h3>
+                <p class="mt-3 flex-1 text-sm leading-relaxed text-ink-muted">
+                  {t.goalLine}
+                </p>
+                <div class="tnum mt-6 font-mono text-2xl font-bold">
+                  ${t.price}
+                </div>
+              </a>
+            ))
+          }
+        </div>
+
+        {
+          whichFaq && (
+            <p class="mt-10 max-w-3xl leading-relaxed text-ink-muted">
+              {whichFaq.a}
+            </p>
+          )
+        }
+      </div>
+    </section>
+
+    <!-- ════════════════════════════ COACHING ════════════════════════════ -->
+    <section class="border-b border-line bg-surface">
+      <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
+        <div class="max-w-3xl">
+          <div class="eyebrow">Coaching</div>
+          <h2 class="display mt-5 text-[clamp(2rem,4.5vw,3.25rem)]">
+            {COACHING.headline}
+          </h2>
+          <p class="mt-6 text-lg leading-relaxed text-ink-muted">
+            {COACHING.positioning}. A plan built around your race, your schedule
+            and your own data, adjusted as you go and retested every {PROTOCOL.retestWeeks} weeks.
+          </p>
+          <div class="tnum mt-6 font-mono text-sm text-ink-dim">
+            {COACHING.credential}
+          </div>
+        </div>
+        <div class="mt-10 flex flex-wrap gap-3">
+          <a
+            href="/book"
+            class="bg-signal px-7 py-4 text-sm font-bold uppercase tracking-widest text-white transition-colors hover:bg-signal-dim"
+            >Book a test</a
+          >
+          <a
+            href="/coaching"
+            class="border border-line-bright px-7 py-4 text-sm font-bold uppercase tracking-widest transition-colors hover:border-ink hover:bg-base"
+            >See coaching plans</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <CtaBand />
+  </main>
+  <Footer />
+</Base>

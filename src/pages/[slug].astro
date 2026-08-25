@@ -1,0 +1,18 @@
+---
+import LanderPage from '../components/LanderPage.astro';
+import { LANDERS } from '../data/site';
+
+// Only the six Phase-3 landers. Named files (testing, coaching, book, …)
+// win over this route; still, do not emit any other slug.
+export function getStaticPaths() {
+  return LANDERS.map((l) => ({ params: { slug: l.slug } }));
+}
+
+const { slug } = Astro.params;
+const lander = LANDERS.find((l) => l.slug === slug);
+if (!lander) {
+  throw new Error(`No LANDERS entry for slug: ${slug}`);
+}
+---
+
+<LanderPage lander={lander} />

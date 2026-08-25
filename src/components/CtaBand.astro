@@ -1,0 +1,55 @@
+---
+import { NAP } from '../data/site';
+
+interface Props {
+  eyebrow?: string;
+  title?: string;
+  lede?: string;
+}
+
+const {
+  eyebrow = 'Book a test',
+  title = 'Stop guessing at your zones',
+  lede = 'One hour in the lab in Santa Monica, and you’ll know exactly how your body produces energy — and precisely how hard to go.',
+} = Astro.props;
+---
+
+<section class="relative overflow-hidden border-b border-line">
+  <img
+    src="/images/runnerinlabdoingbloodlactatetest.jpg"
+    alt=""
+    aria-hidden="true"
+    class="absolute inset-0 h-full w-full object-cover opacity-15 grayscale"
+    loading="lazy"
+  />
+  <div class="relative mx-auto max-w-7xl px-5 py-24 text-center sm:px-8 lg:py-32">
+    <div class="eyebrow">{eyebrow}</div>
+    <h2
+      class="display mx-auto mt-6 max-w-4xl text-[clamp(2.25rem,6vw,4rem)]"
+    >
+      {title}
+    </h2>
+    <p class="mx-auto mt-7 max-w-xl text-lg leading-relaxed text-ink-muted">
+      {lede}
+    </p>
+    <div class="mt-11 flex flex-wrap items-center justify-center gap-3">
+      <a
+        href={NAP.phoneHref}
+        class="tnum bg-signal px-8 py-4 font-mono text-sm font-bold tracking-wider text-white transition-colors hover:bg-signal-dim"
+        >Call {NAP.phone}</a
+      >
+      <a
+        href={`mailto:${NAP.email}`}
+        class="border border-line-bright px-8 py-4 text-sm font-bold uppercase tracking-widest transition-colors hover:border-ink hover:bg-surface"
+        >Email the lab</a
+      >
+    </div>
+    <p class="mt-9 text-sm text-ink-dim">
+      <a
+        href={NAP.mapsUrl}
+        class="underline underline-offset-4 hover:text-ink-muted"
+        >{NAP.street}, {NAP.city}, {NAP.region} {NAP.postal}</a
+      >
+    </p>
+  </div>
+</section>

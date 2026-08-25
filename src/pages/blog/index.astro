@@ -1,0 +1,69 @@
+---
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import PageHero from '../../components/PageHero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { POSTS } from '../../data/site';
+import { POST_BODIES } from '../../data/posts';
+
+const title = 'Blog | Coach Gareth · ECLYPSE Lab';
+const description =
+  'VO2 max, Zone 2, lactate threshold testing, heart-rate monitors — written from the Santa Monica lab.';
+---
+
+<Base title={title} description={description} path="blog" includeFaq={false}>
+  <Header />
+  <main id="main">
+    <PageHero
+      eyebrow="The Lab"
+      title="From the lab"
+      lede={description}
+    />
+
+    <section class="border-b border-line">
+      <div class="mx-auto max-w-7xl px-5 py-16 sm:px-8 lg:py-24">
+        <div class="grid gap-6 md:grid-cols-2">
+          {
+            POSTS.map((post) => {
+              const body = POST_BODIES[post.slug];
+              return (
+                <article class="group flex flex-col border border-line bg-surface transition-colors hover:border-line-bright">
+                  <div class="relative aspect-[16/10] overflow-hidden">
+                    <img
+                      src={body.image}
+                      alt={body.imageAlt}
+                      class="h-full w-full object-cover opacity-70 grayscale transition-all duration-500 group-hover:opacity-90"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div class="flex flex-1 flex-col p-7">
+                    <div class="eyebrow">{body.eyebrow}</div>
+                    <h2 class="display mt-3 text-2xl">
+                      <a href={`/blog/${post.slug}`} class="hover:text-signal">
+                        {post.title}
+                      </a>
+                    </h2>
+                    <p class="mt-4 text-sm leading-relaxed text-ink-muted">
+                      {post.description}
+                    </p>
+                    <div class="mt-auto pt-6">
+                      <a
+                        href={`/blog/${post.slug}`}
+                        class="text-xs font-bold uppercase tracking-widest text-ink-muted transition-colors hover:text-ink"
+                      >
+                        Read
+                      </a>
+                    </div>
+                  </div>
+                </article>
+              );
+            })
+          }
+        </div>
+      </div>
+    </section>
+    <CtaBand />
+  </main>
+  <Footer />
+</Base>

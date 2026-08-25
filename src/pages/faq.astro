@@ -1,0 +1,87 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { NAP, FAQS, COACHING_FAQS } from '../data/site';
+
+const title = 'Testing & Coaching FAQ | Coach Gareth · ECLYPSE Lab';
+const description =
+  'How long a test takes, lactate vs VO2, prices, remote coaching, equipment.';
+---
+
+<Base
+  title={title}
+  description={description}
+  path="faq"
+  includeFaq={true}
+>
+  <Header />
+
+  <main id="main">
+    <PageHero
+      eyebrow="Questions"
+      title="Before you book"
+      lede="How long a test takes, lactate versus VO2, prices, remote coaching, and the equipment you need."
+    />
+
+    <section class="border-b border-line">
+      <div class="mx-auto max-w-7xl px-5 py-16 sm:px-8 lg:py-24">
+        <div class="grid gap-12 lg:grid-cols-[0.7fr_1.3fr] lg:gap-20">
+          <div>
+            <p class="leading-relaxed text-ink-muted">
+              Still not sure? Call <a
+                href={NAP.phoneHref}
+                class="tnum font-mono underline underline-offset-4 hover:text-ink"
+                >{NAP.phone}</a
+              >. There's no sales pitch — if a test isn't worth it for you,
+              he'll say so.
+            </p>
+          </div>
+
+          <div class="space-y-14">
+            {
+              [
+                { label: 'Testing', items: FAQS },
+                { label: 'Coaching', items: COACHING_FAQS },
+              ].map((group) => (
+                <div>
+                  <div class="eyebrow border-b border-line-bright pb-3">
+                    {group.label}
+                  </div>
+                  {group.items.map((f) => (
+                    <details class="group border-b border-line">
+                      <summary class="flex cursor-pointer list-none items-start justify-between gap-6 py-6 text-lg font-bold [&::-webkit-details-marker]:hidden">
+                        {f.q}
+                        <span
+                          class="mt-1.5 shrink-0 text-signal transition-transform duration-200 group-open:rotate-45"
+                          aria-hidden="true"
+                        >
+                          <svg width="16" height="16" viewBox="0 0 16 16">
+                            <path
+                              d="M8 1v14M1 8h14"
+                              stroke="currentColor"
+                              stroke-width="1.75"
+                            />
+                          </svg>
+                        </span>
+                      </summary>
+                      <p class="max-w-2xl pb-7 leading-relaxed text-ink-muted">
+                        {f.a}
+                      </p>
+                    </details>
+                  ))}
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <CtaBand />
+  </main>
+
+  <Footer />
+</Base>

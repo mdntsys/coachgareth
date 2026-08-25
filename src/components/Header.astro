@@ -1,13 +1,26 @@
 ---
-import { NAP, NAV } from '../data/site';
+import { NAP, NAV, TESTS, LANDERS } from '../data/site';
 // Lab name comes from NAP so the header, footer and schema cannot drift apart
 // — his sketch calls it "ECLYPSE Fitness Lab", not "ECLYPSE Lab".
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const testingHrefs = new Set([
+  '/testing',
+  ...TESTS.map((t) => `/${t.slug}`),
+  ...LANDERS.map((l) => `/${l.slug}`),
+]);
+
+const isActive = (href: string) => {
+  if (href === '/testing') return testingHrefs.has(path);
+  if (href === '/') return path === '/';
+  return path === href || path.startsWith(`${href}/`);
+};
 ---
 
 <header
   class="sticky top-0 z-40 border-b border-line bg-base/85 backdrop-blur-md"
 >
-  <div class="mx-auto flex h-16 max-w-7xl items-center gap-6 px-5 sm:px-8">
+  <div class="mx-auto flex h-16 max-w-7xl items-center gap-3 px-5 sm:gap-6 sm:px-8">
     <a href="/" class="flex shrink-0 items-baseline gap-2.5">
       <span class="display text-lg tracking-tight">Coach Gareth</span>
       <span class="hidden h-3.5 w-px bg-line-bright sm:block"></span>
@@ -19,7 +32,11 @@ import { NAP, NAV } from '../data/site';
         NAV.map((item) => (
           <a
             href={item.href}
-            class="text-sm text-ink-muted transition-colors hover:text-ink"
+            aria-current={isActive(item.href) ? 'page' : undefined}
+            class:list={[
+              'text-sm transition-colors hover:text-ink',
+              isActive(item.href) ? 'text-ink' : 'text-ink-muted',
+            ]}
           >
             {item.label}
           </a>
@@ -34,8 +51,8 @@ import { NAP, NAV } from '../data/site';
         >{NAP.phone}</a
       >
       <a
-        href="#book"
-        class="bg-signal px-4 py-2.5 text-xs font-bold uppercase tracking-widest text-white transition-colors hover:bg-signal-dim"
+        href="/book"
+        class="hidden shrink-0 bg-signal px-4 py-2.5 text-xs font-bold uppercase tracking-widest text-white transition-colors hover:bg-signal-dim sm:inline-block"
         >Book a test</a
       >
       <button
@@ -44,7 +61,7 @@ import { NAP, NAV } from '../data/site';
         aria-label="Open menu"
         aria-expanded="false"
         aria-controls="mobileNav"
-        class="grid h-10 w-10 place-items-center border border-line text-ink lg:hidden"
+        class="grid h-10 w-10 shrink-0 place-items-center border border-line text-ink lg:hidden"
       >
         <svg width="16" height="12" viewBox="0 0 16 12" aria-hidden="true">
           <path d="M0 1h16M0 6h16M0 11h16" stroke="currentColor" stroke-width="1.5"
@@ -59,7 +76,11 @@ import { NAP, NAV } from '../data/site';
       NAV.map((item) => (
         <a
           href={item.href}
-          class="block border-b border-line px-5 py-4 text-sm text-ink-muted"
+          aria-current={isActive(item.href) ? 'page' : undefined}
+          class:list={[
+            'block border-b border-line px-5 py-4 text-sm',
+            isActive(item.href) ? 'text-ink' : 'text-ink-muted',
+          ]}
         >
           {item.label}
         </a>
@@ -68,6 +89,11 @@ import { NAP, NAV } from '../data/site';
     <a href={NAP.phoneHref} class="tnum block px-5 py-4 font-mono text-sm">
       {NAP.phone}
     </a>
+    <a
+      href="/book"
+      class="block bg-signal px-5 py-4 text-xs font-bold uppercase tracking-widest text-white"
+      >Book a test</a
+    >
   </nav>
 </header>
 

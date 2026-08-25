@@ -1,0 +1,251 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import {
+  NAP,
+  COACHING,
+  COACHING_FAQS,
+  TESTS,
+  PROTOCOL,
+} from '../data/site';
+
+const title = 'Endurance Coaching in Santa Monica | Coach Gareth';
+const description = `Monthly endurance coaching in Santa Monica: ${COACHING.tiers.map((t) => `${t.name} $${t.price}`).join(', ')}. Triathlon, running, cycling and longevity, built from lab data. Call ${NAP.phone}.`;
+const heroImage = '/images/enduranceathletestrainingrun.jpg';
+---
+
+<Base
+  title={title}
+  description={description}
+  path="coaching"
+  image={heroImage}
+  preload={heroImage}
+  includeFaq={false}
+>
+  <Header />
+
+  <main id="main">
+    <PageHero
+      eyebrow="Coaching"
+      title={COACHING.headline}
+      lede={`${COACHING.positioning}. ${COACHING.credential}.`}
+      image={heroImage}
+      imageAlt="Two endurance athletes on a training run"
+    />
+
+    <section class="border-b border-line">
+      <div class="mx-auto max-w-7xl px-5 py-14 sm:px-8 lg:py-16">
+        <ul class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {
+            COACHING.disciplines.map((d) => (
+              <li class="border-t border-line pt-4">
+                <div class="text-sm font-bold">{d.name}</div>
+                <div class="mt-0.5 text-xs text-ink-dim">{d.detail}</div>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+
+    <section class="border-b border-line bg-surface">
+      <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-24">
+        <h2 class="eyebrow">{COACHING.tiersKicker}</h2>
+        <div class="mt-6 grid gap-6 lg:grid-cols-3 lg:items-start">
+          {
+            COACHING.tiers.map((tier, i) => (
+              <article
+                class:list={[
+                  'flex flex-col border p-8',
+                  i === 1
+                    ? 'border-line-bright bg-base'
+                    : 'border-line bg-base',
+                ]}
+              >
+                <div class="flex items-baseline justify-between gap-4">
+                  <h3 class="display text-2xl">{tier.name}</h3>
+                  <div class="text-right">
+                    <div class="tnum font-mono text-3xl font-bold">
+                      ${tier.price}
+                    </div>
+                    <div class="eyebrow mt-0.5">per month</div>
+                  </div>
+                </div>
+
+                <ul class="mt-7 flex-1 space-y-2.5 border-t border-line pt-6">
+                  {tier.includes.map((inc) => (
+                    <li class="flex gap-3 text-sm text-ink-muted">
+                      <span class="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-signal" />
+                      {inc}
+                    </li>
+                  ))}
+                </ul>
+
+                <a
+                  href="/book"
+                  class:list={[
+                    'mt-8 block px-6 py-3.5 text-center text-xs font-bold uppercase tracking-widest transition-colors',
+                    i === 1
+                      ? 'bg-signal text-white hover:bg-signal-dim'
+                      : 'border border-line-bright hover:border-ink hover:bg-surface',
+                  ]}
+                >
+                  Enquire
+                </a>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="border-b border-line">
+      <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-24">
+        <div
+          class="grid gap-12 lg:grid-cols-[1.15fr_1fr] lg:items-center lg:gap-20"
+        >
+          <div>
+            <div class="eyebrow">Day to day</div>
+            <h2 class="display mt-5 text-[clamp(2rem,4.5vw,3rem)]">
+              How coaching works
+            </h2>
+            <div class="mt-6 space-y-5 leading-relaxed text-ink-muted">
+              <p>
+                Every workout is uploaded to TrainingPeaks and can be pushed
+                straight to your watch for in-workout guidance. After each
+                session the data comes back automatically, along with sleep and
+                health data from your wearable, and Gareth reviews it at the
+                frequency your tier sets.
+              </p>
+              <p>
+                You can leave notes on energy, stress or travel as you go.
+                Contact happens by call, video, text and email, again depending
+                on tier. Every athlete trains with a heart-rate monitor and
+                keeps a daily training journal.
+              </p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <img
+              src="/images/gtatswim.jpg"
+              alt="Gareth Thomas coaching two swimmers on the pool deck"
+              class="aspect-[3/4] w-full border border-line object-cover object-center grayscale"
+              loading="lazy"
+            />
+            <img
+              src="/images/triathletefinishline.jpg"
+              alt="An endurance athlete at the finish of a triathlon"
+              class="mt-8 aspect-[3/4] w-full border border-line object-cover object-[50%_20%]"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="border-b border-line bg-surface">
+      <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-24">
+        <div class="grid gap-12 lg:grid-cols-[1.15fr_1fr] lg:items-start lg:gap-20">
+          <div>
+            <div class="eyebrow">The lab</div>
+            <h2 class="display mt-5 text-[clamp(2rem,4.5vw,3rem)]">
+              Plans built from lab data
+            </h2>
+            <p class="mt-6 leading-relaxed text-ink-muted">
+              Coaching starts from numbers measured in the lab, not a formula.
+              Most people begin with a test at {NAP.labName}, then retest every
+              {PROTOCOL.retestWeeks} weeks so the work stays on the physiology
+              you actually have.
+            </p>
+            <div class="mt-9">
+              <a
+                href="/testing"
+                class="inline-block border border-line-bright px-7 py-4 text-sm font-bold uppercase tracking-widest transition-colors hover:border-ink hover:bg-base"
+                >See testing</a
+              >
+            </div>
+          </div>
+
+          <ul>
+            {
+              TESTS.map((t) => (
+                <li class="flex items-baseline justify-between gap-4 border-t border-line py-4 first:border-t-0 first:pt-0">
+                  <a
+                    href={`/${t.slug}`}
+                    class="text-sm text-ink-muted transition-colors hover:text-ink"
+                  >
+                    {t.name}
+                  </a>
+                  <span class="tnum shrink-0 font-mono text-sm font-bold">
+                    ${t.price}
+                  </span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="border-b border-line">
+      <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
+        <div class="grid gap-12 lg:grid-cols-[0.7fr_1.3fr] lg:gap-20">
+          <div>
+            <div class="eyebrow">Questions</div>
+            <h2 class="display mt-5 text-[clamp(2rem,4vw,2.75rem)]">
+              Before you<br />enquire
+            </h2>
+            <p class="mt-6 leading-relaxed text-ink-muted">
+              Still not sure? Call <a
+                href={NAP.phoneHref}
+                class="tnum font-mono underline underline-offset-4 hover:text-ink"
+                >{NAP.phone}</a
+              >. There's no sales pitch — if a test isn't worth it for you,
+              he'll say so.
+            </p>
+          </div>
+
+          <div>
+            <div class="eyebrow border-b border-line-bright pb-3">Coaching</div>
+            {
+              COACHING_FAQS.map((f) => (
+                <details class="group border-b border-line">
+                  <summary class="flex cursor-pointer list-none items-start justify-between gap-6 py-6 text-lg font-bold [&::-webkit-details-marker]:hidden">
+                    {f.q}
+                    <span
+                      class="mt-1.5 shrink-0 text-signal transition-transform duration-200 group-open:rotate-45"
+                      aria-hidden="true"
+                    >
+                      <svg width="16" height="16" viewBox="0 0 16 16">
+                        <path
+                          d="M8 1v14M1 8h14"
+                          stroke="currentColor"
+                          stroke-width="1.75"
+                        />
+                      </svg>
+                    </span>
+                  </summary>
+                  <p class="max-w-2xl pb-7 leading-relaxed text-ink-muted">
+                    {f.a}
+                  </p>
+                </details>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <CtaBand
+      eyebrow="Enquire"
+      title="Start a plan"
+      lede="Call or email. There is no online checkout — you talk to Gareth first, and he will tell you which tier actually fits."
+    />
+  </main>
+
+  <Footer />
+</Base>

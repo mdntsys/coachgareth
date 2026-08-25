@@ -51,16 +51,25 @@ const fmt = (t: string) => {
           {
             TESTS.map((t) => (
               <li>
-                <a href="#tests" class="transition-colors hover:text-ink">
+                <a href={`/${t.slug}`} class="transition-colors hover:text-ink">
                   {t.name}
                 </a>
               </li>
             ))
           }
           <li>
-            <a href="#coaching" class="transition-colors hover:text-ink"
+            <a href="/coaching" class="transition-colors hover:text-ink"
               >Endurance coaching</a
             >
+          </li>
+          <li>
+            <a href="/blog" class="transition-colors hover:text-ink">Blog</a>
+          </li>
+          <li>
+            <a href="/faq" class="transition-colors hover:text-ink">FAQ</a>
+          </li>
+          <li>
+            <a href="/book" class="transition-colors hover:text-ink">Book</a>
           </li>
         </ul>
       </div>

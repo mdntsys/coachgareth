@@ -1,0 +1,436 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import LactateCurve from '../components/LactateCurve.astro';
+import {
+  NAP,
+  TESTS,
+  PACKAGES,
+  PROTOCOL,
+  THRESHOLDS,
+  ZONES,
+  FAQS,
+  COACHING,
+} from '../data/site';
+
+const test = TESTS.find((t) => t.slug === 'lactate-threshold-testing')!;
+const others = TESTS.filter((t) => t.slug !== test.slug);
+const lactateThresholds = THRESHOLDS.filter(
+  (t) => t.abbr === 'AeT / LT1' || t.abbr === 'SST / LT2',
+);
+const lactatePackages = PACKAGES.filter(
+  (p) =>
+    p.sport === 'Running' || p.sport === 'Cycling' || p.sport === 'Triathlon',
+).map((p) => ({
+  ...p,
+  tiers: p.tiers.filter((tier) =>
+    tier.tests.some((name) => name.includes('Lactate')),
+  ),
+}));
+const faqQs = new Set([
+  'What is the difference between a lactate test and a VO2 max test?',
+  'How long does a test take?',
+  'Does the blood sampling hurt?',
+  'How often should I retest?',
+]);
+const faqs = FAQS.filter((f) => faqQs.has(f.q));
+
+const title =
+  'Lactate Threshold Testing in Santa Monica | Coach Gareth · ECLYPSE';
+const description = `Lactate threshold testing in Santa Monica for $${test.price}. ${test.tagline} Call ${NAP.phone}.`;
+---
+
+<Base
+  title={title}
+  description={description}
+  path="lactate-threshold-testing"
+  image={test.image}
+  preload={test.image}
+  includeFaq={false}
+>
+  <Header />
+  <main id="main">
+    <PageHero
+      eyebrow="The Lab"
+      title="Lactate threshold testing in Santa Monica"
+      lede={test.tagline}
+      image={test.image}
+      imageAlt="Blood lactate threshold testing at the ECLYPSE lab in Santa Monica"
+    >
+      <div slot="after" class="mt-8 flex flex-wrap items-end gap-5">
+        <div>
+          <div class="eyebrow">Price</div>
+          <div class="tnum font-mono text-4xl font-bold">${test.price}</div>
+        </div>
+        <a
+          href="/book"
+          class="bg-signal px-7 py-4 text-sm font-bold uppercase tracking-widest text-white transition-colors hover:bg-signal-dim"
+          >Book this test</a
+        >
+      </div>
+    </PageHero>
+
+    <section class="border-b border-line">
+      <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
+        <div class="grid gap-14 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20">
+          <div>
+            <div
+              class="text-xs font-bold uppercase tracking-widest"
+              style={`color: var(--color-${test.zone})`}
+            >
+              {test.goal}
+            </div>
+            <h2 class="display mt-5 text-[clamp(2rem,4.5vw,3.25rem)]">
+              Race performance<br />&amp; training zones
+            </h2>
+            <p class="mt-6 text-lg leading-relaxed text-ink-muted">
+              {test.goalLine}. Lactate testing is the better choice if you are
+              training for a race — it is how you find the intensities you can
+              actually hold, rather than a heart-rate zone guessed from your age.
+            </p>
+            <p class="mt-5 leading-relaxed text-ink-muted">
+              Every test is run and read by Gareth Thomas, the Lactate Guru —
+              {COACHING.credential}. You do not get emailed a PDF and left to
+              interpret it.
+            </p>
+          </div>
+
+          <ul class="space-y-2.5 border border-line bg-surface p-7">
+            {
+              test.bullets.map((b) => (
+                <li class="flex gap-3 text-sm text-ink-muted">
+                  <span
+                    class="mt-1.5 h-1 w-1 shrink-0 rounded-full"
+                    style={`background: var(--color-${test.zone})`}
+                  />
+                  {b}
+                </li>
+              ))
+            }
+            <li
+              class="flex items-end justify-between gap-4 border-t border-line pt-6"
+            >
+              <div>
+                <div class="eyebrow">Includes consultation</div>
+                <div class="tnum font-mono text-3xl font-bold">
+                  ${test.price}
+                </div>
+              </div>
+              <a
+                href="/book"
+                class="border border-line-bright px-5 py-3 text-xs font-bold uppercase tracking-widest transition-colors hover:border-ink hover:bg-base"
+                >Book</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="protocol" class="border-b border-line bg-surface">
+      <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
+        <div class="grid gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
+          <div>
+            <div class="eyebrow">What actually happens</div>
+            <h2 class="display mt-5 text-[clamp(2rem,4.5vw,3.25rem)]">
+              {PROTOCOL.stages} stages.<br />
+              {PROTOCOL.durationMin} minutes.
+            </h2>
+            <p class="mt-6 leading-relaxed text-ink-muted">
+              A test session takes {PROTOCOL.durationMin} minutes of actual
+              testing, progressing through {PROTOCOL.stages} stages. Allow around
+              an hour in total, which includes the setup and the consultation
+              where Gareth reads your results back to you.
+            </p>
+            <p class="mt-4 leading-relaxed text-ink-muted">
+              Retest every {PROTOCOL.retestWeeks} weeks — long enough for a
+              training block to produce real physiological change, short enough
+              that your zones do not drift out of date.
+            </p>
+            <img
+              src="/images/runnerinlabdoingbloodlactatetest.jpg"
+              alt="Runner on a treadmill during a blood lactate test at the ECLYPSE lab in Santa Monica"
+              class="mt-10 hidden w-full border border-line object-cover grayscale lg:block"
+              loading="lazy"
+            />
+          </div>
+
+          <ol class="space-y-px">
+            {
+              PROTOCOL.steps.map((s) => (
+                <li class="grid gap-5 border-t border-line py-8 sm:grid-cols-[auto_1fr] sm:gap-8">
+                  <div class="tnum font-mono text-3xl font-bold text-signal">
+                    {s.n}
+                  </div>
+                  <div>
+                    <h3 class="text-lg font-bold">{s.title}</h3>
+                    <p class="mt-2.5 leading-relaxed text-ink-muted">{s.body}</p>
+                  </div>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section id="results" class="border-b border-line">
+      <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
+        <div class="max-w-3xl">
+          <div class="eyebrow">What you leave with</div>
+          <h2 class="display mt-5 text-[clamp(2rem,4.5vw,3.25rem)]">
+            Two thresholds that<br />set the rest
+          </h2>
+          <p class="mt-6 text-lg leading-relaxed text-ink-muted">
+            A heart-rate zone calculated from your age is a guess about a
+            stranger. These are measured, from your own blood, on the equipment
+            you actually train on.
+          </p>
+        </div>
+
+        <div
+          class="mt-14 grid gap-10 lg:grid-cols-[1.25fr_1fr] lg:items-start lg:gap-14"
+        >
+          <LactateCurve />
+
+          <div class="space-y-px">
+            {
+              lactateThresholds.map((t) => (
+                <div class="border-t border-line py-6">
+                  <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+                    <span
+                      class="font-mono text-sm font-bold tracking-wider"
+                      style={`color: var(--color-${t.zone})`}
+                    >
+                      {t.abbr}
+                    </span>
+                    <span class="font-bold">{t.name}</span>
+                  </div>
+                  <p class="mt-2 text-sm leading-relaxed text-ink-muted">
+                    {t.body}
+                  </p>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+
+        <div class="mt-12 border border-line bg-surface p-7 lg:p-9">
+          <div
+            class="flex flex-col gap-4 sm:flex-row sm:items-baseline sm:justify-between"
+          >
+            <div class="eyebrow">Your training zones</div>
+            <p class="max-w-md text-xs leading-relaxed text-ink-dim">
+              Delivered as heart-rate and pace or power ranges you can load
+              straight into your watch or head unit.
+            </p>
+          </div>
+
+          <div class="mt-6 flex h-3.5 w-full overflow-hidden">
+            {
+              ZONES.map((z) => (
+                <div
+                  style={`flex: ${z.pct} 1 0%; background: var(--color-${z.zone})`}
+                />
+              ))
+            }
+          </div>
+
+          <div class="mt-3 hidden sm:flex">
+            {
+              ZONES.map((z) => (
+                <div class="min-w-0 pr-2" style={`flex: ${z.pct} 1 0%`}>
+                  <div
+                    class="font-mono text-xs font-bold tracking-wider"
+                    style={`color: var(--color-${z.zone})`}
+                  >
+                    Z{z.n}
+                  </div>
+                  <div class="mt-0.5 truncate text-xs text-ink-muted">
+                    {z.name}
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+          <ul class="mt-5 grid grid-cols-2 gap-x-4 gap-y-3 sm:hidden">
+            {
+              ZONES.map((z) => (
+                <li class="flex items-center gap-2.5 text-sm">
+                  <span
+                    class="h-2.5 w-2.5 shrink-0"
+                    style={`background: var(--color-${z.zone})`}
+                  />
+                  <span
+                    class="tnum font-mono text-xs font-bold"
+                    style={`color: var(--color-${z.zone})`}
+                  >
+                    Z{z.n}
+                  </span>
+                  <span class="text-ink-muted">{z.name}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="packages" class="border-b border-line bg-surface">
+      <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
+        <div class="max-w-3xl">
+          <div class="eyebrow">Sport-specific packages</div>
+          <h2 class="display mt-5 text-[clamp(2rem,4.5vw,3.25rem)]">
+            Test the way you race
+          </h2>
+          <p class="mt-6 text-lg leading-relaxed text-ink-muted">
+            Running, cycling and triathlon packages that include a blood lactate
+            test. Most people want more than one number — these bundle the tests
+            that actually go together, at less than booking them separately.
+          </p>
+        </div>
+
+        <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:items-start">
+          {
+            lactatePackages.map((p) => (
+              <article class="border border-line bg-base">
+                <div class="border-b border-line px-6 py-4">
+                  <h3 class="display text-lg">{p.sport}</h3>
+                </div>
+                <ul>
+                  {p.tiers.map((t) => (
+                    <li class="border-b border-line px-6 py-4 last:border-b-0">
+                      <div class="flex items-baseline justify-between gap-3">
+                        <span class="text-sm font-bold">{t.name}</span>
+                        <span class="tnum font-mono text-lg font-bold">
+                          ${t.price}
+                        </span>
+                      </div>
+                      <div class="mt-1.5 space-y-0.5">
+                        {t.tests.map((name) => (
+                          <div class="text-xs leading-relaxed text-ink-dim">
+                            {name}
+                          </div>
+                        ))}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            ))
+          }
+        </div>
+
+        <p class="mt-6 text-sm text-ink-dim">
+          Every price includes the consultation and a full explanation of your
+          results. Call <a
+            href={NAP.phoneHref}
+            class="tnum font-mono text-ink-muted underline underline-offset-4 hover:text-ink"
+            >{NAP.phone}</a
+          > if you are not sure which package to book.
+        </p>
+      </div>
+    </section>
+
+    <section id="faq" class="border-b border-line">
+      <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
+        <div class="grid gap-12 lg:grid-cols-[0.7fr_1.3fr] lg:gap-20">
+          <div>
+            <div class="eyebrow">Questions</div>
+            <h2 class="display mt-5 text-[clamp(2rem,4vw,2.75rem)]">
+              Before you<br />book
+            </h2>
+            <p class="mt-6 leading-relaxed text-ink-muted">
+              Still not sure? Call <a
+                href={NAP.phoneHref}
+                class="tnum font-mono underline underline-offset-4 hover:text-ink"
+                >{NAP.phone}</a
+              >. There's no sales pitch — if a test isn't worth it for you,
+              he'll say so.
+            </p>
+          </div>
+
+          <div>
+            {
+              faqs.map((f) => (
+                <details class="group border-b border-line">
+                  <summary class="flex cursor-pointer list-none items-start justify-between gap-6 py-6 text-lg font-bold [&::-webkit-details-marker]:hidden">
+                    {f.q}
+                    <span
+                      class="mt-1.5 shrink-0 text-signal transition-transform duration-200 group-open:rotate-45"
+                      aria-hidden="true"
+                    >
+                      <svg width="16" height="16" viewBox="0 0 16 16">
+                        <path
+                          d="M8 1v14M1 8h14"
+                          stroke="currentColor"
+                          stroke-width="1.75"
+                        />
+                      </svg>
+                    </span>
+                  </summary>
+                  <p class="max-w-2xl pb-7 leading-relaxed text-ink-muted">
+                    {f.a}
+                  </p>
+                </details>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="border-b border-line bg-surface">
+      <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
+        <div class="eyebrow">Also in the lab</div>
+        <h2 class="display mt-5 text-[clamp(2rem,4.5vw,3.25rem)]">
+          The other tests
+        </h2>
+        <div class="mt-12 grid gap-6 md:grid-cols-2">
+          {
+            others.map((t) => (
+              <a
+                href={`/${t.slug}`}
+                class="group flex flex-col border border-line bg-base transition-colors hover:border-line-bright"
+              >
+                <div class="relative aspect-[16/10] overflow-hidden">
+                  <img
+                    src={t.image}
+                    alt={`${t.name} at the ECLYPSE lab in Santa Monica`}
+                    class="h-full w-full object-cover opacity-70 grayscale transition-all duration-500 group-hover:opacity-90"
+                    loading="lazy"
+                  />
+                  <div
+                    class="absolute left-0 top-0 h-full w-1"
+                    style={`background: var(--color-${t.zone})`}
+                  />
+                </div>
+                <div class="flex flex-1 flex-col p-7">
+                  <div
+                    class="text-xs font-bold uppercase tracking-widest"
+                    style={`color: var(--color-${t.zone})`}
+                  >
+                    {t.goal}
+                  </div>
+                  <h3 class="display mt-3 text-2xl">{t.name}</h3>
+                  <p class="mt-4 flex-1 text-sm leading-relaxed text-ink-muted">
+                    {t.tagline}
+                  </p>
+                  <div class="tnum mt-6 font-mono text-2xl font-bold">
+                    ${t.price}
+                  </div>
+                </div>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <CtaBand eyebrow="Book a lactate test" />
+  </main>
+  <Footer />
+</Base>

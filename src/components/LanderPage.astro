@@ -1,0 +1,452 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from './Header.astro';
+import Footer from './Footer.astro';
+import PageHero from './PageHero.astro';
+import CtaBand from './CtaBand.astro';
+import {
+  LANDERS,
+  TESTS,
+  NAP,
+  HOURS,
+  PROTOCOL,
+  PACKAGES,
+  FAQS,
+} from '../data/site';
+
+type Lander = (typeof LANDERS)[number];
+type LanderSlug = Lander['slug'];
+
+interface Props {
+  lander: Lander;
+}
+
+const { lander } = Astro.props;
+
+const test = TESTS.find((t) => t.slug === lander.testSlug);
+if (!test) {
+  throw new Error(`LANDERS.testSlug not in TESTS: ${lander.testSlug}`);
+}
+
+const lactate = TESTS[0];
+const vo2 = TESTS[1];
+const rmr = TESTS[2];
+
+const isHub =
+  lander.slug === 'metabolic-testing' ||
+  lander.slug === 'metabolic-testing-near-me';
+
+const fmt = (t: string) => {
+  const [h, m] = t.split(':').map(Number);
+  const ampm = h >= 12 ? 'pm' : 'am';
+  const hh = h % 12 === 0 ? 12 : h % 12;
+  return m === 0 ? `${hh}${ampm}` : `${hh}:${String(m).padStart(2, '0')}${ampm}`;
+};
+
+const COPY: Record<
+  LanderSlug,
+  {
+    h1: string;
+    eyebrow: string;
+    lede: string;
+    intro: string;
+    aboutHeading: string;
+    happensHeading: string;
+    happens: string;
+    faqQs: readonly [string, string];
+    ctaEyebrow?: string;
+    ctaTitle?: string;
+    ctaLede?: string;
+  }
+> = {
+  'vo2-max-testing-near-me': {
+    h1: 'VO2 max testing near me in Santa Monica',
+    eyebrow: 'Santa Monica lab',
+    lede: `Yes — you can book it here. $${vo2.price}, run in person by ${NAP.personName}.`,
+    intro: `You can book VO2 max testing at ${NAP.labName}, ${NAP.street}, ${NAP.city}, ${NAP.region} ${NAP.postal}. ${NAP.personName} runs every test himself. The VO2 max test is $${vo2.price}. Call ${NAP.phone}.`,
+    aboutHeading: 'What VO2 max testing measures',
+    happensHeading: 'What happens',
+    happens: `${PROTOCOL.steps[0].body} The session steps up through ${PROTOCOL.stages} stages of increasing intensity — about ${PROTOCOL.durationMin} minutes of actual testing. ${PROTOCOL.steps[3].body}`,
+    faqQs: [
+      'What is the difference between a lactate test and a VO2 max test?',
+      'How long does a test take?',
+    ],
+  },
+  'vo2-max-test-near-me': {
+    h1: 'A VO2 max test near me in Santa Monica',
+    eyebrow: 'One hour',
+    lede: `One appointment. About an hour. $${vo2.price} at ${NAP.labName}.`,
+    intro: `A VO2 max test near me is a single lab visit, not a block of sessions. Book the hour at ${NAP.street}, ${NAP.city}, ${NAP.region} ${NAP.postal}. ${NAP.personName} runs it at ${NAP.labName} and sits with you afterwards. The price is $${vo2.price}. Call ${NAP.phone}.`,
+    aboutHeading: 'What you get in the hour',
+    happensHeading: 'The hour in the lab',
+    happens: `A test session takes ${PROTOCOL.durationMin} minutes of actual testing, progressing through ${PROTOCOL.stages} stages. Allow around an hour in total, which includes the setup and the consultation where Gareth reads your results back to you.`,
+    faqQs: ['How long does a test take?', 'Where is the lab?'],
+    ctaEyebrow: 'Book the hour',
+    ctaTitle: 'One hour in Santa Monica',
+    ctaLede: `A VO2 max test is $${vo2.price}. You leave with the number, your Fat-Max intensity, and a conversation with Gareth — not a PDF.`,
+  },
+  'rmr-test-near-me': {
+    h1: 'RMR test near me in Santa Monica',
+    eyebrow: 'Measured, not estimated',
+    lede: `Resting metabolic rate at the Santa Monica lab. $${rmr.price}, run by ${NAP.personName}.`,
+    intro: `You can book an RMR test at ${NAP.labName}, ${NAP.street}, ${NAP.city}, ${NAP.region} ${NAP.postal}. ${NAP.personName} measures what your body burns at rest — not a calculator estimate. The test is $${rmr.price}. Call ${NAP.phone}.`,
+    aboutHeading: 'What an RMR test measures',
+    happensHeading: 'What happens',
+    happens:
+      'This is a resting measurement, not a workout. The lab records what your body burns at rest rather than estimating it from a calculator that has never met you. Gareth reads the result with you in person. You leave with your real calorie needs, and a way to set up a calorie and meal plan.',
+    faqQs: [
+      'Do I need to be a serious athlete to get tested?',
+      'How much does testing cost in Santa Monica?',
+    ],
+    ctaEyebrow: 'Book an RMR test',
+    ctaTitle: 'Measure it, don’t estimate it',
+    ctaLede: `An RMR test in Santa Monica is $${rmr.price}. Gareth reads the number with you, and you leave knowing what you actually burn.`,
+  },
+  'metabolic-testing-near-me': {
+    h1: 'Metabolic testing near me in Santa Monica',
+    eyebrow: 'The Lab',
+    lede: `RMR $${rmr.price}, VO2 max $${vo2.price}, blood lactate $${lactate.price}. One lab, on Ashland Avenue.`,
+    intro: `Metabolic testing near me is a visit to this lab, not a kit in the post. ${NAP.labName} is at ${NAP.street}, ${NAP.city}, ${NAP.region} ${NAP.postal}. ${NAP.personName} runs RMR ($${rmr.price}), VO2 max ($${vo2.price}) and a blood lactate test ($${lactate.price}). Call ${NAP.phone}.`,
+    aboutHeading: 'The three tests',
+    happensHeading: 'What happens',
+    happens: `You pick the test that matches the goal. A session takes about an hour, including the consultation. ${PROTOCOL.steps[3].body}`,
+    faqQs: [
+      'What is the difference between a lactate test and a VO2 max test?',
+      'How much does testing cost in Santa Monica?',
+    ],
+    ctaEyebrow: 'Book a test',
+    ctaTitle: 'Book a test in Santa Monica',
+    ctaLede: `RMR $${rmr.price}, VO2 max $${vo2.price}, lactate $${lactate.price}. Every test run and read in person by ${NAP.personName}.`,
+  },
+  'lactate-threshold-test-near-me': {
+    h1: 'Lactate threshold test near me in Santa Monica',
+    eyebrow: 'Blood lactate',
+    lede: `Yes — you can book it here. $${lactate.price}, run and read by ${NAP.personName}.`,
+    intro: `You can book a lactate threshold test at ${NAP.labName}, ${NAP.street}, ${NAP.city}, ${NAP.region} ${NAP.postal}. ${NAP.personName} runs the blood lactate test himself. The price is $${lactate.price}. Call ${NAP.phone}.`,
+    aboutHeading: 'What a lactate threshold test measures',
+    happensHeading: 'What happens',
+    happens: `${PROTOCOL.steps[1].body} A small blood sample is taken at the end of each stage with a fresh single-use needle. ${PROTOCOL.steps[3].body}`,
+    faqQs: [
+      'What is the difference between a lactate test and a VO2 max test?',
+      'Does the blood sampling hurt?',
+    ],
+  },
+  'metabolic-testing': {
+    h1: 'Metabolic testing in Santa Monica',
+    eyebrow: NAP.labName,
+    lede: `VO2 max, RMR and blood lactate. Prices from $${rmr.price}. Every test run in person.`,
+    intro: `Metabolic testing at ${NAP.labName} is VO2 max, RMR and blood lactate, measured in Santa Monica. The lab is at ${NAP.street}, ${NAP.city}, ${NAP.region} ${NAP.postal}. ${NAP.personName} runs every session. Prices start at $${rmr.price}. Call ${NAP.phone}.`,
+    aboutHeading: 'What metabolic testing includes',
+    happensHeading: 'What happens',
+    happens: `${PROTOCOL.steps[0].body} The session is staged, then read back to you in the room. You do not get emailed a PDF and left to interpret it.`,
+    faqQs: [
+      'How much does testing cost in Santa Monica?',
+      'Where is the lab?',
+    ],
+    ctaEyebrow: 'Book a test',
+    ctaTitle: 'Metabolic testing in Santa Monica',
+    ctaLede: `VO2 max, RMR and blood lactate at ${NAP.labName}. Prices from $${rmr.price}. Call ${NAP.phone}.`,
+  },
+};
+
+const copy = COPY[lander.slug];
+
+const faqs = copy.faqQs.map((q) => {
+  const f = FAQS.find((item) => item.q === q);
+  if (!f) throw new Error(`FAQ not in FAQS: ${q}`);
+  return f;
+});
+---
+
+<Base
+  title={lander.title}
+  description={lander.description}
+  path={lander.slug}
+  image={test.image}
+  preload={test.image}
+  includeFaq={false}
+>
+  <Header />
+
+  <main id="main">
+    <PageHero
+      eyebrow={copy.eyebrow}
+      title={copy.h1}
+      lede={copy.lede}
+      image={test.image}
+      imageAlt={`${test.name} at ${NAP.labName} in ${NAP.city}`}
+    >
+      <div slot="after" class="mt-8">
+        {
+          isHub ? (
+            <p class="tnum font-mono text-sm tracking-wider text-ink">
+              RMR ${rmr.price}
+              <span class="mx-2 text-ink-dim">·</span>
+              VO2 max ${vo2.price}
+              <span class="mx-2 text-ink-dim">·</span>
+              Lactate ${lactate.price}
+            </p>
+          ) : (
+            <div>
+              <div class="eyebrow">From</div>
+              <div class="tnum font-mono text-3xl font-bold">${test.price}</div>
+            </div>
+          )
+        }
+        <div class="mt-6 flex flex-wrap gap-3">
+          <a
+            href="/book"
+            class="bg-signal px-7 py-4 text-sm font-bold uppercase tracking-widest text-white transition-colors hover:bg-signal-dim"
+            >Book</a
+          >
+          <a
+            href={NAP.phoneHref}
+            class="tnum border border-line-bright px-7 py-4 font-mono text-sm font-bold tracking-wider transition-colors hover:border-ink hover:bg-surface"
+            >Call {NAP.phone}</a
+          >
+        </div>
+      </div>
+    </PageHero>
+
+    <section class="border-b border-line">
+      <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8">
+        <p class="max-w-2xl text-lg leading-relaxed text-ink-muted">
+          {copy.intro}
+        </p>
+        <p class="mt-6 text-sm text-ink-dim">
+          <a
+            href={NAP.mapsUrl}
+            class="underline underline-offset-4 hover:text-ink-muted"
+            >{NAP.street}, {NAP.city}, {NAP.region} {NAP.postal}</a
+          >
+          <span class="mx-2">·</span>
+          <a
+            href={NAP.phoneHref}
+            class="tnum font-mono underline underline-offset-4 hover:text-ink-muted"
+            >{NAP.phone}</a
+          >
+        </p>
+      </div>
+    </section>
+
+    <section class="border-b border-line bg-surface">
+      <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8">
+        <div class="eyebrow">The test</div>
+        <h2 class="display mt-5 text-[clamp(2rem,4.5vw,3.25rem)]">
+          {copy.aboutHeading}
+        </h2>
+
+        {
+          isHub ? (
+            <>
+              <div class="mt-12 grid gap-6 lg:grid-cols-3">
+                {TESTS.map((t) => (
+                  <article class="flex flex-col border border-line bg-base p-7">
+                    <div
+                      class="text-xs font-bold uppercase tracking-widest"
+                      style={`color: var(--color-${t.zone})`}
+                    >
+                      {t.goal}
+                    </div>
+                    <h3 class="display mt-3 text-2xl">
+                      <a href={`/${t.slug}`} class="hover:text-signal">
+                        {t.name}
+                      </a>
+                    </h3>
+                    <p class="mt-4 text-sm leading-relaxed text-ink-muted">
+                      {t.tagline}
+                    </p>
+                    <div class="mt-6 tnum font-mono text-3xl font-bold">
+                      ${t.price}
+                    </div>
+                  </article>
+                ))}
+              </div>
+
+              <div class="mt-16">
+                <div class="eyebrow">Or a sport-specific package</div>
+                <h3 class="display mt-4 text-[clamp(1.5rem,2.6vw,2rem)]">
+                  Test the way you race
+                </h3>
+                <div class="mt-9 grid gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:items-start">
+                  {PACKAGES.map((p) => (
+                    <article class="border border-line bg-base">
+                      <div class="border-b border-line px-6 py-4">
+                        <h4 class="display text-lg">{p.sport}</h4>
+                      </div>
+                      <ul>
+                        {p.tiers.map((tier) => (
+                          <li class="border-b border-line px-6 py-4 last:border-b-0">
+                            <div class="flex items-baseline justify-between gap-3">
+                              <span class="text-sm font-bold">{tier.name}</span>
+                              <span class="tnum font-mono text-lg font-bold">
+                                ${tier.price}
+                              </span>
+                            </div>
+                            <div class="mt-1.5 space-y-0.5">
+                              {tier.tests.map((name) => (
+                                <div class="text-xs leading-relaxed text-ink-dim">
+                                  {name}
+                                </div>
+                              ))}
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    </article>
+                  ))}
+                </div>
+              </div>
+            </>
+          ) : (
+            <div class="mt-10 max-w-2xl">
+              <p class="text-lg leading-relaxed text-ink-muted">{test.tagline}</p>
+              <ul class="mt-8 space-y-2.5 border-t border-line pt-6">
+                {test.bullets.map((b) => (
+                  <li class="flex gap-3 text-sm text-ink-muted">
+                    <span
+                      class="mt-1.5 h-1 w-1 shrink-0 rounded-full"
+                      style={`background: var(--color-${test.zone})`}
+                    />
+                    {b}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      </div>
+    </section>
+
+    <section class="border-b border-line">
+      <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8">
+        <div class="grid gap-14 lg:grid-cols-2 lg:gap-20">
+          <div>
+            <div class="eyebrow">Visit</div>
+            <h2 class="display mt-5 text-[clamp(2rem,4.5vw,3.25rem)]">
+              The lab in Santa Monica
+            </h2>
+            <address class="mt-8 space-y-2 text-base not-italic text-ink-muted">
+              <div>
+                <a href={NAP.mapsUrl} class="transition-colors hover:text-ink">
+                  {NAP.street}<br />{NAP.city}, {NAP.region} {NAP.postal}
+                </a>
+              </div>
+              <div>
+                <a
+                  href={NAP.phoneHref}
+                  class="tnum font-mono transition-colors hover:text-ink"
+                  >{NAP.phone}</a
+                >
+              </div>
+            </address>
+            <p class="mt-6 text-sm text-ink-dim">
+              <a
+                href={NAP.mapsUrl}
+                class="underline underline-offset-4 hover:text-ink-muted"
+                >Open in Google Maps</a
+              >
+            </p>
+          </div>
+
+          <div>
+            <div class="eyebrow">Lab hours</div>
+            <ul class="tnum mt-5 space-y-2 font-mono text-xs text-ink-muted">
+              {
+                HOURS.map((h) => (
+                  <li class="flex justify-between gap-4 border-b border-line py-2.5">
+                    <span>{h.day.slice(0, 3)}</span>
+                    <span class={h.open ? '' : 'text-ink-dim'}>
+                      {h.open && h.close
+                        ? `${fmt(h.open)} – ${fmt(h.close)}`
+                        : 'Closed'}
+                    </span>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="border-b border-line bg-surface">
+      <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8">
+        <div class="eyebrow">The session</div>
+        <h2 class="display mt-5 text-[clamp(2rem,4.5vw,3.25rem)]">
+          {copy.happensHeading}
+        </h2>
+        <p class="mt-6 max-w-2xl text-lg leading-relaxed text-ink-muted">
+          {copy.happens}
+        </p>
+
+        <div class="mt-10 flex flex-wrap gap-3">
+          {
+            isHub && (
+              <a
+                href="/testing"
+                class="border border-line-bright px-7 py-4 text-sm font-bold uppercase tracking-widest transition-colors hover:border-ink hover:bg-base"
+              >
+                All testing
+              </a>
+            )
+          }
+          <a
+            href={`/${test.slug}`}
+            class="border border-line-bright px-7 py-4 text-sm font-bold uppercase tracking-widest transition-colors hover:border-ink hover:bg-base"
+          >
+            Full {test.name} details
+          </a>
+          <a
+            href="/book"
+            class="bg-signal px-7 py-4 text-sm font-bold uppercase tracking-widest text-white transition-colors hover:bg-signal-dim"
+            >Book</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <section class="border-b border-line">
+      <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8">
+        <div class="eyebrow">Questions</div>
+        <h2 class="display mt-5 text-[clamp(2rem,4vw,2.75rem)]">
+          Before you book
+        </h2>
+        <div class="mt-10 max-w-3xl">
+          {
+            faqs.map((f) => (
+              <details class="group border-b border-line">
+                <summary class="flex cursor-pointer list-none items-start justify-between gap-6 py-6 text-lg font-bold [&::-webkit-details-marker]:hidden">
+                  {f.q}
+                  <span
+                    class="mt-1.5 shrink-0 text-signal transition-transform duration-200 group-open:rotate-45"
+                    aria-hidden="true"
+                  >
+                    <svg width="16" height="16" viewBox="0 0 16 16">
+                      <path
+                        d="M8 1v14M1 8h14"
+                        stroke="currentColor"
+                        stroke-width="1.75"
+                      />
+                    </svg>
+                  </span>
+                </summary>
+                <p class="max-w-2xl pb-7 leading-relaxed text-ink-muted">
+                  {f.a}
+                </p>
+              </details>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <CtaBand
+      eyebrow={copy.ctaEyebrow}
+      title={copy.ctaTitle}
+      lede={copy.ctaLede}
+    />
+  </main>
+
+  <Footer />
+</Base>

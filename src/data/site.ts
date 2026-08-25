@@ -65,7 +65,7 @@ export const HOURS = [
  * contradict the other, and inventing a reconciliation would be worse than
  * leaving them off the first draft. Confirm all of it with Gareth.
  */
-export const PRICE_CONFLICT_UNRESOLVED = true;
+export const PRICE_CONFLICT_UNRESOLVED = false;
 
 export const TESTS = [
   {
@@ -358,21 +358,21 @@ export const TESTIMONIALS = [
   },
   {
     quote:
-      'I had such a great experience during my lactate & VO2 assessments. Gareth is extremely knowledgeable and took the time to break everything down in a way that really helped me understand my current fitness level.',
+      'I had such a great experience during my lactate & VO2 assessments. Gareth is extremely knowledgeable and took the time to break everything down in a way that really helped me understand my current fitness level and running performance. I walked away with clear guidance and practical feedback on what I need to do to reach my marathon goals AND since then I recently hit a new PR and qualified for Boston!',
     name: 'Jessica Choi',
     detail: 'Marathon runner',
     image: null,
   },
   {
     quote:
-      'When I started working with Coach Gareth, I immediately knew his attention to detail and scientific approach was a winning choice.',
+      'When I started working with Coach Gareth, I immediately knew his attention to detail & scientific approach was a winning choice. Now 16 years later with a family and limited training time, the precision of Gareth’s training plans allow me to not waste anytime and still chase my dreams.',
     name: 'Jamey Yanik',
     detail: 'Top 5, Leadville 100',
     image: '/images/jameyyanikleadville.png',
   },
   {
     quote:
-      'Coach Gareth has been training me for many years. He develops plans using periodisation and lactate data to maximise performance.',
+      'Coach Gareth has been training me for many years. He develops plans using periodization and lactate data to maximize performance. With him I’ve gone sub 2.50, won my age group at the Tokyo Marathon and qualified for the Kona World IRONMAN championships.',
     name: 'Brian Temple',
     detail: 'Kona Ironman',
     image: '/images/templekona.jpg',
@@ -458,9 +458,87 @@ export const COACHING_FAQS = [
 ] as const;
 
 export const NAV = [
-  { href: '#tests', label: 'Testing' },
-  { href: '#protocol', label: 'What happens' },
-  { href: '#results', label: 'Your results' },
-  { href: '#coaching', label: 'Coaching' },
-  { href: '#faq', label: 'FAQ' },
+  { href: '/testing', label: 'Testing' },
+  { href: '/coaching', label: 'Coaching' },
+  { href: '/blog', label: 'Blog' },
+  { href: '/faq', label: 'FAQ' },
+] as const;
+
+/** Six “near me” / money-term landers from the deck (Phase 3) and findings §5. */
+export const LANDERS = [
+  {
+    slug: 'vo2-max-testing-near-me',
+    keyword: 'VO2 max testing near me',
+    testSlug: 'vo2-max-testing',
+    title: 'VO2 Max Testing Near Me | Santa Monica Lab',
+    description:
+      'VO2 max testing near me in Santa Monica. $275, run in person by Gareth Thomas at ECLYPSE Fitness Lab. Call (858) 361-4733.',
+  },
+  {
+    slug: 'vo2-max-test-near-me',
+    keyword: 'VO2 max test near me',
+    testSlug: 'vo2-max-testing',
+    title: 'VO2 Max Test Near Me | Santa Monica',
+    description:
+      'A VO2 max test near me in Santa Monica for $275. One hour at ECLYPSE Fitness Lab with Gareth Thomas. Call (858) 361-4733.',
+  },
+  {
+    slug: 'rmr-test-near-me',
+    keyword: 'RMR test near me',
+    testSlug: 'rmr-testing',
+    title: 'RMR Test Near Me | Santa Monica',
+    description:
+      'RMR test near me in Santa Monica. $175 resting metabolic rate, measured not estimated. ECLYPSE Fitness Lab. Call (858) 361-4733.',
+  },
+  {
+    slug: 'metabolic-testing-near-me',
+    keyword: 'metabolic testing near me',
+    testSlug: 'rmr-testing',
+    title: 'Metabolic Testing Near Me | Santa Monica',
+    description:
+      'Metabolic testing near me in Santa Monica: RMR $175, VO2 max $275, lactate $350. ECLYPSE Fitness Lab. Call (858) 361-4733.',
+  },
+  {
+    slug: 'lactate-threshold-test-near-me',
+    keyword: 'lactate threshold test near me',
+    testSlug: 'lactate-threshold-testing',
+    title: 'Lactate Threshold Test Near Me | Santa Monica',
+    description:
+      'Lactate threshold test near me in Santa Monica. $350 blood lactate test with Gareth Thomas. Call (858) 361-4733.',
+  },
+  {
+    slug: 'metabolic-testing',
+    keyword: 'metabolic testing',
+    testSlug: 'vo2-max-testing',
+    title: 'Metabolic Testing in Santa Monica | ECLYPSE Lab',
+    description:
+      'Metabolic testing in Santa Monica: VO2 max, RMR and blood lactate. Prices from $175. ECLYPSE Fitness Lab. Call (858) 361-4733.',
+  },
+] as const;
+
+export const POSTS = [
+  {
+    slug: 'what-is-vo2-max',
+    title: 'What is VO2 max?',
+    description:
+      'VO2 max is the maximum oxygen your body can use under load — the best-studied marker of cardiovascular fitness. How we measure it in Santa Monica.',
+  },
+  {
+    slug: 'what-is-zone-2-training',
+    title: 'What is Zone 2 training?',
+    description:
+      'Zone 2 is genuinely easy aerobic work, bounded by your aerobic threshold — not a formula from your age. How a lactate test sets it.',
+  },
+  {
+    slug: 'what-is-lactate-threshold-testing',
+    title: 'What is lactate threshold testing?',
+    description:
+      'A blood lactate test finds the intensities where your training zones actually begin and end. How the protocol works in Santa Monica.',
+  },
+  {
+    slug: 'how-to-use-a-heart-rate-monitor',
+    title: 'How to use a heart-rate monitor',
+    description:
+      'A heart-rate monitor only works if the zones in it are yours. How we set those zones from a lactate test, not an age formula.',
+  },
 ] as const;

@@ -58,27 +58,47 @@
     },
     {
       "source": "/the-lab",
-      "destination": "/#tests",
+      "destination": "/testing",
       "permanent": true
     },
     {
       "source": "/lactate-testing",
-      "destination": "/#tests",
+      "destination": "/lactate-threshold-testing",
+      "permanent": true
+    },
+    {
+      "source": "/lactate",
+      "destination": "/lactate-threshold-testing",
       "permanent": true
     },
     {
       "source": "/vo2-max",
-      "destination": "/#tests",
+      "destination": "/vo2-max-testing",
+      "permanent": true
+    },
+    {
+      "source": "/vo2",
+      "destination": "/vo2-max-testing",
       "permanent": true
     },
     {
       "source": "/new-page",
-      "destination": "/#tests",
+      "destination": "/rmr-testing",
+      "permanent": true
+    },
+    {
+      "source": "/rmr",
+      "destination": "/rmr-testing",
+      "permanent": true
+    },
+    {
+      "source": "/resting-metabolic-rate",
+      "destination": "/rmr-testing",
       "permanent": true
     },
     {
       "source": "/pricing",
-      "destination": "/#tests",
+      "destination": "/testing",
       "permanent": true
     },
     {
@@ -88,7 +108,7 @@
     },
     {
       "source": "/contact",
-      "destination": "/#book",
+      "destination": "/book",
       "permanent": true
     },
     {
@@ -97,58 +117,43 @@
       "permanent": true
     },
     {
-      "source": "/coaching",
-      "destination": "/#coaching",
-      "permanent": true
-    },
-    {
       "source": "/running",
-      "destination": "/#coaching",
+      "destination": "/coaching",
       "permanent": true
     },
     {
       "source": "/cycling",
-      "destination": "/#coaching",
+      "destination": "/coaching",
       "permanent": true
     },
     {
       "source": "/triathlon",
-      "destination": "/#coaching",
+      "destination": "/coaching",
       "permanent": true
     },
     {
       "source": "/ironman",
-      "destination": "/#coaching",
+      "destination": "/coaching",
       "permanent": true
     },
     {
       "source": "/marathon",
-      "destination": "/#coaching",
+      "destination": "/coaching",
       "permanent": true
     },
     {
       "source": "/half-marathon",
-      "destination": "/#coaching",
+      "destination": "/coaching",
       "permanent": true
     },
     {
       "source": "/swimming",
-      "destination": "/#coaching",
+      "destination": "/coaching",
       "permanent": true
     },
     {
       "source": "/mountain-biking",
-      "destination": "/#coaching",
-      "permanent": true
-    },
-    {
-      "source": "/blog",
-      "destination": "/",
-      "permanent": true
-    },
-    {
-      "source": "/blog/:slug",
-      "destination": "/",
+      "destination": "/coaching",
       "permanent": true
     },
     {

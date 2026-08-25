@@ -23,6 +23,9 @@ interface Props {
    * global.css — nothing there applies unless this is 'light'.
    */
   theme?: 'dark' | 'light';
+  /** When false, skip the page-level FAQPage node (inner pages). */
+  includeFaq?: boolean;
+  robots?: string;
 }
 
 const {
@@ -32,6 +35,8 @@ const {
   image = '/images/imbackground.jpg',
   preload,
   theme = 'dark',
+  includeFaq = true,
+  robots = 'index, follow, max-image-preview:large',
 } = Astro.props;
 
 const site = 'https://www.coachgareth.com';
@@ -185,7 +190,7 @@ const faqSchema = {
       name="theme-color"
       content={theme === 'light' ? '#ffffff' : '#0b0c0e'}
     />
-    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="robots" content={robots} />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Coach Gareth · ECLYPSE Lab" />
@@ -210,7 +215,9 @@ const faqSchema = {
       type="application/ld+json"
       set:html={JSON.stringify(businessSchema)}
     />
-    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+    {includeFaq && (
+      <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+    )}
   </head>
   <body>
     <a
