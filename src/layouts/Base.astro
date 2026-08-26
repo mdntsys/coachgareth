@@ -6,6 +6,7 @@ import {
   TESTS,
   PACKAGES,
   COACHING,
+  STORE,
   FAQS,
   COACHING_FAQS,
 } from '../data/site';
@@ -166,6 +167,23 @@ const businessSchema = {
           provider: { '@id': `${site}/#business` },
         },
       })),
+      ...STORE.groups.flatMap((g) =>
+        g.items.map((item) => ({
+          '@type': 'Offer',
+          priceCurrency: 'USD',
+          price: item.price,
+          url: item.href.startsWith('http')
+            ? item.href
+            : `${site}/coaching`,
+          itemOffered: {
+            '@type': 'Service',
+            name: item.name,
+            description: item.detail,
+            serviceType: g.name,
+            provider: { '@id': `${site}/#business` },
+          },
+        }))
+      ),
     ],
   },
 };

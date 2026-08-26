@@ -169,7 +169,7 @@
     },
     {
       "source": "/store",
-      "destination": "/",
+      "destination": "/coaching",
       "permanent": true
     },
     {

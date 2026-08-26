@@ -272,6 +272,139 @@ export const COACHING = {
 } as const;
 
 /**
+ * STORE OPTIONS — harvested from coachgareth.com/store (Squarespace, 2026)
+ * plus the sport-page "other options" lines on /cycling and /triathlon.
+ * Gareth confirmed these sold via Square (2026-08-26) and asked they live
+ * lower down on /coaching, not as a separate shop.
+ *
+ * Square checkout URLs are only wired where a live square.link was found.
+ * The rest still use /book until he sends the remaining checkout links.
+ * Do not invent a price that is not on the store or a sport page.
+ */
+export const STORE = {
+  kicker: 'Other options',
+  headline: 'Plans and one2one sessions',
+  lede: 'Monthly coaching is the main path. These are the store items that already sell — 18-week marathon plans, a custom 12-week program, and one2one sessions.',
+  groups: [
+    {
+      id: 'marathon',
+      name: '18-week marathon plans',
+      intro:
+        'Complete 18-week training plans. Scientifically proven run workouts, integrated strength training, a video library for injury prevention and recovery, a hydration and fueling guide, and a pacing guide. PDFs are emailed on payment — train the same day.',
+      note: 'Does not include ongoing consulting or interaction with Gareth.',
+      items: [
+        {
+          name: 'Beginner',
+          detail:
+            '3–4 runs per week. Starts at 10–15 miles per week and peaks at 30–35 (up to 8 hours per week).',
+          price: 29,
+          href: '/book',
+        },
+        {
+          name: 'Sub 4 hrs',
+          detail:
+            '4 runs per week. Starts at 15–20 miles per week and peaks at 40–50 (up to 8 hours per week).',
+          price: 29,
+          href: '/book',
+        },
+        {
+          name: 'Sub 3.30',
+          detail:
+            '4–5 runs per week. Starts at 20–25 miles per week and peaks at 45–55 (up to 10 hours per week).',
+          price: 29,
+          href: '/book',
+        },
+        {
+          name: 'Sub 3 hrs',
+          detail:
+            '5+ runs per week. Starts at 20–25 miles per week and peaks at 50–60 (up to 10 hours per week).',
+          price: 29,
+          href: '/book',
+        },
+      ],
+    },
+    {
+      id: 'custom',
+      name: 'Custom 12-week programs',
+      intro:
+        'A custom training program for the self-motivated athlete with a specific race goal. Daily sessions for endurance, mobility, recovery and strength, plus articles on nutrition, recovery, mental training and race preparation. Delivered as a PDF or into TrainingPeaks, with Zwift, TrainingPeaks Virtual and Garmin workouts where they apply. After purchase Gareth sends a Q&A to craft the plan.',
+      note: 'Does not include ongoing consulting or interaction with Gareth.',
+      items: [
+        {
+          name: 'Running',
+          detail: '12-week custom running program.',
+          price: 295,
+          href: 'https://square.link/u/JewlfNzD',
+        },
+        {
+          name: 'Cycling',
+          detail: '12-week custom cycling program.',
+          price: 295,
+          href: '/book',
+        },
+        {
+          name: 'Triathlon',
+          detail: '12-week custom triathlon program.',
+          price: 295,
+          href: '/book',
+        },
+      ],
+    },
+    {
+      id: 'one2one',
+      name: 'One2one sessions',
+      intro: 'Single sessions, billed in advance.',
+      note: null,
+      items: [
+        {
+          name: 'Online consultation',
+          detail:
+            'One2one consulting on any athletic need via Google Meet, Zoom, FaceTime or phone. 60 minutes.',
+          price: 200,
+          href: '/book',
+        },
+        {
+          name: 'Swim coaching',
+          detail:
+            'In-person one2one swimming with video analysis and drill prescription. 60 minutes.',
+          price: 200,
+          href: '/book',
+        },
+        {
+          name: 'Run technique coaching',
+          detail:
+            'One2one session with video analysis of your stride and a technical drills workout. 60 minutes. After purchase Gareth reaches out to set the appointment.',
+          price: 175,
+          href: 'https://square.link/u/gpUpFBAP',
+        },
+        {
+          name: 'Race fueling Q&A',
+          detail:
+            'An online discussion plus a prescription for drinks, gels and supplements for training, racing and recovery. 30 minutes.',
+          price: 150,
+          href: '/book',
+        },
+      ],
+    },
+    {
+      id: 'nutrition',
+      name: 'Nutrition coaching',
+      intro:
+        'A 3-month overhaul of food, fueling and supplementation — body composition, immune health, race and training fuel. Starts with an analysis of current diet, gut and health issues, including supplements and race fuels. Local athletes get an in-person RMR test. Follow-up bi-weekly 15-minute calls and a 3-month check-in (30 minutes) for menu variations, protocol updates and questions.',
+      note: null,
+      items: [
+        {
+          name: '3-month nutrition coaching',
+          detail: 'Includes an in-person RMR test for local athletes.',
+          price: 750,
+          href: '/book',
+        },
+      ],
+    },
+  ],
+} as const;
+
+/**
  * SPORT-SPECIFIC TESTING PACKAGES — Gareth's request (#6): show these instead
  * of the bare VO2+RMR combo. Transcribed from the pricing table published on
  * eclypse.fit/pricing, which is also only an image today.
