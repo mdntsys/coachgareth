@@ -148,21 +148,53 @@ const heroImage = '/images/enduranceathletestrainingrun.jpg';
       </div>
     </section>
 
+    {/*
+      THE STORE. Gareth's Square products, which he confirmed already sell.
+      He asked for them here rather than in a separate shop, so monthly
+      coaching stays the headline and these read as the second door.
+
+      Three things here are doing SEO/GEO work, not decoration:
+        · the kicker is a <div> and the headline is the <h2>. It was the other
+          way round, which put "Other options" in the page's second-strongest
+          on-page slot and left the real heading as a <p>.
+        · every group carries a DOM id, so /coaching#marathon-plans is a real
+          address. That gives the nav, the FAQ and any AI assistant a fragment
+          to point at instead of "somewhere on the coaching page".
+        · price, duration and delivery sit next to the name as text, not inside
+          an image. Every one of these products lives on his old site as a flat
+          graphic today, so none of it is currently machine-readable.
+    */}
     <section id="options" class="scroll-mt-24 border-b border-line bg-surface">
       <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-24">
-        <h2 class="eyebrow">{STORE.kicker}</h2>
-        <p class="display mt-5 max-w-3xl text-[clamp(2rem,4.5vw,3rem)]">
+        <div class="eyebrow">{STORE.kicker}</div>
+        <h2 class="display mt-5 max-w-3xl text-[clamp(2rem,4.5vw,3rem)]">
           {STORE.headline}
-        </p>
+        </h2>
         <p class="mt-6 max-w-3xl leading-relaxed text-ink-muted">
           {STORE.lede}
         </p>
 
+        <nav
+          aria-label="Store sections"
+          class="mt-9 flex flex-wrap gap-x-7 gap-y-3 border-t border-line pt-7"
+        >
+          {
+            STORE.groups.map((group) => (
+              <a
+                href={`#${group.id}`}
+                class="text-xs font-bold uppercase tracking-widest text-ink-muted transition-colors hover:text-signal"
+              >
+                {group.name}
+              </a>
+            ))
+          }
+        </nav>
+
         <div class="mt-14 space-y-16">
           {
             STORE.groups.map((group) => (
-              <div>
-                <h3 class="display text-2xl">{group.name}</h3>
+              <div id={group.id} class="scroll-mt-24">
+                <h3 class="display text-2xl">{group.heading}</h3>
                 <p class="mt-3 max-w-3xl text-sm leading-relaxed text-ink-muted">
                   {group.intro}
                 </p>
@@ -172,13 +204,24 @@ const heroImage = '/images/enduranceathletestrainingrun.jpg';
 
                 <ul class="mt-8">
                   {group.items.map((item) => {
-                    const buy = item.href.startsWith('http');
+                    const meta = [item.duration, group.delivery]
+                      .filter(Boolean)
+                      .join(' · ');
+                    // rel: `nofollow` because a checkout is not an editorial
+                    // link and Square will never link back. Deliberately NOT
+                    // `noreferrer` — dropping the referrer would blind Square
+                    // to the fact the sale originated here, which is the only
+                    // attribution Gareth gets for free.
+                    // `noopener` alone is enough against tabnabbing.
                     return (
-                      <li class="flex flex-col gap-3 border-t border-line py-5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-8 first:border-t-0 first:pt-0">
+                      <li class="flex flex-col gap-3 border-t border-line py-5 first:border-t-0 first:pt-0 sm:flex-row sm:items-baseline sm:justify-between sm:gap-8">
                         <div class="min-w-0">
                           <div class="text-sm font-bold">{item.name}</div>
                           <div class="mt-1 text-sm text-ink-muted">
                             {item.detail}
+                          </div>
+                          <div class="mt-2 font-mono text-xs uppercase tracking-wider text-ink-dim">
+                            {meta}
                           </div>
                         </div>
                         <div class="flex shrink-0 items-baseline gap-5">
@@ -187,12 +230,12 @@ const heroImage = '/images/enduranceathletestrainingrun.jpg';
                           </span>
                           <a
                             href={item.href}
-                            class="text-xs font-bold uppercase tracking-widest text-signal hover:text-ink"
-                            {...(buy
-                              ? { target: '_blank', rel: 'noopener noreferrer' }
-                              : {})}
+                            target="_blank"
+                            rel="noopener nofollow"
+                            aria-label={`Buy ${item.name} — ${group.name} — $${item.price}`}
+                            class="border border-line-bright px-5 py-3 text-xs font-bold uppercase tracking-widest transition-colors hover:border-ink hover:bg-base"
                           >
-                            {buy ? 'Buy' : 'Enquire'}
+                            Buy
                           </a>
                         </div>
                       </li>
@@ -203,6 +246,19 @@ const heroImage = '/images/enduranceathletestrainingrun.jpg';
             ))
           }
         </div>
+
+        <p class="mt-12 max-w-3xl text-xs text-ink-dim">
+          Prices are in US dollars and checkout is handled by Square. Plans are
+          emailed on payment; sessions and programs start with Gareth getting in
+          touch to set them up. Not sure which one fits? Call{' '}
+          <a
+            href={NAP.phoneHref}
+            class="tnum font-mono underline underline-offset-4 hover:text-ink"
+          >
+            {NAP.phone}
+          </a>
+          .
+        </p>
       </div>
     </section>
 

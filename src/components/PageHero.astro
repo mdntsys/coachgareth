@@ -5,9 +5,30 @@ interface Props {
   lede: string;
   image?: string;
   imageAlt?: string;
+  /**
+   * Every hero photograph on this site is desaturated, which is what holds a
+   * set of mismatched archive shots together. Gareth's new lab photography is
+   * the exception — he asked specifically for the cyclist test in colour.
+   *
+   * Colour needs a different scrim, not just the removal of `grayscale`. The
+   * new frames are shot high-key against white shiplap, so the mono treatment's
+   * light top scrim (base/30) leaves near-white pixels directly under near-white
+   * type. Colour therefore runs the image lower and carries a heavier vertical
+   * scrim plus a left-weighted one, the same pair the homepage hero uses.
+   */
+  imageTone?: 'mono' | 'color';
 }
 
-const { eyebrow, title, lede, image, imageAlt = '' } = Astro.props;
+const {
+  eyebrow,
+  title,
+  lede,
+  image,
+  imageAlt = '',
+  imageTone = 'mono',
+} = Astro.props;
+
+const isColor = imageTone === 'color';
 ---
 
 <section class="border-b border-line">
@@ -17,11 +38,36 @@ const { eyebrow, title, lede, image, imageAlt = '' } = Astro.props;
         <img
           src={image}
           alt={imageAlt}
-          class="absolute inset-0 -z-10 h-full w-full object-cover object-center opacity-80 grayscale"
+          class:list={[
+            'absolute inset-0 -z-10 h-full w-full object-cover',
+            isColor
+              ? 'object-[50%_30%] opacity-95'
+              : 'object-center opacity-80 grayscale',
+          ]}
           loading="eager"
           fetchpriority="high"
         />
-        <div class="absolute inset-0 -z-10 bg-gradient-to-t from-base via-base/70 to-base/30" />
+        {/* Vertical scrim. Mono can carry a heavy, even one. Colour cannot —
+            dimming a colour photograph uniformly is just a slower way of
+            desaturating it, and colour is the whole point of this frame.
+            So the colour ramp is weighted low: it goes solid under the CTA row
+            (which otherwise lands on the white bike wheel at mobile widths)
+            and clears by the top, where the subject actually is. */}
+        <div
+          class:list={[
+            'absolute inset-0 -z-10 bg-gradient-to-t',
+            isColor
+              ? 'from-base from-10% via-base/68 via-52% to-base/14'
+              : 'from-base via-base/70 to-base/30',
+          ]}
+        />
+        {/* Colour only: a left-weighted scrim. The headline runs to roughly 60%
+            of the container, so the ground stays solid to there and then clears
+            completely — which leaves the right half of the frame an actual
+            photograph rather than a grey wash. */}
+        {isColor && (
+          <div class="absolute inset-0 -z-10 bg-gradient-to-r from-base from-6% via-base/78 via-52% to-transparent to-86%" />
+        )}
         <div class="mx-auto max-w-7xl px-5 pb-14 pt-20 sm:px-8 lg:pb-20 lg:pt-28">
           <div class="max-w-3xl">
             <div class="eyebrow flex items-center gap-3">

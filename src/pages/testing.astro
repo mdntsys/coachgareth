@@ -11,13 +11,16 @@ import {
   PROTOCOL,
   COACHING,
   FAQS,
+  LANDERS,
 } from '../data/site';
 
 const title =
   'Metabolic Testing in Santa Monica | Blood Lactate, VO2 Max & RMR';
 const description = `Blood lactate $${TESTS[0].price}, VO2 max $${TESTS[1].price} and RMR $${TESTS[2].price} in Santa Monica. Measured, not estimated — every test run and read by Gareth Thomas. Call ${NAP.phone}.`;
 
-const heroImage = '/images/labken.jpg';
+// Gareth's own new lab photography (2026-08-26). He asked for the colour
+// cyclist frame here as well as on the homepage lab door, replacing labken.jpg.
+const heroImage = '/images/labtestcyclist.jpg';
 
 const whichFaq = FAQS.find(
   (f) => f.q === 'What is the difference between a lactate test and a VO2 max test?',
@@ -39,7 +42,8 @@ const whichFaq = FAQS.find(
       title="Lactate, VO2 max and RMR in Santa Monica"
       lede="Measured, not estimated. Gareth reads it with you."
       image={heroImage}
-      imageAlt="Gareth Thomas running a treadmill-based lactate threshold test on an athlete at the lab in Santa Monica"
+      imageTone="color"
+      imageAlt="Gareth Thomas taking a fingertip blood sample from a cyclist mid-test at the ECLYPSE lab in Santa Monica"
     >
       <div slot="after" class="mt-8 flex flex-wrap items-center gap-3">
         <a
@@ -315,6 +319,48 @@ const whichFaq = FAQS.find(
             >See coaching plans</a
           >
         </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════ NEAR YOU ════════════════════════════ -->
+    {/*
+      Contextual links to the six local landers. They were shipped orphaned —
+      in the sitemap, linked from nowhere — so Google had no internal path to
+      them and no signal about what they relate to. /testing is their topical
+      parent, which makes this the one placement that carries relevance rather
+      than just crawl access.
+    */}
+    <section id="near-you" class="border-b border-line">
+      <div class="mx-auto max-w-7xl px-5 py-16 sm:px-8 lg:py-20">
+        <div class="max-w-3xl">
+          <div class="eyebrow">Near you</div>
+          <h2 class="display mt-5 text-[clamp(1.5rem,2.6vw,2rem)]">
+            Searching for a lab nearby
+          </h2>
+          <p class="mt-4 leading-relaxed text-ink-muted">
+            The lab is at {NAP.street} in {NAP.city}, ten minutes from Venice
+            and Brentwood and twenty from most of the Westside. If you arrived
+            looking for one test in particular, start here.
+          </p>
+        </div>
+
+        <ul class="mt-10 grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
+          {
+            LANDERS.map((l) => (
+              <li>
+                <a
+                  href={`/${l.slug}`}
+                  class="flex h-full flex-col bg-base p-6 transition-colors hover:bg-surface"
+                >
+                  <span class="text-sm font-bold capitalize">{l.keyword}</span>
+                  <span class="mt-2 text-xs leading-relaxed text-ink-dim">
+                    {l.description.split('. ')[0]}.
+                  </span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
       </div>
     </section>
 

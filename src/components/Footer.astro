@@ -1,5 +1,5 @@
 ---
-import { NAP, HOURS, TESTS } from '../data/site';
+import { NAP, HOURS, TESTS, LANDERS } from '../data/site';
 
 const fmt = (t: string) => {
   const [h, m] = t.split(':').map(Number);
@@ -91,8 +91,33 @@ const fmt = (t: string) => {
       </div>
     </div>
 
+    {/*
+      The six "near me" landers shipped with the inner-page build but nothing
+      ever linked to them — they existed only in the sitemap, which made a third
+      of the site's URLs invisible to internal crawl and left them with zero
+      internal PageRank. They get contextual links from /testing as well; this
+      row is the sitewide belt-and-braces.
+    */}
+    <nav
+      aria-label="Testing near you"
+      class="mt-14 border-t border-line pt-7"
+    >
+      <div class="eyebrow">Near you</div>
+      <ul class="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-xs text-ink-dim">
+        {
+          LANDERS.map((l) => (
+            <li>
+              <a href={`/${l.slug}`} class="transition-colors hover:text-ink">
+                {l.keyword}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
     <div
-      class="mt-14 flex flex-col gap-3 border-t border-line pt-7 text-xs text-ink-dim sm:flex-row sm:items-center sm:justify-between"
+      class="mt-10 flex flex-col gap-3 border-t border-line pt-7 text-xs text-ink-dim sm:flex-row sm:items-center sm:justify-between"
     >
       <div>
         &copy; {new Date().getFullYear()} Gareth Thomas. All rights reserved.

@@ -71,13 +71,23 @@ const openingHours = HOURS.filter((h) => h.open).map((h) => ({
   no manual actions — introducing one for a star snippet would be a bad trade.
   The reviews stay on the page as plain testimonials, which is safe.
 */
+/*
+  The LocalBusiness node is emitted on every page under one stable `@id`, so
+  its description has to be a description of the BUSINESS. It used to be the
+  page's meta description, which meant the same @id described itself
+  differently on all eleven URLs — the exact inconsistency `@id` exists to
+  prevent, and a needless invitation for Google to pick one at random.
+*/
+const businessDescription =
+  'Blood lactate, VO2 max and RMR testing plus endurance coaching for triathlon, running and cycling, at the ECLYPSE Fitness Lab in Santa Monica. Every test is run and read in person by Gareth Thomas.';
+
 const businessSchema = {
   '@context': 'https://schema.org',
   '@type': ['LocalBusiness', 'SportsActivityLocation'],
   '@id': `${site}/#business`,
   name: NAP.legalName,
   alternateName: ['ECLYPSE Lab', 'ECLYPSE Fitness Lab', 'Coach Gareth'],
-  description,
+  description: businessDescription,
   url: site,
   telephone: NAP.phone,
   email: NAP.email,
@@ -167,18 +177,25 @@ const businessSchema = {
           provider: { '@id': `${site}/#business` },
         },
       })),
+      // Store products. Every one now has a live Square checkout (2026-08-26),
+      // so `url` points an agent at the thing it can actually buy rather than
+      // at the page that mentions it. `availability` is what turns an Offer
+      // from a historical price into a purchasable one.
       ...STORE.groups.flatMap((g) =>
         g.items.map((item) => ({
           '@type': 'Offer',
           priceCurrency: 'USD',
           price: item.price,
-          url: item.href.startsWith('http')
-            ? item.href
-            : `${site}/coaching`,
+          availability: 'https://schema.org/InStock',
+          url: item.href,
+          category: g.name,
           itemOffered: {
             '@type': 'Service',
-            name: item.name,
-            description: item.detail,
+            '@id': `${site}/coaching#${g.id}`,
+            name: `${item.name} — ${g.name}`,
+            description: item.duration
+              ? `${item.detail} ${item.duration}.`
+              : item.detail,
             serviceType: g.name,
             provider: { '@id': `${site}/#business` },
           },

@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import PageHero from '../components/PageHero.astro';
-import { NAP, HOURS, TESTS, COACHING } from '../data/site';
+import { NAP, HOURS, TESTS, COACHING, STORE } from '../data/site';
 
 const title = 'Book a Test or Enquire | ECLYPSE Fitness Lab · Santa Monica';
 const description = `Call ${NAP.phone} or email ${NAP.email}. Lab at ${NAP.street}, ${NAP.city} ${NAP.region} ${NAP.postal}. Hours Tue–Fri 10–7, Sat–Sun 12–5, Mon closed.`;
@@ -45,8 +45,14 @@ const sat = HOURS.find((h) => h.day === 'Saturday')!;
           <div class="flex flex-col bg-base p-8 lg:p-11">
             <h2 class="display text-2xl">Call the lab</h2>
             <p class="mt-5 leading-relaxed text-ink-muted">
-              Tests and coaching are easier to pick once you've talked to him.
-              There is no online checkout. You talk to Gareth, then you come in.
+              Lab tests and monthly coaching are easier to pick once you've
+              talked to him, so those start with a call rather than a checkout.
+              Training plans and one2one sessions you can just buy — they're
+              listed <a
+                href="/coaching#options"
+                class="text-ink underline underline-offset-4 hover:text-signal"
+                >on the coaching page</a
+              >.
             </p>
 
             <div class="mt-9 flex flex-col gap-3">
@@ -141,6 +147,34 @@ const sat = HOURS.find((h) => h.day === 'Saturday')!;
               }
             </ul>
           </div>
+        </div>
+
+        <div class="mt-10 border border-line bg-surface p-8 lg:p-11">
+          <div class="eyebrow">Buy outright</div>
+          <h2 class="display mt-4 text-2xl">No call needed</h2>
+          <p class="mt-4 max-w-3xl leading-relaxed text-ink-muted">
+            Marathon plans, custom 12-week programs, one2one sessions and
+            nutrition coaching are all bought directly. Plans are emailed the
+            moment payment clears; sessions start with Gareth getting in touch
+            to book you in.
+          </p>
+          <ul class="mt-8 grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
+            {
+              STORE.groups.map((group) => (
+                <li class="bg-base p-6">
+                  <a
+                    href={`/coaching#${group.id}`}
+                    class="text-sm font-bold transition-colors hover:text-signal"
+                  >
+                    {group.heading}
+                  </a>
+                  <div class="tnum mt-3 font-mono text-xs text-ink-dim">
+                    From ${Math.min(...group.items.map((i) => i.price))}
+                  </div>
+                </li>
+              ))
+            }
+          </ul>
         </div>
       </div>
     </section>
