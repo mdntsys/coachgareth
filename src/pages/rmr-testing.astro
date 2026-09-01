@@ -12,6 +12,7 @@ import {
   FAQS,
   COACHING,
 } from '../data/site';
+import { RMR, VO2 } from '../data/labCopy';
 
 const test = TESTS.find((t) => t.slug === 'rmr-testing')!;
 const others = TESTS.filter((t) => t.slug !== test.slug);
@@ -21,6 +22,7 @@ const faqQs = new Set([
   'Do I need to be a serious athlete to get tested?',
   'How much does testing cost in Santa Monica?',
   'Where is the lab?',
+  'What is the difference between a lactate test and a VO2 max test?',
 ]);
 const faqs = FAQS.filter((f) => faqQs.has(f.q));
 
@@ -73,19 +75,14 @@ const heroImage = test.image;
               Measured resting burn,<br />not a calculator
             </h2>
             <p class="mt-6 text-lg leading-relaxed text-ink-muted">
-              Resting metabolic rate is what your body burns at rest —
-              measured, rather than estimated from a calculator that has never
-              met you. The ${test.price} test includes the consultation.
+              {RMR.what[0]} The ${test.price} test includes the consultation.
+            </p>
+            <p class="mt-5 leading-relaxed text-ink-muted">
+              {RMR.what[1]}
             </p>
             <p class="mt-5 leading-relaxed text-ink-muted">
               This is rest, not a staged effort. Gareth Thomas reads the result
-              with you in person and sets up a calorie and meal plan from your
-              own numbers. {COACHING.credential}.
-            </p>
-            <p class="mt-5 leading-relaxed text-ink-muted">
-              Roughly half the people tested at the lab are not racing anything.
-              RMR is used just as often for body composition, longevity and
-              general health as it is for performance.
+              with you in person. {COACHING.credential}.
             </p>
           </div>
 
@@ -117,6 +114,109 @@ const heroImage = test.image;
               >
             </li>
           </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="why" class="border-b border-line bg-surface">
+      <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
+        <div class="max-w-3xl">
+          <div class="eyebrow">Why it sits next to VO2</div>
+          <h2 class="display mt-5 text-[clamp(2rem,4.5vw,3.25rem)]">
+            Bodyweight sits inside<br />the engine number
+          </h2>
+          <p class="mt-6 text-lg leading-relaxed text-ink-muted">
+            {RMR.what[2]}
+          </p>
+          <p class="mt-5 leading-relaxed text-ink-muted">
+            {VO2.what[1]}
+          </p>
+          <p class="mt-5 leading-relaxed text-ink-muted">
+            That pairing is why Longevity Pro exists. Cardiovascular fitness
+            and resting burn in the same visit, one consultation, from the same
+            person who will tell you what to eat and how hard to go on Monday.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="session" class="border-b border-line">
+      <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
+        <div class="max-w-3xl">
+          <div class="eyebrow">What actually happens</div>
+          <h2 class="display mt-5 text-[clamp(2rem,4.5vw,3.25rem)]">
+            Rest, not a staged effort
+          </h2>
+          {
+            RMR.session.map((p, i) => (
+              <p
+                class:list={[
+                  'leading-relaxed text-ink-muted',
+                  i === 0 ? 'mt-6 text-lg' : 'mt-5',
+                ]}
+              >
+                {p}
+              </p>
+            ))
+          }
+          <p class="mt-5 leading-relaxed text-ink-muted">
+            {RMR.related[0]}
+          </p>
+          <p class="mt-5 leading-relaxed text-ink-muted">
+            The lab is at {NAP.street}, {NAP.city}, {NAP.region} {NAP.postal} —
+            Tuesday to Friday 10–7, Saturday and Sunday 12–5, closed Monday.
+            Call {NAP.phone}.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="who" class="border-b border-line bg-surface">
+      <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
+        <div class="max-w-3xl">
+          <div class="eyebrow">Who it is for</div>
+          <h2 class="display mt-5 text-[clamp(2rem,4.5vw,3.25rem)]">
+            Half the lab is not racing
+          </h2>
+          <p class="mt-6 text-lg leading-relaxed text-ink-muted">
+            You do not need to be a serious athlete. Roughly half the people
+            tested at the lab are not racing anything. RMR and VO2 max are used
+            just as often for body composition, longevity and general health as
+            they are for performance.
+          </p>
+          <p class="mt-5 leading-relaxed text-ink-muted">
+            If the job is a calorie and meal plan from numbers that belong to
+            you, this is the test. If the job is an objective cardiovascular
+            marker and a Fat-Max fuelling intensity, that is VO2 max. If the job
+            is race pace and training zones, that is a blood lactate test. Gareth
+            will tell you which is worth the money if you are not sure.
+          </p>
+          <p class="mt-5 leading-relaxed text-ink-muted">
+            {RMR.related[1]}
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="leave-with" class="border-b border-line">
+      <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
+        <div class="max-w-3xl">
+          <div class="eyebrow">What you leave with</div>
+          <h2 class="display mt-5 text-[clamp(2rem,4.5vw,3.25rem)]">
+            A plan from your own burn
+          </h2>
+          {
+            RMR.leaveWith.map((p, i) => (
+              <p
+                class:list={[
+                  'leading-relaxed text-ink-muted',
+                  i === 0 ? 'mt-6 text-lg' : 'mt-5',
+                ]}
+              >
+                {p}
+              </p>
+            ))
+          }
         </div>
       </div>
     </section>

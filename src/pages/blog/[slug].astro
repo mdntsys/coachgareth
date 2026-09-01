@@ -20,7 +20,7 @@ interface Props {
 
 const { post } = Astro.props;
 const body = POST_BODIES[post.slug];
-const others = POSTS.filter((p) => p.slug !== post.slug);
+const others = POSTS.filter((p) => p.slug !== post.slug).slice(0, 3);
 
 const linkClass =
   'text-ink underline decoration-line-bright underline-offset-4 transition-colors hover:text-signal hover:decoration-signal';

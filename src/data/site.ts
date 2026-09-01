@@ -709,4 +709,88 @@ export const POSTS = [
     description:
       'A heart-rate monitor only works if the zones in it are yours. How we set those zones from a lactate test, not an age formula.',
   },
+  {
+    slug: 'is-a-vo2-max-test-worth-it',
+    title: 'Is a VO2 max test worth it?',
+    description:
+      'You do not need to know your VO2 max to improve it. Gareth uses the test for fuel mix — and only after lactate has set the zones.',
+  },
+  {
+    slug: 'periodization',
+    title: 'Periodization',
+    description:
+      'Periodization is the science of putting the building blocks of training in the right order so each phase prepares you for the next.',
+  },
+  {
+    slug: 'the-need-for-speed',
+    title: 'The need for speed',
+    description:
+      'Once the aerobic base is in, speed work is threshold, VO2, then peak speed — and the recoveries have to be as precise as the reps.',
+  },
+  {
+    slug: 'are-your-carbon-plated-running-shoes-hurting-you',
+    title: 'Are your carbon-plated running shoes hurting you?',
+    description:
+      'Carbon-plated racers offer free speed. Used every day they can de-train your gait and load tendons, shins and bone.',
+  },
+  {
+    slug: 'the-pillars-of-success',
+    title: 'The pillars of success',
+    description:
+      'Commit to being coached, use sports science, train the mind, and do a little and often — Gareth’s path to injury-free peak performance.',
+  },
+  {
+    slug: 'why-you-need-a-coach',
+    title: 'Why you need a coach',
+    description:
+      'A coach tells you like it is: train the limiters, stay in zone, and do the unglamorous daily work that makes the plan work.',
+  },
+  {
+    slug: 'dont-train-when-you-are-sick',
+    title: 'Don’t train when you are sick',
+    description:
+      'If you are fighting a cold or flu, rest. Training while sick is inferior work your body cannot absorb, and it keeps you depleted so the bug hangs on.',
+  },
+  {
+    slug: 'the-dos-and-donts-of-heart-rate-training',
+    title: 'The do’s and don’ts of heart-rate training',
+    description:
+      'A heart-rate monitor is a window onto the stress of the session. Most athletes either resist the strap or wear it without knowing how to use it.',
+  },
+  {
+    slug: 'know-your-zones',
+    title: 'Know your zones',
+    description:
+      'A heart-rate monitor, power or pace, and a sense of effort all matter — and RPE is the fallback when the strap fails.',
+  },
+  {
+    slug: 'what-is-the-difference-between-economy-and-efficiency',
+    title: 'What is the difference between economy and efficiency?',
+    description:
+      'Running economy is how much oxygen or energy you burn at a given pace. Gareth treats it as mechanical, movement-centred efficiency.',
+  },
+  {
+    slug: 'are-you-fat-adapted',
+    title: 'Are you fat adapted?',
+    description:
+      'Some athletes sit under 2 mmol in Zone 2 and still burn almost no fat. Others oxidise 80%+ at the same effort. Low lactate is not fat adapted.',
+  },
+  {
+    slug: 'maximizing-body-composition',
+    title: 'Maximizing body composition',
+    description:
+      'For out-and-out endurance performance, lighter is faster most of the time. Elite marathoners, climbing cyclists and winning triathletes are lean and light.',
+  },
+  {
+    slug: 'fuel-with-color',
+    title: 'Fuel with color',
+    description:
+      'Even when you are eating like a monk to be race-lean, a splash of color makes meals exciting to look at and to taste — and turns food into fuel.',
+  },
+  {
+    slug: 'gut-health-and-the-microbiome',
+    title: 'Gut health and the microbiome',
+    description:
+      'Endurance athletes know to get enough food and fuel in. Fewer focus on quality, or on how well those foods are absorbed. Digestion starts with chewing.',
+  },
 ] as const;

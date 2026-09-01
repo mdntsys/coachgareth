@@ -14,6 +14,7 @@ import {
   FAQS,
   COACHING,
 } from '../data/site';
+import { VO2 } from '../data/labCopy';
 
 const test = TESTS.find((t) => t.slug === 'vo2-max-testing')!;
 const others = TESTS.filter((t) => t.slug !== test.slug);
@@ -26,9 +27,10 @@ const vo2LongevityTiers = longevity.tiers.filter((tier) =>
 );
 const faqQs = new Set([
   'What is the difference between a lactate test and a VO2 max test?',
-  'How long does a test take?',
   'Do I need to be a serious athlete to get tested?',
   'How often should I retest?',
+  'How much does testing cost in Santa Monica?',
+  'Where is the lab?',
 ]);
 const faqs = FAQS.filter((f) => faqQs.has(f.q));
 
@@ -81,16 +83,11 @@ const heroImage = test.image;
               Cardiovascular fitness<br />&amp; longevity
             </h2>
             <p class="mt-6 text-lg leading-relaxed text-ink-muted">
-              A VO<span class="align-baseline text-[0.62em]">2</span> max test
-              is the better choice if you want a single objective marker of
-              cardiovascular fitness. Lactate testing is the better choice if
-              you are training for a race.
+              {VO2.what[0]}
             </p>
             <p class="mt-5 leading-relaxed text-ink-muted">
-              A test session takes {PROTOCOL.durationMin} minutes of actual
-              testing, progressing through {PROTOCOL.stages} stages. Allow around
-              an hour in total, which includes the setup and the consultation
-              where Gareth reads your results back to you.
+              Allow around an hour in total, which includes the setup and the
+              consultation where Gareth reads your results back to you.
             </p>
             <p class="mt-5 leading-relaxed text-ink-muted">
               Every test is run and read by Gareth Thomas — {COACHING.credential}.
@@ -130,7 +127,27 @@ const heroImage = test.image;
       </div>
     </section>
 
-    <section id="results" class="border-b border-line bg-surface">
+    <section id="what" class="border-b border-line bg-surface">
+      <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
+        <div class="max-w-3xl">
+          <div class="eyebrow">The size of the engine</div>
+          <h2 class="display mt-5 text-[clamp(2rem,4.5vw,3.25rem)]">
+            You cannot change the engine.<br />You can tune it.
+          </h2>
+          <p class="mt-6 text-lg leading-relaxed text-ink-muted">
+            {VO2.what[1]}
+          </p>
+          <p class="mt-5 leading-relaxed text-ink-muted">
+            {VO2.what[2]}
+          </p>
+          <p class="mt-5 leading-relaxed text-ink-muted">
+            {VO2.what[3]}
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="results" class="border-b border-line">
       <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
         <div class="max-w-3xl">
           <div class="eyebrow">What you leave with</div>
@@ -141,6 +158,11 @@ const heroImage = test.image;
             Two numbers from the same session: the intensity at which you burn
             the most fat per minute, and the top of your aerobic range.
           </p>
+          {
+            VO2.fatMax.map((p) => (
+              <p class="mt-5 leading-relaxed text-ink-muted">{p}</p>
+            ))
+          }
         </div>
 
         <div class="mt-12 grid gap-px border border-line bg-line md:grid-cols-2">
@@ -176,7 +198,61 @@ const heroImage = test.image;
       </div>
     </section>
 
-    <section id="packages" class="border-b border-line">
+    <section id="versus" class="border-b border-line bg-surface">
+      <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
+        <div class="max-w-3xl">
+          <div class="eyebrow">Lactate or VO2</div>
+          <h2 class="display mt-5 text-[clamp(2rem,4.5vw,3.25rem)]">
+            They answer different questions
+          </h2>
+          {
+            VO2.vsLactate.map((p, i) => (
+              <p
+                class:list={[
+                  'leading-relaxed text-ink-muted',
+                  i === 0 ? 'mt-6 text-lg' : 'mt-5',
+                ]}
+              >
+                {p}
+              </p>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section id="session" class="border-b border-line">
+      <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
+        <div class="max-w-3xl">
+          <div class="eyebrow">What actually happens</div>
+          <h2 class="display mt-5 text-[clamp(2rem,4.5vw,3.25rem)]">
+            Treadmill or erg.<br />
+            Read with you.
+          </h2>
+          {
+            VO2.session.map((p, i) => (
+              <p
+                class:list={[
+                  'leading-relaxed text-ink-muted',
+                  i === 0 ? 'mt-6 text-lg' : 'mt-5',
+                ]}
+              >
+                {p}
+              </p>
+            ))
+          }
+          <p class="mt-5 leading-relaxed text-ink-muted">
+            Retest every {PROTOCOL.retestWeeks} weeks. That is long enough for a
+            training block to produce real physiological change and short enough
+            that the number does not go stale while you are still training to it.
+            The lab is at {NAP.street}, {NAP.city}, {NAP.region} {NAP.postal} —
+            Tuesday to Friday 10–7, Saturday and Sunday 12–5, closed Monday.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="packages" class="border-b border-line bg-surface">
       <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
         <div class="max-w-3xl">
           <div class="eyebrow">Longevity packages</div>
@@ -246,7 +322,7 @@ const heroImage = test.image;
       </div>
     </section>
 
-    <section id="faq" class="border-b border-line bg-surface">
+    <section id="faq" class="border-b border-line">
       <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
         <div class="grid gap-12 lg:grid-cols-[0.7fr_1.3fr] lg:gap-20">
           <div>

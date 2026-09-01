@@ -15,6 +15,7 @@ import {
   FAQS,
   COACHING,
 } from '../data/site';
+import { LAB, LACTATE } from '../data/labCopy';
 
 const test = TESTS.find((t) => t.slug === 'lactate-threshold-testing')!;
 const others = TESTS.filter((t) => t.slug !== test.slug);
@@ -35,6 +36,9 @@ const faqQs = new Set([
   'How long does a test take?',
   'Does the blood sampling hurt?',
   'How often should I retest?',
+  'What do I actually leave with?',
+  'Do I need to be a serious athlete to get tested?',
+  'How much does testing cost in Santa Monica?',
 ]);
 const faqs = FAQS.filter((f) => faqQs.has(f.q));
 
@@ -92,6 +96,9 @@ const description = `Lactate threshold testing in Santa Monica for $${test.price
               actually hold, rather than a heart-rate zone guessed from your age.
             </p>
             <p class="mt-5 leading-relaxed text-ink-muted">
+              {LACTATE.what[3]}
+            </p>
+            <p class="mt-5 leading-relaxed text-ink-muted">
               Every test is run and read by Gareth Thomas, the Lactate Guru —
               {COACHING.credential}. You do not get emailed a PDF and left to
               interpret it.
@@ -130,6 +137,28 @@ const description = `Lactate threshold testing in Santa Monica for $${test.price
       </div>
     </section>
 
+    <section id="what" class="border-b border-line">
+      <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
+        <div class="max-w-3xl">
+          <div class="eyebrow">What the test is actually measuring</div>
+          <h2 class="display mt-5 text-[clamp(2rem,4.5vw,3.25rem)]">
+            Lactate is constantly<br />produced by the body
+          </h2>
+          <p class="mt-6 text-lg leading-relaxed text-ink-muted">
+            {LACTATE.what[0]}
+          </p>
+          {
+            LACTATE.what.slice(1, 3).map((p) => (
+              <p class="mt-5 leading-relaxed text-ink-muted">{p}</p>
+            ))
+          }
+          <p class="mt-5 leading-relaxed text-ink-muted">
+            {LACTATE.what[4]}
+          </p>
+        </div>
+      </div>
+    </section>
+
     <section id="protocol" class="border-b border-line bg-surface">
       <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
         <div class="grid gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
@@ -140,15 +169,14 @@ const description = `Lactate threshold testing in Santa Monica for $${test.price
               {PROTOCOL.durationMin} minutes.
             </h2>
             <p class="mt-6 leading-relaxed text-ink-muted">
-              A test session takes {PROTOCOL.durationMin} minutes of actual
-              testing, progressing through {PROTOCOL.stages} stages. Allow around
-              an hour in total, which includes the setup and the consultation
-              where Gareth reads your results back to you.
+              {LACTATE.session[0]}
             </p>
             <p class="mt-4 leading-relaxed text-ink-muted">
-              Retest every {PROTOCOL.retestWeeks} weeks — long enough for a
-              training block to produce real physiological change, short enough
-              that your zones do not drift out of date.
+              A test session takes {PROTOCOL.durationMin} minutes of actual
+              testing, progressing through {PROTOCOL.stages} stages. Allow around
+              an hour in total. Retest every {PROTOCOL.retestWeeks} weeks — long
+              enough for a training block to produce real physiological change,
+              short enough that your zones do not drift out of date.
             </p>
             <img
               src="/images/runnerinlabdoingbloodlactatetest.jpg"
@@ -174,6 +202,18 @@ const description = `Lactate threshold testing in Santa Monica for $${test.price
             }
           </ol>
         </div>
+
+        <div class="mt-16 max-w-3xl">
+          <h3 class="display text-[clamp(1.5rem,2.6vw,2rem)]">
+            In the room, stage by stage
+          </h3>
+          <p class="mt-5 leading-relaxed text-ink-muted">
+            {LACTATE.session[1]}
+          </p>
+          <p class="mt-4 leading-relaxed text-ink-muted">
+            {LACTATE.session[2]}
+          </p>
+        </div>
       </div>
     </section>
 
@@ -185,9 +225,13 @@ const description = `Lactate threshold testing in Santa Monica for $${test.price
             Two thresholds that<br />set the rest
           </h2>
           <p class="mt-6 text-lg leading-relaxed text-ink-muted">
-            A heart-rate zone calculated from your age is a guess about a
-            stranger. These are measured, from your own blood, on the equipment
-            you actually train on.
+            {LACTATE.thresholds[2]}
+          </p>
+          <p class="mt-5 leading-relaxed text-ink-muted">
+            {LACTATE.thresholds[0]}
+          </p>
+          <p class="mt-5 leading-relaxed text-ink-muted">
+            {LACTATE.thresholds[1]}
           </p>
         </div>
 
@@ -275,6 +319,27 @@ const description = `Lactate threshold testing in Santa Monica for $${test.price
               ))
             }
           </ul>
+        </div>
+
+        <div class="mt-16 grid gap-10 lg:grid-cols-2 lg:gap-16">
+          <div>
+            <h3 class="display text-[clamp(1.5rem,2.6vw,2rem)]">
+              Zone 2, from your own curve
+            </h3>
+            {
+              LAB.leaveWith.map((p) => (
+                <p class="mt-5 leading-relaxed text-ink-muted">{p}</p>
+              ))
+            }
+          </div>
+          <div>
+            <h3 class="display text-[clamp(1.5rem,2.6vw,2rem)]">
+              Come back every 9–12 weeks
+            </h3>
+            <p class="mt-5 leading-relaxed text-ink-muted">
+              {LACTATE.session[3]}
+            </p>
+          </div>
         </div>
       </div>
     </section>

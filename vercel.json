@@ -173,6 +173,96 @@
       "permanent": true
     },
     {
+      "source": "/blog/the-ultimate-guide-to-zone-2-training-to-boost-endurance-and-burn-fat",
+      "destination": "/blog/what-is-zone-2-training",
+      "permanent": true
+    },
+    {
+      "source": "/blog/why-you-do-not-need-a-vo2-max-test",
+      "destination": "/blog/is-a-vo2-max-test-worth-it",
+      "permanent": true
+    },
+    {
+      "source": "/blog/how-to-use-your-heart-rate-monitor",
+      "destination": "/blog/how-to-use-a-heart-rate-monitor",
+      "permanent": true
+    },
+    {
+      "source": "/blog/triathlon-training",
+      "destination": "/coaching",
+      "permanent": true
+    },
+    {
+      "source": "/blog/the-ultimate-guide-to-marathon-training",
+      "destination": "/coaching",
+      "permanent": true
+    },
+    {
+      "source": "/blog/maximize-your-time-like-a-pro",
+      "destination": "/coaching",
+      "permanent": true
+    },
+    {
+      "source": "/blog/10-low-calorie-sauces-to-enhance-athletic-meals",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/blog/master-the-heat-with-key-strategies-for-endurance-athletes",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/blog/interval-training",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/blog/how-to-test-better",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/blog/what-on-earth-is-lactate-and-why-should-i-care",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/blog/going-up",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/blog/the-complete-athlete",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/blog/meal-prepping-for-athletes",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/blog/hydration-for-athletes",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/blog/exercise-and-mental-health",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/blog/avoiding-back-pain",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/blog/goalsetting",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
       "source": "/privacy",
       "destination": "/",
       "permanent": true

@@ -1,12 +1,14 @@
 import { POSTS } from './site';
+import type { HarvestedPost } from './blog-harvest/_schema';
+import { PUBLISHED_HARVEST } from './blog-harvest/published';
 
 /**
- * Bodies for the four lab posts. Titles, slugs and meta live on POSTS in
- * site.ts; this file is the article copy so the templates stay presentational.
+ * Bodies for blog posts. Titles, slugs and meta live on POSTS in site.ts;
+ * this file is the article copy so the templates stay presentational.
  *
- * The VO2 piece follows Gareth's recovered voice (Attia / Huberman, the
- * engine, ml/kg/min, 90s / about 80). Everything else is harvested from
- * site.ts. Headings here render as H2 — the template owns the single H1.
+ * The four lab explainers were written from site.ts / recovered VO2 voice.
+ * Later posts are harvested Squarespace bodies (see blog-harvest/). Headings
+ * here render as H2 — the template owns the single H1.
  */
 export type PostBody = {
   eyebrow: string;
@@ -18,7 +20,21 @@ export type PostBody = {
 
 type PostSlug = (typeof POSTS)[number]['slug'];
 
-export const POST_BODIES: Record<PostSlug, PostBody> = {
+function fromHarvest(h: HarvestedPost): PostBody {
+  return {
+    eyebrow: h.eyebrow,
+    lede: h.lede,
+    image: h.image,
+    imageAlt: h.imageAlt,
+    sections: h.sections,
+  };
+}
+
+const harvestedBodies = Object.fromEntries(
+  PUBLISHED_HARVEST.map((h) => [h.slug, fromHarvest(h)]),
+) as Record<string, PostBody>;
+
+export const POST_BODIES = {
   'what-is-vo2-max': {
     eyebrow: 'Testing',
     lede:
@@ -319,4 +335,12 @@ export const POST_BODIES: Record<PostSlug, PostBody> = {
       },
     ],
   },
-};
+
+  ...harvestedBodies,
+} as Record<PostSlug, PostBody>;
+
+for (const { slug } of POSTS) {
+  if (!POST_BODIES[slug]) {
+    throw new Error(`Missing POST_BODIES for ${slug}`);
+  }
+}
