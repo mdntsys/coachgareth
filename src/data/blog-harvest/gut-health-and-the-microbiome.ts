@@ -8,8 +8,8 @@ export const harvest: HarvestedPost = {
   eyebrow: 'Nutrition',
   lede:
     'As an endurance athlete you know full well to get enough food and fuel into your body to support your athletic energy requirements, but what many athletes fail to focus on is the quality of what they consume and also how well the foods that they do consume are absorbed and utilized.',
-  image: '/images/chooseyourgoal.jpg',
-  imageAlt: 'Fuel and food are different jobs — both start with what your gut will actually take',
+  image: '/images/runnerinlabdoingbloodlactatetest.jpg',
+  imageAlt: 'A runner in the Santa Monica lab during a blood lactate test',
   sourceUrl: 'https://www.coachgareth.com/blog/gut-health-and-the-microbiome',
   sections: [
     {

@@ -8,8 +8,8 @@ export const harvest: HarvestedPost = {
   eyebrow: 'Nutrition',
   lede:
     'Most healthy meals have the same basic ingredients …. A palm sized portion of protein, a fist sized portion of complex carbs and a large helping of colorful vegetable and salad topped with a high-quality oil.',
-  image: '/images/chooseyourgoal.jpg',
-  imageAlt: 'A simple athlete plate — protein, carbs and color, waiting on the sauce',
+  image: '/images/labtestcyclist.jpg',
+  imageAlt: 'A cyclist in the Santa Monica lab during a lactate test',
   sourceUrl:
     'https://www.coachgareth.com/blog/10-low-calorie-sauces-to-enhance-athletic-meals',
   sections: [

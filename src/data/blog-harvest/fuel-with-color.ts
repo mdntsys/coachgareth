@@ -8,8 +8,8 @@ export const harvest: HarvestedPost = {
   eyebrow: 'Nutrition',
   lede:
     'Even when you are eating like a monk to be “race-lean”, you can still make your meals exciting, not only to look at but also in taste, simply by getting colorful. A splash of color will not only make your food more enjoyable, but it will also add much needed nutrients, turning your food in to fuel.',
-  image: '/images/chooseyourgoal.jpg',
-  imageAlt: 'Choosing a goal at the lab — food that fuels the work, not a grey plate',
+  image: '/images/labtestcyclist.jpg',
+  imageAlt: 'A cyclist in the Santa Monica lab during a lactate test — fuel that has to match the work',
   sourceUrl: 'https://www.coachgareth.com/blog/fuel-with-color',
   sections: [
     {

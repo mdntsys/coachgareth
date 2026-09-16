@@ -8,8 +8,8 @@ export const harvest: HarvestedPost = {
   eyebrow: 'Coaching',
   lede:
     'Over 28 years of coaching and working with some of the best athletes, coaches and trainers in the world, Gareth has established a key set of rules that will ensure you not only get the results you desire but also become a complete athlete in the process.',
-  image: '/images/chooseyourgoal.jpg',
-  imageAlt: 'Choosing a goal so the programme can cover every pillar, not just the miles',
+  image: '/images/enduranceathletestrainingrun.jpg',
+  imageAlt: 'Two endurance athletes on a training run — the weekly work the pillars are built for',
   sourceUrl: 'https://www.coachgareth.com/blog/the-pillars-of-success',
   sections: [
     {
